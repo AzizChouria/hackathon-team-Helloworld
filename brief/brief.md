@@ -186,7 +186,9 @@ The same €41.60 for 12 months covers half your need; the rest counts at the fa
 | Sun 09:00 | **Pre-flight:** one practice case through your final setup |
 | Sun 12:00-~12:58 | **Code + slides freeze**, then the **Live Final** in 5 waves |
 | Sun 13:00-14:30 | Top 10 pitch to the Tacto jury (5 min pitch + 2 min questions) |
-| Sun ~15:30-16:30 | Closing ceremony and awards |
+| Sun 14:30 | Track winners and the two finalists announced |
+| Sun 15:30 | Grand Final pitches (AudiMax) |
+| Sun 16:30 | Awards |
 
 **The Live Final.** The hidden cases come in **5 themed waves**. The host shows each wave's
 theme on the big screen, then starts the wave; its cases appear at the start, for all teams at once,
@@ -212,7 +214,7 @@ the Sunday release.
   pitches. Finalist teams outside the top 10 are ranked by the Live Final score alone.
 - **Ties:** points are points; an exact tie goes to more deals, then fewer rounds. At the top-10
   cut the jury looks at the score distribution. **Prizes:** €1,500 for 1st place, medals for the
-  top 3, handed over by Tacto at the closing ceremony.
+  top 3, handed over by Tacto at the awards at 16:30.
 
 ## 10. Tips
 

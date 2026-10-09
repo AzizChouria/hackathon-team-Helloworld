@@ -49,7 +49,7 @@ in words. Read it, improve your agent, play again. Next steps, the LLM agent and
 
 ## Links
 
-| | |
+| What | Where |
 |---|---|
 | Apply for your key | https://arena.tacto.ai/apply |
 | Brief: story, task, score, rules | [brief/brief.md](brief/brief.md) |
@@ -72,7 +72,9 @@ in words. Read it, improve your agent, play again. Next steps, the LLM agent and
 | Sun 09:00 | Pre-flight: one practice case through your final setup |
 | Sun 12:00 | **Code freeze**, submit on ehl.gg. **Live Final**: five waves, 8 minutes each, every team at once |
 | Sun 13:00 | **Top 10 pitch** to the Tacto jury: 5 minutes + 2 minutes of questions |
-| Sun 15:30 | Closing ceremony and awards |
+| Sun 14:30 | Track winners and the two finalists announced |
+| Sun 15:30 | Grand Final pitches (AudiMax) |
+| Sun 16:30 | Awards |
 
 ## Rules that matter
 
