@@ -46,6 +46,11 @@ def agent_factory(name, data):
         from .agents.hybrid import HybridAgent
         from .agents.strategy import OpenAI
 
+        if os.getenv("HYBRID_PROPOSAL_MODE", "combined") == "combined":
+            from .agents.combined import CombinedAgent
+
+            use_advisor = os.getenv("HYBRID_TACTICAL_LLM", "0") == "1" and os.getenv("HYBRID_OFFLINE") != "1"
+            return lambda: CombinedAgent(OpenAI() if use_advisor else None, DataPackage(data) if data else None)
         # Each case owns its database, caches, transport and observations.
         return lambda: HybridAgent(
             None if os.getenv("HYBRID_OFFLINE") == "1" else OpenAI(),

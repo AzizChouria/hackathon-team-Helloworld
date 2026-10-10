@@ -1,0 +1,202 @@
+{
+  "environment": "Offline public-case economics with invented supplier opening quotes",
+  "hosted_sessions": 0,
+  "model_calls": 0,
+  "cases": 19,
+  "supplier_count": 22,
+  "runs": [
+    {
+      "case_id": "case:P01",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70110": 2
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P02",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70510": 2
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P03",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70530": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P04",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70620": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P05",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70210": 3,
+        "sup:70240": 3,
+        "sup:70250": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P06",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70120": 3,
+        "sup:70150": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P07",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70610": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P08",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70710": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P09",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70220": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P10",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70410": 2
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P11",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70140": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P12",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70310": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P13",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70230": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P14",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70560": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P15",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70430": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P16",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70720": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P17",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70550": 2
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P18",
+      "hosted_available": true,
+      "supplier_valid_package_counts": {
+        "sup:70740": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    },
+    {
+      "case_id": "case:P19",
+      "hosted_available": false,
+      "supplier_valid_package_counts": {
+        "sup:70640": 3
+      },
+      "decision": "counter",
+      "score": null,
+      "supplier_behavior_tested": false
+    }
+  ]
+}

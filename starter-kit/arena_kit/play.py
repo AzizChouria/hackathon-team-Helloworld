@@ -133,7 +133,7 @@ def moves_left(case, events):
 
 def fetch_documents(table, message):
     """Download every attachment of a supplier message and add its text."""
-    for att in message.get("attachments") or []:
+    def read_attachment(att):
         if att.get("attachment_id") and "text" not in att:
             try:
                 att["text"] = read_document(att["name"], table.attachment(att["attachment_id"]))
@@ -145,7 +145,18 @@ def fetch_documents(table, message):
                     raise
                 att["read_error"] = {"type": type(exc).__name__, "http_status": status}
                 log.warning("attachment unavailable: %s status=%s", type(exc).__name__, status)
+    attachments = message.get("attachments") or []
+    if len(attachments) > 1:
+        with ThreadPoolExecutor(max_workers=min(4, len(attachments))) as pool:
+            list(pool.map(read_attachment, attachments))
+    else:
+        for att in attachments:
+            read_attachment(att)
     return message
+
+
+def expired_offer(error):
+    return error.status == 422 and "not a standing offer" in str(error.detail)
 
 
 def closing_move(case, threads):
@@ -175,6 +186,9 @@ def play(table, case_id, agent, deadline=None):
     received = time.monotonic()
     for events in threads.values():
         latest(events).setdefault("_received_at", received)
+    if hasattr(agent, "decide_ready"):
+        return play_threads(table, case, threads, agent, deadline)
+    for events in threads.values():
         for m in events:
             fetch_documents(table, m)
     if hasattr(agent, "response_guard_s"):
@@ -305,6 +319,116 @@ def _play_coordinated(table, case, threads, agent, deadline):
     finally:
         # An already sent request cannot be recalled. Let it finish without issuing another POST.
         pool.shutdown(wait=False, cancel_futures=True)
+
+
+def play_threads(table, case, threads, agent, deadline=None):
+    """Keep RFQ requests in flight independently, so one slow bidder cannot starve the others.
+
+    Only this coordinator mutates transcripts or calls the agent. Worker threads perform
+    transport and attachment reads; at most one request per supplier is outstanding.
+    """
+    pending, docs_pending, slowest, rejected = {}, {}, 0.0, set()
+    closing_checked = None
+
+    def send(sid, message):
+        try:
+            reply = table.send(sid, message)
+        except ArenaError as exc:
+            if exc.status != 409:
+                raise
+            reply = table.missed(sid, exc)
+        reply["_received_at"] = time.monotonic()
+        return reply
+
+    pool = ThreadPoolExecutor(max_workers=max(1, len(threads)))
+    docs_pool = ThreadPoolExecutor(max_workers=max(1, len(threads)))
+    for sid, events in threads.items():
+        for index, original in enumerate(events):
+            if original.get("attachments"):
+                copy = {**original, "attachments": [a.copy() for a in original["attachments"]]}
+                future = docs_pool.submit(fetch_documents, table, copy)
+                docs_pending[future] = (sid, index, original)
+    try:
+        while live_threads(threads):
+            for future, (sid, index, original) in list(docs_pending.items()):
+                if future.done():
+                    del docs_pending[future]
+                    try:
+                        hydrated = future.result()
+                    except Exception as exc:
+                        log.warning("%s attachment read failed (%s)", sid, type(exc).__name__)
+                        continue
+                    if threads[sid][index] is original:
+                        threads[sid][index] = hydrated
+            for sid, (future, message, started) in list(pending.items()):
+                if not future.done():
+                    continue
+                reply = future.result()
+                del pending[sid]
+                closing_checked = None
+                if "result" in reply:
+                    return reply["result"]
+                threads[sid] += [{**message, "from": "buyer"}, reply]
+                if reply.get("attachments"):
+                    copy = {**reply, "attachments": [a.copy() for a in reply["attachments"]]}
+                    future = docs_pool.submit(fetch_documents, table, copy)
+                    docs_pending[future] = (sid, len(threads[sid]) - 1, reply)
+                slowest = max(slowest, time.monotonic() - started)
+            if not live_threads(threads):
+                break
+            cap = deadline() if callable(deadline) else deadline
+            closing = cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S)
+            ready = [sid for sid in live_threads(threads) if sid not in pending]
+            started = time.monotonic()
+            if closing and pending:
+                # Pending replies may outlast the wave. Settle a valid ready offer
+                # now; otherwise give the pending bidders time until the final
+                # 30 seconds, while keeping a chance to walk away cleanly.
+                if not ready:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+                if closing_checked is None or closing_checked[0] != tuple(ready):
+                    closing_checked = (tuple(ready), agent.close(case, {s: threads[s] for s in ready}))
+                decision = closing_checked[1]
+                if decision["message"].get("action", {}).get("type") != "accept" and time.time() < cap - 30:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+            else:
+                decision = agent.close(case, threads) if closing else agent.decide_ready(case, threads, ready)
+            if decision is None:
+                if not pending:
+                    decision = agent.close(case, threads)
+                else:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+            sid, message = decision["supplier_id"], decision["message"]
+            if message.get("action"):
+                try:
+                    return table.close(sid, message)
+                except ArenaError as exc:
+                    if expired_offer(exc):
+                        ref = (sid, (message.get("action") or {}).get("term_sheet_id"))
+                        if ref in rejected:
+                            raise
+                        rejected.add(ref)
+                    elif exc.status != 409:
+                        raise
+                    reply = table.missed(sid, exc)
+                    if "result" in reply:
+                        return reply["result"]
+                    if expired_offer(exc):
+                        reply["term_sheets"] = [
+                            s for s in reply.get("term_sheets", []) if (sid, s["term_sheet_id"]) not in rejected
+                        ]
+                    threads[sid].append(fetch_documents(table, reply))
+                    continue
+            if sid not in ready:
+                raise ValueError("agent selected a supplier with a request already in flight")
+            pending[sid] = (pool.submit(send, sid, message), message, started)
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
+        docs_pool.shutdown(wait=False, cancel_futures=True)
+    return table.result()
 
 
 def hosted(cases):

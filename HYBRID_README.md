@@ -1,3 +1,6 @@
+> Current combined policy and local comparison: [COMBINED_AGENT.md](COMBINED_AGENT.md).
+> Set `HYBRID_PROPOSAL_MODE=combined` explicitly; older benchmark reports below are historical.
+
 # Hybrid buyer agent
 
 The hybrid agent uses the official cost model to compare validated packages. Public supplier
