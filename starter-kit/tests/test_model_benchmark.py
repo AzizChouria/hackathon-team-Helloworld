@@ -78,3 +78,15 @@ def test_remaining_three_run_once_with_frozen_identity(configured, monkeypatch):
     assert len(bench.records(configured)) == 10
     summary = json.loads((bench.REPORTS / batch.BATCH / "summary.json").read_text())
     assert summary["full_three_case_mean"] == .5
+
+
+def test_timeout_usage_is_unknown_not_free(configured):
+    row = {"case_id": "case:P07", "status": "completed", "decisions": [],
+           "result": {"score": .1, "deal": False}, "model_calls": [
+               {"end_to_end_s": 22, "fallback": True, "charged_upper_usd": .2}]}
+    bench.append(bench.REPORTS / batch.BATCH / "hosted_results.jsonl", row)
+    result = batch.summarize()
+    assert result["input_tokens"] is None
+    assert result["estimated_batch_usd"] is None
+    assert result["unknown_usage_calls"] == 1
+    assert result["reserved_or_charged_upper_usd"] == .2

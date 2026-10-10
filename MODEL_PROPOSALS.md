@@ -103,3 +103,11 @@ Prioritize evidence from actual negotiation outcomes: accepted full cost versus 
 proposal rejection reasons, unresolved cost drivers, fallback frequency and whether early closing
 missed realistic concessions. Use matched cases/configurations for comparison. A valid cheaper
 proposal is not an agreed deal, and no local fixture guarantees beating another team's score.
+
+
+## Subsequent hosted result
+
+The first hosted model-proposal case (P07) hit the 22-second API timeout and closed via
+walk-away fallback, score 0.121058. The experiment stopped; P03/P04 were not started.
+See [MODEL_PROPOSAL_BENCHMARK_REPORT.md](MODEL_PROPOSAL_BENCHMARK_REPORT.md).
+The earlier smoke-test success does not establish hosted reliability or a competitive mean.

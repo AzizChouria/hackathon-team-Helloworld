@@ -1,0 +1,79 @@
+{
+  "batch": "model_proposals_01",
+  "prepared_at": "2026-10-10T21:49:42.194186+00:00",
+  "commit": "923ef95f6376ec020e185fa3dc62e7e341e738dd",
+  "data_fingerprint": "b887bbca488a961321f8ddc4b741f22907eca6e36a1d0a43d0963b7486cdd0ce",
+  "configuration": {
+    "LLM_PROVIDER": "openai",
+    "LLM_BASE_URL": "https://api.openai.com/v1",
+    "LLM_MODEL": "gpt-6-astra",
+    "LLM_EFFORT": "high",
+    "LLM_ENDPOINT": "responses",
+    "LLM_TIMEOUT_S": "22",
+    "LLM_MAX_OUTPUT_TOKENS": "2400",
+    "LLM_BUDGET_USD": "5",
+    "LLM_INPUT_USD_PER_M": "10",
+    "LLM_OUTPUT_USD_PER_M": "50",
+    "HYBRID_PROPOSAL_MODE": "model",
+    "HYBRID_LLM_CALLS_PER_CASE": "4",
+    "HYBRID_MAX_COUNTERS": "5",
+    "HYBRID_RESPONSE_GUARD_S": "35",
+    "HYBRID_STALL_ROUNDS": "2",
+    "HYBRID_OFFLINE": "0",
+    "LLM_MAX_INPUT_BOUND": "19000"
+  },
+  "order": [
+    "case:P07",
+    "case:P03",
+    "case:P04"
+  ],
+  "parallel": 1,
+  "forecast": {
+    "remaining_sessions": 3,
+    "maximum_remaining_model_calls": 12,
+    "per_call_upper_usd": 0.31,
+    "remaining_upper_usd": 3.7199999999999998,
+    "already_accounted_usd": 1.00394,
+    "forecast_total_upper_usd": 4.72394
+  },
+  "snapshot": {
+    "timestamp": "2026-10-10T21:49:42.083504+00:00",
+    "team_name": "Helllo World",
+    "quota": {
+      "used": 193,
+      "left": 407,
+      "limit": 600,
+      "resets_at": "2026-10-11T12:34:32.024144+00:00"
+    },
+    "team": {
+      "team_name": "Helllo World",
+      "played": 10,
+      "total": 71.7,
+      "deals": 10,
+      "rounds": 46,
+      "rank": 14
+    },
+    "leader": {
+      "team_name": "\ud83c\udccf NoIdea",
+      "played": 10,
+      "total": 86.9,
+      "deals": 10,
+      "rounds": 50,
+      "rank": 1
+    },
+    "team_best": {
+      "case:P01": 0.8705497300398356,
+      "case:P03": 0.9228331929713948,
+      "case:P18": 0.5455754367366793,
+      "case:P07": 0.7466905323485927,
+      "case:P11": 0.6195914132799205,
+      "case:P08": 0.6786754259290533,
+      "case:P02": 0.7073475548978073,
+      "case:P10": 0.6707108356081908,
+      "case:P04": 0.8604451426623068,
+      "case:P05": 0.5428437792671016
+    },
+    "gap": 15.200000000000003
+  },
+  "authorization": "User lets run; consume only three unused slots of revised authorization"
+}

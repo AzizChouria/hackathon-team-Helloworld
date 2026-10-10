@@ -65,6 +65,8 @@ def summarize():
     scores = [r["result"]["score"] for r in rows if isinstance(r["result"].get("score"), int | float)]
     calls = [m for r in rows for m in r["model_calls"]]
     latencies = [m["end_to_end_s"] for m in calls]
+    unknown_usage = sum("input_tokens" not in c for c in calls)
+    known_cost = sum(c.get("estimated_cost_usd") or 0 for c in calls)
     summary = {"batch": BATCH, "timestamp": bench.now(), "attempted": len(rows), "planned": len(ORDER),
                "completed": sum(r["status"] == "completed" for r in rows),
                "mean_score": statistics.mean(scores) if scores else None,
@@ -76,10 +78,12 @@ def summarize():
                "decision_fallbacks": sum(d.get("fallback", False) for r in rows for d in r["decisions"]),
                "latency_mean_s": statistics.mean(latencies) if latencies else None,
                "latency_max_s": max(latencies) if latencies else None,
-               "input_tokens": sum(c.get("input_tokens", 0) for c in calls),
-               "output_tokens": sum(c.get("output_tokens", 0) for c in calls),
-               "reasoning_tokens": sum(c.get("reasoning_tokens") or 0 for c in calls),
-               "estimated_batch_usd": sum(c.get("estimated_cost_usd") or 0 for c in calls),
+               "input_tokens": None if unknown_usage else sum(c.get("input_tokens", 0) for c in calls),
+               "output_tokens": None if unknown_usage else sum(c.get("output_tokens", 0) for c in calls),
+               "reasoning_tokens": None if unknown_usage else sum(c.get("reasoning_tokens") or 0 for c in calls),
+               "estimated_batch_usd": None if unknown_usage else known_cost,
+               "known_estimated_batch_usd": known_cost, "unknown_usage_calls": unknown_usage,
+               "reserved_or_charged_upper_usd": sum(c["charged_upper_usd"] for c in calls),
                "cumulative_budget_charge_usd": OpenAI().spent(),
                "not_tested": [c for c in ORDER if c not in {r["case_id"] for r in rows}],
                "limitation": "Three-case sample; not a full ten-case mean or evidence of causal improvement."}

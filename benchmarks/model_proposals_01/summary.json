@@ -1,0 +1,31 @@
+{
+  "batch": "model_proposals_01",
+  "timestamp": "2026-10-10T21:51:50.125979+00:00",
+  "attempted": 1,
+  "planned": 3,
+  "completed": 1,
+  "mean_score": 0.12105779634368738,
+  "median_score": 0.12105779634368738,
+  "min_score": 0.12105779634368738,
+  "max_score": 0.12105779634368738,
+  "full_three_case_mean": null,
+  "valid_deals": 0,
+  "model_calls": 1,
+  "model_failures": 1,
+  "decision_fallbacks": 1,
+  "latency_mean_s": 22.0,
+  "latency_max_s": 22.0,
+  "input_tokens": null,
+  "output_tokens": null,
+  "reasoning_tokens": null,
+  "estimated_batch_usd": null,
+  "known_estimated_batch_usd": 0,
+  "unknown_usage_calls": 1,
+  "reserved_or_charged_upper_usd": 0.20442,
+  "cumulative_budget_charge_usd": 1.2083599999999999,
+  "not_tested": [
+    "case:P03",
+    "case:P04"
+  ],
+  "limitation": "Three-case sample; not a full ten-case mean or evidence of causal improvement."
+}
