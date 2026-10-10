@@ -3,7 +3,7 @@
   "checkpoint_id": "01M4KXXZFXBBCRMRC3V8PD6JR6",
   "strategy": "manual-commit",
   "branch": "codex/main-preflight-eval-20261010",
-  "checkpoints_count": 2,
+  "checkpoints_count": 9,
   "files_touched": [
     ".gitignore",
     "docs/hidden-final-gates-20261011.md",
@@ -16,14 +16,20 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 1373999,
-    "cache_creation_tokens": 0,
-    "cache_read_tokens": 94406721,
-    "output_tokens": 333535,
-    "api_call_count": 861,
-    "subagent_tokens_complete": true
+    "input_tokens": 1374033,
+    "cache_creation_tokens": 38307,
+    "cache_read_tokens": 97494330,
+    "output_tokens": 349575,
+    "api_call_count": 878
   }
 }
