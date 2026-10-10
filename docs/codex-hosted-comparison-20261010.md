@@ -42,3 +42,30 @@ excluded from Git because decision reasons and supplier correspondence may be pr
 
 The revisions use only current case terms, public cost arithmetic, and live supplier
 messages. They contain no practice case IDs or supplier-specific answers at runtime.
+
+## Targeted replay-derived rerun
+
+At `ea70aa5`, the buyer added a bounded longer-payment indexed route and a guard that
+closes an RFQ offer when it has essentially matched a complete buyer bid. The local
+regressions and full suite passed before the three-case retests.
+
+| Case | Original buyer | Revised buyer | Original LLM | Revised LLM | Revised LLM calls |
+|---|---:|---:|---:|---:|---:|
+| P02 | 0.507 / 6 rounds | **0.707 / 2** | 0.295 / 6 | **0.707 / 2** | 1 success, 0 fallback |
+| P05 | 0.510 / 12 | 0.510 / 13 | 0.452 / 13 | 0.459 / 11 | 8 success, 0 fallback |
+| P18 | 0.473 / 5 | **0.532 / 5** | 0.473 / 5 | **0.532 / 5** | 4 success, 0 fallback |
+
+Both revised P02 sessions accepted EUR 363.54 at 90-day payment with a 5% deadband
+index clause, exactly the previously missing package type. Both revised P18 sessions
+accepted EUR 5.40 at 90-day payment with indexation, rather than 14-day payment.
+P05 still had three buyer timeouts in the revised LLM replay, despite 8/8 model calls
+returning successfully.
+
+At `b2bc4cf`, the RFQ runner began making supplier replies available before their later
+attachments finish downloading, and the buyer prioritized reply clocks nearing 60 seconds.
+One further P05 model session scored **0.522 in 8 rounds**, with **7 successes, 0 fallbacks,
+and 0 buyer timeouts**. It accepted EUR 30.89 at 14-day payment, 35-day delivery, and
+600 ppm. This is a single hosted sample; the team's older P05 best remains 0.543.
+
+After these runs the team's best-per-case practice total was 71.7 and rank 14. P02 set a
+new team best at 0.707. The team best for P18 remains 0.546 from an earlier run.
