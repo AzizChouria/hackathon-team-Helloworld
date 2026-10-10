@@ -78,7 +78,7 @@ def offline():
             return {"package_order": list(range(len(context["packages"]))), "evidence": [],
                     "question": "priorities", "body": BODIES[0]}
 
-        agent = HybridAgent(choose, package=package())
+        agent = HybridAgent(choose, package=package(), proposal_mode="legacy")
         agent.prepare(case)
         count = 0
         minimum = None
@@ -151,6 +151,8 @@ def forecast(batch="original"):
 
 def run(case_id, *, batch="original", approved=False, expected_case=None):
     journal, report_dir, trace_dir = batch_paths(batch)
+    if os.getenv("HYBRID_PROPOSAL_MODE", "model") != "legacy":
+        raise ValueError("Historical benchmark supports legacy proposals only; use a reviewed model-proposal plan")
     if batch != "original" and not approved:
         raise ValueError("Revised hosted sessions need fresh explicit approval; preparation is not execution")
     if case_id not in AUTHORIZED:

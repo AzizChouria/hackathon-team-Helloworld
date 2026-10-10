@@ -57,7 +57,8 @@ class OpenAI:
             raise ValueError("LLM_ENDPOINT must be responses or chat")
         self.base = os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1").rstrip("/")
         self.timeout = min(30.0, max(1.0, float(os.environ.get("LLM_TIMEOUT_S", "22"))))
-        self.max_tokens = min(4096, max(64, int(os.environ.get("LLM_MAX_OUTPUT_TOKENS", "1200"))))
+        default_tokens = "2400" if os.getenv("HYBRID_PROPOSAL_MODE", "model") == "model" else "1200"
+        self.max_tokens = min(4096, max(64, int(os.environ.get("LLM_MAX_OUTPUT_TOKENS", default_tokens))))
         self.cap = min(5.0, float(os.environ.get("LLM_BUDGET_USD", "5")))
         self.input_rate = float(os.environ.get("LLM_INPUT_USD_PER_M", "10"))
         self.output_rate = float(os.environ.get("LLM_OUTPUT_USD_PER_M", "50"))

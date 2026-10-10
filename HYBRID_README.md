@@ -208,3 +208,11 @@ The teammate leads on the same seven cases. Do not present local scores as evide
 Post-run reliability fixes pass 105 tests (one optional skip) and Ruff, but have no hosted results.
 The existing benchmark journal intentionally blocks silent resumption; its frozen source differs
 from the later fixes. No final run or submission has been performed.
+
+
+## Current experiment: model-authored economic packages
+
+See [MODEL_PROPOSALS.md](MODEL_PROPOSALS.md) for the new default when a model is present,
+local test commands, verified OpenAI-only smoke results and remaining limitations. Historical
+benchmark results above describe the legacy proposal generator. No hosted result yet measures
+the new policy; the stopped benchmark must not be silently resumed.

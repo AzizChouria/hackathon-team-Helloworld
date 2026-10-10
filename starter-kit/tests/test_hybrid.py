@@ -17,6 +17,12 @@ from arena_kit.play import RemoteTable, play_all
 from arena_kit.sim import load_cases
 
 
+@pytest.fixture(autouse=True)
+def legacy_policy(monkeypatch):
+    """Preserve historical heuristic regressions; model policy has its own test module."""
+    monkeypatch.setenv("HYBRID_PROPOSAL_MODE", "legacy")
+
+
 @pytest.fixture
 def case():
     return copy.deepcopy(next(iter(load_cases().values())))

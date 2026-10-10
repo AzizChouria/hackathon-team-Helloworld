@@ -1,0 +1,159 @@
+{
+  "timestamp": "2026-10-10T21:40:29.037929+00:00",
+  "kind": "openai_only_synthetic_smoke",
+  "hosted_sessions": 0,
+  "score": null,
+  "model": "gpt-6-astra",
+  "effort": "high",
+  "max_output_tokens": 2400,
+  "timeout_s": 22.0,
+  "estimated_cost_usd": 0.08592000000000011,
+  "cumulative_budget_charge_usd": 1.00394,
+  "limitation": "Tests schema and proposal validity, not supplier acceptance or negotiation quality.",
+  "results": [
+    {
+      "fixture": "case:S01",
+      "supplier_count": 1,
+      "diagnostics": [
+        {
+          "case_id": "case:S01",
+          "proposal_mode": "model",
+          "source": "model",
+          "model_called": true,
+          "fallback": false,
+          "model_calls": 1,
+          "repairs": 0,
+          "oldest_reply_age_s": 0.0,
+          "validation": [
+            {
+              "supplier": "sup:70270",
+              "package": 0,
+              "total_eur": 112584.5,
+              "components_eur": {
+                "price": 109725.0,
+                "uncovered_need": 0.0,
+                "fallback_risk": 0.0,
+                "payment_terms": 731.5,
+                "freight": 2128.0,
+                "late_delivery": 0,
+                "quality": 0.0,
+                "tooling": 0.0,
+                "index_clause": 0.0,
+                "index_risk": 0.0,
+                "relationship": 0.0
+              },
+              "valid": true
+            }
+          ],
+          "supplier_packages": {
+            "sup:70270": 1
+          },
+          "decision_s": 12.968999999997322
+        }
+      ],
+      "api_metrics": [
+        {
+          "event": "finished",
+          "call_id": "e9726eb72f764f18bfafbfd54a53bea9",
+          "model_requested": "gpt-6-astra",
+          "effort": "high",
+          "endpoint": "responses",
+          "retries": 0,
+          "fallback": false,
+          "charged_upper_usd": 0.03855,
+          "estimated_cost_usd": 0.03855,
+          "request_s": 12.953000000001339,
+          "http_status": 200,
+          "model_returned": "gpt-6-astra",
+          "input_tokens": 1035,
+          "output_tokens": 564,
+          "reasoning_tokens": 448,
+          "end_to_end_s": 12.953000000001339
+        }
+      ],
+      "validated_packages": 1
+    },
+    {
+      "fixture": "synthetic:RFQ",
+      "supplier_count": 2,
+      "diagnostics": [
+        {
+          "case_id": "synthetic:RFQ",
+          "proposal_mode": "model",
+          "source": "model",
+          "model_called": true,
+          "fallback": false,
+          "model_calls": 1,
+          "repairs": 0,
+          "oldest_reply_age_s": 0.0,
+          "validation": [
+            {
+              "supplier": "synthetic:A",
+              "package": 0,
+              "total_eur": 3922889.4,
+              "components_eur": {
+                "price": 3896910.0,
+                "uncovered_need": 0.0,
+                "fallback_risk": 0.0,
+                "payment_terms": 25979.4,
+                "freight": 0.0,
+                "late_delivery": 0,
+                "quality": 0.0,
+                "tooling": 0.0,
+                "index_clause": 0.0,
+                "index_risk": 0.0,
+                "relationship": 0.0
+              },
+              "valid": true
+            },
+            {
+              "supplier": "synthetic:B",
+              "package": 0,
+              "total_eur": 3922889.4,
+              "components_eur": {
+                "price": 3896910.0,
+                "uncovered_need": 0.0,
+                "fallback_risk": 0.0,
+                "payment_terms": 25979.4,
+                "freight": 0.0,
+                "late_delivery": 0,
+                "quality": 0.0,
+                "tooling": 0.0,
+                "index_clause": 0.0,
+                "index_risk": 0.0,
+                "relationship": 0.0
+              },
+              "valid": true
+            }
+          ],
+          "supplier_packages": {
+            "synthetic:A": 1,
+            "synthetic:B": 1
+          },
+          "decision_s": 10.343999999997322
+        }
+      ],
+      "api_metrics": [
+        {
+          "event": "finished",
+          "call_id": "744ceae3c69c410bbe4e4a5c39707d50",
+          "model_requested": "gpt-6-astra",
+          "effort": "high",
+          "endpoint": "responses",
+          "retries": 0,
+          "fallback": false,
+          "charged_upper_usd": 0.04737,
+          "estimated_cost_usd": 0.04737,
+          "request_s": 10.327999999994063,
+          "http_status": 200,
+          "model_returned": "gpt-6-astra",
+          "input_tokens": 1922,
+          "output_tokens": 563,
+          "reasoning_tokens": 256,
+          "end_to_end_s": 10.327999999994063
+        }
+      ],
+      "validated_packages": 2
+    }
+  ]
+}

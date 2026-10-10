@@ -9,6 +9,7 @@ import time
 from ..cost import total_cost
 from ..docs import standard_terms
 from ..play import latest, live_threads, moves_left, standing
+from . import proposals
 from .decision import close
 from .intelligence import Intelligence
 from .optimizer import candidates, standing_offers
@@ -18,10 +19,14 @@ log = logging.getLogger("arena")
 
 
 class HybridAgent:
-    def __init__(self, complete=None, package=None):
+    def __init__(self, complete=None, package=None, *, proposal_mode=None):
         self.complete = complete
         self.intelligence = Intelligence(package)
-        self.max_calls = int(os.environ.get("HYBRID_LLM_CALLS_PER_CASE", "2"))
+        self.proposal_mode = proposal_mode or os.getenv("HYBRID_PROPOSAL_MODE", "model" if complete else "legacy")
+        if self.proposal_mode not in {"model", "legacy"}:
+            raise ValueError("HYBRID_PROPOSAL_MODE must be model or legacy")
+        self.max_calls = int(os.environ.get("HYBRID_LLM_CALLS_PER_CASE",
+                                           "5" if self.proposal_mode == "model" else "2"))
         self.calls = 0
         self.case_id = None
         self.diagnostics = []
@@ -88,6 +93,8 @@ class HybridAgent:
             if decision["message"]["action"]["type"] == "accept" or all(
                     latest(threads[s]).get("status") in {"agreed", "final_offer"} for s in live):
                 return [decision]
+        if self.proposal_mode == "model":
+            return self._proposal_round(case, threads, live, estimates, offers, start, age, allow_model)
         out = []
         self.used_refs.update(r for ev in threads.values() for e in ev if e.get("from") == "buyer"
                               for r in e.get("refs", []))
@@ -175,3 +182,92 @@ class HybridAgent:
                                      "standing_costs": [{"supplier_id": o["supplier_id"], "cost": o["cost"],
                                                          "base_cost": o["base_cost"]} for o in offers]})
         return out or [close(case, threads, estimates)]
+
+
+    def _proposal_round(self, case, threads, live, estimates, offers, start, age, allow_model):
+        diagnostic = {"case_id": case["case_id"], "proposal_mode": "model", "source": "model",
+                      "model_called": False, "fallback": False, "model_calls": 0, "repairs": 0,
+                      "oldest_reply_age_s": age}
+
+        def fallback(reason):
+            diagnostic.update(source="safe_close", fallback=True, fallback_reason=reason,
+                              decision_s=time.monotonic() - start)
+            self.diagnostics.append(diagnostic)
+            return [close(case, threads, estimates)]
+
+        active = {sid: threads[sid] for sid in live
+                  if latest(threads[sid]).get("status") not in {"agreed", "final_offer"}
+                  and moves_left(case, threads[sid]) > 1}
+        if not active:
+            return fallback("no_counter_allowed")
+        if any(sum(m.get("from") == "buyer" for m in events) >= int(os.getenv("HYBRID_MAX_COUNTERS", "5"))
+               for events in active.values()):
+            return fallback("counter_limit")
+        if not self.complete or self.calls >= self.max_calls:
+            return fallback("model_unavailable" if not self.complete else "call_budget")
+        timeout = getattr(self.complete, "timeout", 22.0)
+
+        def clock_safe():
+            elapsed = time.monotonic() - start
+            return allow_model and age + elapsed + timeout + 5 < self.response_guard_s
+
+        if not clock_safe():
+            return fallback("response_deadline")
+        self.used_refs.update(r for events in threads.values() for m in events if m.get("from") == "buyer"
+                              for r in m.get("refs", []))
+        try:
+            context, evidence = proposals.context(case, active, self.intelligence, self.used_refs, estimates, offers)
+            schema = proposals.response_schema(case, active)
+            results, feedback = {}, []
+            for attempt in range(2):
+                if attempt:
+                    if self.calls >= self.max_calls or not clock_safe():
+                        break
+                    context["validation_feedback_private"] = feedback
+                    diagnostic["repairs"] += 1
+                encoded = proposals.compact(context)
+                self.calls += 1
+                diagnostic["model_called"] = True
+                diagnostic["model_calls"] += 1
+                reply = self.complete(proposals.SYSTEM, encoded, schema=schema)
+                results, feedback = proposals.evaluate(
+                    case, active, reply, evidence, estimates, offers[0]["cost"] if offers else math.inf)
+                diagnostic["validation"] = feedback
+                if not any(not f["valid"] for f in feedback):
+                    break
+                # Explain rejected economics with their terms so the model can make a specific correction.
+                context["previous_draft_private"] = reply
+        except Exception as exc:
+            diagnostic["error_type"] = type(exc).__name__
+            log.warning("model proposal fallback: %s", type(exc).__name__)
+            return fallback("proposal_error")
+        if not any(r["packages"] for r in results.values()):
+            return fallback("no_valid_improving_proposal")
+        actions = []
+        diagnostic["supplier_packages"] = {}
+        for sid, result in results.items():
+            diagnostic["supplier_packages"][sid] = len(result["packages"])
+            claims, refs = [], set()
+            for index in dict.fromkeys(result["evidence"]):
+                item = evidence[sid][index]
+                item_refs = set(item["refs"])
+                if (len(claims) < 2 and len(refs | item_refs) <= 3
+                        and not self.used_refs.intersection(item_refs)):
+                    claims.append(item["text"])
+                    refs.update(item_refs)
+            if result["packages"]:
+                self.used_refs.update(refs)
+            # Model-generated trade descriptions stay internal. Outward language and facts
+            # remain unchanged for this first experiment; only economic packages are new.
+            message = {"subject": case["title"][:300], "body": " ".join([
+                result["body"], *claims, QUESTIONS[result["question"]]]), "refs": sorted(refs)}
+            if result["packages"]:
+                message["term_sheets"] = [{"terms": p} for p in result["packages"]]
+            else:
+                # Keep another active RFQ thread serviced while awaiting a viable package.
+                message["body"] = "Please clarify which commercial terms you can improve in your current offer."
+                message["refs"] = []
+            actions.append({"supplier_id": sid, "message": message})
+        diagnostic["decision_s"] = time.monotonic() - start
+        self.diagnostics.append(diagnostic)
+        return actions

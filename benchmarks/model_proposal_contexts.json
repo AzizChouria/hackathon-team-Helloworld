@@ -1,0 +1,143 @@
+{
+  "timestamp": "2026-10-10T21:44:33.854862+00:00",
+  "kind": "offline_context_and_schema_check",
+  "case_cache_sha256": "90d668b691cba0e566de1ec5536dc76dd01d060423cda60ad7257cb7b90682cd",
+  "hosted_sessions": 0,
+  "model_calls": 0,
+  "limitation": "Cached public cases with synthetic standing quotes; no supplier or model performance measured.",
+  "results": [
+    {
+      "case_id": "case:P01",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3628,
+      "schema_bytes": 1601
+    },
+    {
+      "case_id": "case:P02",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3700,
+      "schema_bytes": 2536
+    },
+    {
+      "case_id": "case:P03",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3430,
+      "schema_bytes": 1732
+    },
+    {
+      "case_id": "case:P04",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 2834,
+      "schema_bytes": 1573
+    },
+    {
+      "case_id": "case:P05",
+      "suppliers": 3,
+      "valid_context": true,
+      "context_bytes": 5899,
+      "schema_bytes": 4443
+    },
+    {
+      "case_id": "case:P06",
+      "suppliers": 2,
+      "valid_context": true,
+      "context_bytes": 4526,
+      "schema_bytes": 3322
+    },
+    {
+      "case_id": "case:P07",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3374,
+      "schema_bytes": 1573
+    },
+    {
+      "case_id": "case:P08",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3204,
+      "schema_bytes": 2683
+    },
+    {
+      "case_id": "case:P09",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3531,
+      "schema_bytes": 1801
+    },
+    {
+      "case_id": "case:P10",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3236,
+      "schema_bytes": 1671
+    },
+    {
+      "case_id": "case:P11",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3257,
+      "schema_bytes": 1611
+    },
+    {
+      "case_id": "case:P12",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3187,
+      "schema_bytes": 1796
+    },
+    {
+      "case_id": "case:P13",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3067,
+      "schema_bytes": 1601
+    },
+    {
+      "case_id": "case:P14",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3024,
+      "schema_bytes": 2692
+    },
+    {
+      "case_id": "case:P15",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3050,
+      "schema_bytes": 1573
+    },
+    {
+      "case_id": "case:P16",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3102,
+      "schema_bytes": 2680
+    },
+    {
+      "case_id": "case:P17",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3103,
+      "schema_bytes": 1582
+    },
+    {
+      "case_id": "case:P18",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 3097,
+      "schema_bytes": 2683
+    },
+    {
+      "case_id": "case:P19",
+      "suppliers": 1,
+      "valid_context": true,
+      "context_bytes": 2802,
+      "schema_bytes": 1573
+    }
+  ]
+}
