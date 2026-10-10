@@ -88,21 +88,31 @@ class RemoteTable:
         return self.client.attachment(self.session_id, attachment_id)
 
     def missed(self, supplier_id, error):
-        """After a 409: the result if the case has ended (e.g. at a wave's cap), else what the
-        thread now says (a timeout answer, or the reason it ended)."""
+        """Refresh after a rejected action, preserving only server-confirmed current offers."""
         state = self.client.session(self.session_id)
         if state.get("status") == "ended":
             return {"result": state.get("result") or {"deal": False, "end_reason": state.get("end_reason")}}
         t = self.client.thread(self.session_id, supplier_id)
-        last = (t.get("timeouts") or [{}])[-1]
-        sheet = [{"term_sheet_id": t["offer_id"], "terms": last.get("terms", {})}]
+        current = t.get("offer_id")
+        closed = bool(t.get("closed")) or t.get("status") in ENDED
+        timeout = next((q for q in reversed(t.get("timeouts") or []) if current and q.get("offer_id") == current), None)
+        if current and not closed and timeout is None:
+            # A 422 need not imply a timeout. The canonical current ID ties the
+            # refreshed message to the standing quote; never revive a historical one.
+            for message in reversed(t.get("messages") or []):
+                if message.get("from") != "buyer" and any(
+                    sheet.get("term_sheet_id") == current for sheet in message.get("term_sheets") or []
+                ):
+                    return {**message, "status": t["status"], "_received_at": time.monotonic()}
+        sheet = [{"term_sheet_id": current, "terms": timeout.get("terms", {})}] if timeout else []
         return {
             "from": "arena",
-            "status": "walked_away" if t["closed"] else t["status"],
-            "term_sheets": [] if t["closed"] else sheet,
+            "status": "walked_away" if closed else t["status"],
+            "term_sheets": [] if closed else sheet,
             "body": f"({error.detail})",
-            "missing_fields": last.get("missing_fields", []),
+            "missing_fields": (timeout or {}).get("missing_fields", []),
             "attachments": [],
+            "_received_at": time.monotonic(),
         }
 
     def result(self):
@@ -406,6 +416,8 @@ def play_threads(table, case, threads, agent, deadline=None):
                 try:
                     return table.close(sid, message)
                 except ArenaError as exc:
+                    log.warning("Acceptance rejected: status=%s supplier=%s; refreshing current offers",
+                                exc.status, sid)
                     if expired_offer(exc):
                         ref = (sid, (message.get("action") or {}).get("term_sheet_id"))
                         if ref in rejected:
