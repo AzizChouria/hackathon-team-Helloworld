@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4KG0RMG6D7WE5H2DWZKCDMN",
+  "strategy": "manual-commit",
+  "branch": "codex/negotiation-improvements-20261010",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "docs/solution.md",
+    "notes.md",
+    "starter-kit/arena_kit/benchmark.py",
+    "starter-kit/arena_kit/cli.py",
+    "starter-kit/arena_kit/play.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 43283,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 8086746,
+    "output_tokens": 14763,
+    "api_call_count": 50
+  }
+}
