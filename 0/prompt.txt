@@ -16,3 +16,18 @@
    rounds, fallbacks. Fallbacks must be ~0 for the LLM run.
 4. Then improve the 3 weakest cases (likely P02, P05, P18) using their replay reasons,
    with general rules only, and re-run just those cases.
+
+---
+
+lets push
+
+---
+
+Goal is the hidden final, not practice scores. From now on:
+1. Treat sandbox D01 and D02 as a held-out test: run `buyer` on both before and after every
+   strategy change (free, no quota). Reject changes that help practice but hurt D01/D02.
+2. Smoke-test all 19 practice case files (incl. the 9 non-hosted ones) locally against
+   arena-sim with an 8-minute deadline: no crashes, no must-have breaks, no timeouts.
+3. Every rule must be justified by the cost formula or a general negotiation principle,
+   never by one supplier's wording. Flag any remaining rule that only exists for one case.
+4. After changes, run all 10 hosted cases once with --parallel 10 (final conditions).
