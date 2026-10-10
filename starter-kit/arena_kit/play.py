@@ -333,8 +333,9 @@ def play_all(new_table, case_ids, new_agent, parallel=8):
     def one(case_id):
         if used_up.is_set():
             return case_id, ArenaError(429, "not started: the practice quota is used up")
+        agent = new_agent()
         try:
-            return case_id, play(new_table(), case_id, new_agent())
+            return case_id, play(new_table(), case_id, agent)
         except ArenaError as e:
             if quota_used_up(e):
                 used_up.set()
@@ -347,6 +348,14 @@ def play_all(new_table, case_ids, new_agent, parallel=8):
         except Exception as e:  # one broken case must not stop the others
             log.exception("%s failed", case_id)
             return case_id, e
+        finally:
+            if getattr(agent, "complete", None) and hasattr(agent, "model_successes"):
+                log.warning(
+                    "%s model calls: %s succeeded, %s fell back",
+                    case_id,
+                    agent.model_successes,
+                    agent.model_fallbacks,
+                )
 
     with ThreadPoolExecutor(max_workers=parallel) as pool:
         return dict(pool.map(one, case_ids))
@@ -359,11 +368,20 @@ def play_waves(client, new_agent, waves=5, parallel=10, poll=5.0):
     started, closed, caps = {}, set(), {}  # caps: wave -> its cap as time.time()
 
     def one(case, deadline):
+        agent = new_agent()
         try:
-            return play(RemoteTable(client, case), case["case_id"], new_agent(), deadline)
+            return play(RemoteTable(client, case), case["case_id"], agent, deadline)
         except Exception as e:  # one broken case must not stop the others
             log.exception("%s failed", case["case_id"])
             return e
+        finally:
+            if getattr(agent, "complete", None) and hasattr(agent, "model_successes"):
+                log.warning(
+                    "%s model calls: %s succeeded, %s fell back",
+                    case["case_id"],
+                    agent.model_successes,
+                    agent.model_fallbacks,
+                )
 
     with ThreadPoolExecutor(max_workers=parallel) as pool:
         while len(closed) < waves or not all(f.done() for f in started.values()):

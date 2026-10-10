@@ -9,53 +9,35 @@ def supplier_signals(dossier, events=()):
     replies = "\n".join(m.get("body", "") for m in events if m.get("from") != "buyer").lower()
     text = context + "\n" + replies
     return {
-        "price_locked": any(
-            s in text
-            for s in (
-                "frozen all price",
-                "freeze on price",
-                "freeze on reductions",
-                "no room on price",
-                "unable to offer any further discounts",
-            )
-        ),
-        "cash_sensitive": any(
-            s in text
-            for s in (
-                "liquidity",
-                "cash flow",
-                "cash-flow",
-                "bank is watching",
-                "cash discount",
-                "pay earlier",
-                "pay our invoices within",
-                "overdue invoices",
-            )
-        ),
-        "spare_capacity": any(s in text for s in ("second shift has been on hold", "additional parts at short notice")),
-        "capacity_tight": any(
-            s in text
-            for s in (
-                "high capacity utilisation",
-                "high capacity utilization",
-                "order intake is very strong",
-                "prioritise customers with firm",
-                "binding 12-month commitment",
-            )
-        ),
-        "approval_needed": any(s in text for s in ("pricing committee", "head office", "approval")),
-        "hedged": "covered at fixed prices" in text or "hedged" in text,
-        "relationship": any(s in text for s in ("expects partnership", "reference customer", "long-standing")),
-        "resistant": any(
-            s in replies
-            for s in (
-                "moved backwards",
-                "no movement",
-                "no genuine",
-                "exact same figures",
-                "unchanged proposal",
-            )
-        ),
+        "price_locked": bool(re.search(
+            r"\b(?:price|discount|reduction)s?\b.{0,40}\b(?:fixed|frozen|impossible|unavailable|no room)\b"
+            r"|\b(?:cannot|can't|unable to)\b.{0,30}\b(?:discount|reduce|lower)\b",
+            replies,
+        )),
+        "cash_sensitive": bool(re.search(
+            r"\b(?:liquidity|cash[ -]?flow|working capital|early payment|payment delay|"
+            r"overdue invoice|cash discount)\b",
+            text,
+        )),
+        "spare_capacity": bool(re.search(
+            r"\b(?:spare|idle|available|unused|underutili[sz]ed)\b.{0,25}\b(?:capacity|shift|machine|line)\b"
+            r"|\b(?:capacity|shift|machine|line)\b.{0,25}\b(?:available|idle|unused)\b",
+            text,
+        )),
+        "capacity_tight": bool(re.search(
+            r"\b(?:capacity|utili[sz]ation|order book|production)\b.{0,35}"
+            r"\b(?:full|high|tight|constrained|limited)\b"
+            r"|\b(?:firm|binding)\b.{0,25}\b(?:commitment|volume|forecast)\b",
+            text,
+        )),
+        "approval_needed": bool(re.search(r"\b(?:committee|management|head office|approval)\b", text)),
+        "hedged": bool(re.search(r"\b(?:hedged|fixed[ -]?price cover)\b", text)),
+        "relationship": bool(re.search(r"\b(?:partnership|reference customer|long[ -]?standing)\b", text)),
+        "resistant": bool(re.search(
+            r"\b(?:no movement|unchanged|same proposal|no improvement|insufficient step|"
+            r"worse offer|moved backward)\b",
+            replies,
+        )),
     }
 
 

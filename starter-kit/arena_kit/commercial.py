@@ -13,11 +13,13 @@ def objections(events):
             r"(?:which|what|binding|commit\w*|higher).{0,35}volume|volume.{0,35}commit", reply, re.I,
         )),
         "breakdown_refused": bool(re.search(
-            r"(?:do not|don't|not).{0,25}share.{0,30}(?:breakdown|detail|calculation)|calculation is our property",
+            r"(?:do not|don't|not).{0,25}share.{0,30}(?:breakdown|detail|calculation)"
+            r"|(?:breakdown|calculation|cost detail).{0,30}(?:confidential|proprietary|internal)",
             reply, re.I,
         )),
         "stalled": bool(re.search(
-            r"unchanged|no movement|few cents|one cent|1 cent|not a real step|no genuine", reply, re.I,
+            r"\b(?:unchanged|no movement|insufficient improvement|same proposal|token concession|"
+            r"marginal reduction)\b", reply, re.I,
         )),
     }
 

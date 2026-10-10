@@ -12,12 +12,13 @@ from arena_kit.agents.buyer import optimise
 from arena_kit.benchmark import LocalTable, benchmark
 from arena_kit.cli import agent_factory
 from arena_kit.client import ArenaError
+from arena_kit.commercial import objections
 from arena_kit.cost import closing_terms, must_haves_ok, total_cost
 from arena_kit.data import DataPackage
 from arena_kit.play import fetch_documents, play, play_threads
 from arena_kit.research import Evidence, Research, month_number
 from arena_kit.sim import load_cases
-from arena_kit.strategy import safe_message
+from arena_kit.strategy import safe_message, supplier_signals
 
 DATA = Path(__file__).resolve().parents[2] / "data"
 
@@ -765,3 +766,58 @@ def test_offline_benchmark_beats_baseline_on_each_contract_case(research):
         runs = {r["agent"]: r["result"] for r in report["runs"] if r["case_id"] == case_id}
         assert runs["buyer"]["deal"] and runs["buyer"]["must_haves_ok"]
         assert runs["buyer"]["score"] > runs["naive"]["score"]
+
+
+def test_practice_model_preflight_stops_before_arena_client(monkeypatch):
+    import arena_kit.agents as agents
+    import arena_kit.cli as cli
+
+    def no_arena(*_args, **_kwargs):
+        raise AssertionError("arena client must not be created")
+
+    def unavailable(*_args, **_kwargs):
+        raise ValueError("invalid model")
+
+    monkeypatch.setattr(cli, "ArenaClient", no_arena)
+    monkeypatch.setattr(agents, "llm_from_env", unavailable)
+    monkeypatch.setenv("LLM_MODEL", "invalid-model")
+
+    with pytest.raises(SystemExit, match="Model preflight failed.*no arena session opened"):
+        cli.main(["play", "case:P02", "--agent", "buyer-llm"])
+
+
+def test_model_call_counts_include_fallbacks(case):
+    replies = iter([
+        ValueError("model failed"),
+        '{"tactic":"cost","evidence":[],"message":"Please review the full commercial proposal."}',
+    ])
+
+    def complete(*_args):
+        reply = next(replies)
+        if isinstance(reply, Exception):
+            raise reply
+        return reply
+
+    agent = BuyerAgent(complete=complete)
+    agent.prepare(case)
+    sid = case["suppliers"][0]
+    events = [{"from": "supplier", "body": "Please review the proposal.", "term_sheets": []}]
+    agent.tactic(case, sid, events, [], [])
+    agent.tactic(case, sid, events, [], [])
+
+    assert agent.model_fallbacks == 1
+    assert agent.model_successes == 1
+
+
+def test_supplier_signals_use_general_language():
+    dossier = {"documents": {"memo": "Our machines have available capacity next quarter."}}
+    events = [{"from": "supplier", "body": "Management approval is needed; our price is fixed."}]
+
+    signals = supplier_signals(dossier, events)
+
+    assert signals["spare_capacity"]
+    assert signals["approval_needed"]
+    assert signals["price_locked"]
+    assert objections([{"from": "supplier", "body": "The cost calculation is confidential."}])[
+        "breakdown_refused"
+    ]

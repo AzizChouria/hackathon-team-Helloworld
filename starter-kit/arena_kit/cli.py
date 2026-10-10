@@ -55,6 +55,24 @@ def summary(result):
     return {k: result.get(k) for k in keep if k in result}
 
 
+def require_model_completion():
+    """Check connectivity before play or run opens an arena session."""
+    from .agents import llm_from_env
+
+    model = os.environ.get("LLM_MODEL", "<unset>")
+    try:
+        reply = llm_from_env(timeout=15.0, max_tokens=256)(
+            "Reply with exactly READY.", "Model connectivity check."
+        )
+        if not isinstance(reply, str) or reply.strip() != "READY":
+            raise ValueError("unexpected model response")
+    except Exception as exc:
+        status = getattr(getattr(exc, "response", None), "status_code", None)
+        detail = f"HTTP {status}" if status else type(exc).__name__
+        raise SystemExit(f"Model preflight failed for {model}: {detail}; no arena session opened") from None
+    print(f"Model preflight passed: {model}")
+
+
 def main(argv=None):
     load_env()
     ap = argparse.ArgumentParser(prog="arena")
@@ -76,10 +94,12 @@ def main(argv=None):
     p.add_argument("case_id")
     p.add_argument("--agent", default="buyer", choices=["naive", "llm", "buyer", "buyer-llm"])
     p.add_argument("--data", **data)
+    p.add_argument("--require-model", action="store_true", help="verify the model before opening a session")
     a = sub.add_parser("run", help="play every case of a set in parallel")
     a.add_argument("--set", **sets)
     a.add_argument("--agent", default="buyer", choices=["naive", "llm", "buyer", "buyer-llm"])
     a.add_argument("--data", **data)
+    a.add_argument("--require-model", action="store_true", help="verify the model before opening sessions")
     a.add_argument("--parallel", type=int, default=8, help="cases at once (at most 10)")
     a.add_argument("--waves", type=int, default=5, help="final: stop after this many waves have closed")
     d = sub.add_parser("data", help="download and unpack the data (package, Sunday release once public)")
@@ -96,10 +116,21 @@ def main(argv=None):
     experiment.add_argument("--cases", nargs="+", help="explicit case IDs; default: all hosted practice cases")
     experiment.add_argument("--agent", choices=["buyer", "buyer-llm", "naive", "llm"], default="buyer-llm")
     experiment.add_argument("--data", **data)
+    experiment.add_argument("--require-model", action="store_true", help="require a valid tactical model preflight")
     experiment.add_argument("--parallel", type=int, choices=range(1, 11), default=5)
     experiment.add_argument("--seconds", type=int, default=390)
     experiment.add_argument("--out", required=True, help="JSON report; updated as each case completes")
     args = ap.parse_args(argv)
+    if args.cmd in {"play", "run", "evaluate"} and args.require_model and args.agent != "buyer-llm":
+        ap.error("--require-model is supported for --agent buyer-llm")
+    hosted_practice = (
+        (args.cmd == "play" and args.case_id.startswith("case:P"))
+        or (args.cmd == "run" and args.set == "practice")
+    )
+    if args.cmd in {"play", "run"} and args.agent == "buyer-llm" and (
+        args.require_model or hosted_practice
+    ):
+        require_model_completion()
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
         format="%(asctime)s %(message)s",
@@ -166,11 +197,14 @@ def main(argv=None):
                 print(f"{name}: public from {info.get('at')}")
     elif args.cmd == "play":
         table = RemoteTable(client)
+        agent = agent_factory(args.agent, args.data)()
         try:
-            result = play(table, args.case_id, agent_factory(args.agent, args.data)())
+            result = play(table, args.case_id, agent)
         except ArenaError as e:  # e.g. not hosted, the quota, a paused key: the arena says why
             raise SystemExit(str(e)) from None
         print(json.dumps(summary(result), indent=2))
+        if args.agent == "buyer-llm":
+            print(f"model calls: {agent.model_successes} succeeded, {agent.model_fallbacks} fell back")
         replay = client.session(table.session_id).get("replay_url")
         if replay:  # the supplier's reasons, move by move: read it, improve, play again
             print(f"replay: {os.environ['ARENA_URL'].rstrip('/')}{replay}")

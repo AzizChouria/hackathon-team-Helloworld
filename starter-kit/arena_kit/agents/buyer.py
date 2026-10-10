@@ -146,6 +146,8 @@ class BuyerAgent:
         self.reserved_refs = set()
         self.trace = []
         self.final_challenges = set()
+        self.model_successes = 0
+        self.model_fallbacks = 0
 
     def prepare(self, case):
         if self.case_id == case["case_id"]:
@@ -154,6 +156,8 @@ class BuyerAgent:
         self.trace = []
         self.final_challenges = set()
         self.reserved_refs = set()
+        self.model_successes = 0
+        self.model_fallbacks = 0
         self.dossiers = {sid: self.research.dossier(case, sid) for sid in case["suppliers"]}
         self.claims = {sid: self.research.evidence(case, sid) for sid in case["suppliers"]}
 
@@ -580,10 +584,15 @@ class BuyerAgent:
                 chosen = list(dict.fromkeys(indices))[:2]
                 reason = str(decision.get("reason", "Model selected grounded tactic."))[:500]
                 narrative = safe_message(decision.get("message"), case)
+                self.model_successes += 1
             except Exception as exc:
+                self.model_fallbacks += 1
                 if self.model_future:
                     self.model_future.cancel()
                 log.warning("Buyer model unavailable or invalid (%s); using the computed strategy", type(exc).__name__)
+        elif self.complete:
+            self.model_fallbacks += 1
+            log.warning("Buyer model request still active; using the computed strategy")
         selected = [evidence[i] for i in chosen]
         # Reserve a reproducible index counterpoint only when the current objection
         # concerns cost or material. A true index fact is weak against a cash or

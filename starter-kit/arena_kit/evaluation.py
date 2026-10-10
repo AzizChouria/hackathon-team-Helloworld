@@ -65,10 +65,15 @@ def evaluate(client, new_agent, case_ids=None, parallel=5, seconds=390, out=None
                 "case_id": cid,
                 "session_id": table.session_id,
                 "seconds": round(time.time() - start, 2),
+                "rounds": state.get("rounds"),
                 "result": result,
                 "replay_url": state.get("replay_url"),
                 "claim_counts": dict(claim_counts),
                 "decisions": getattr(agent, "trace", []),
+                "model_calls": {
+                    "succeeded": getattr(agent, "model_successes", 0),
+                    "fell_back": getattr(agent, "model_fallbacks", 0),
+                },
             }
         except Exception as exc:
             # Persist partial runs. An error is a zero in the experiment's aggregate.
@@ -77,6 +82,10 @@ def evaluate(client, new_agent, case_ids=None, parallel=5, seconds=390, out=None
                 "session_id": table.session_id,
                 "seconds": round(time.time() - start, 2),
                 "error": f"{type(exc).__name__}: {exc}",
+                "model_calls": {
+                    "succeeded": getattr(agent, "model_successes", 0),
+                    "fell_back": getattr(agent, "model_fallbacks", 0),
+                },
             }
 
     # A broken model must not silently spend an entire hosted batch on fallback.
@@ -98,6 +107,8 @@ def evaluate(client, new_agent, case_ids=None, parallel=5, seconds=390, out=None
             result = run.get("result", {})
             print(
                 f"{run['case_id']} score={result.get('score')} deal={result.get('deal')} "
+                f"rounds={run.get('rounds')} model={run['model_calls']['succeeded']}/"
+                f"{run['model_calls']['succeeded'] + run['model_calls']['fell_back']} "
                 f"seconds={run['seconds']} replay={run.get('replay_url')} error={run.get('error')}",
                 flush=True,
             )
