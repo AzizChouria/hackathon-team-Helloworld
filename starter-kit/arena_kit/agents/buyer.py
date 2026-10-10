@@ -238,7 +238,7 @@ class BuyerAgent:
         )
 
     def concession_step(self, case, sid, events, signals):
-        """Spend the price gap gradually; reward actual supplier movement with patience.
+        """Concede in a few visible steps only after real supplier movement.
 
         Compare compliant packages on full cost so a price cut paid for through
         worse payment, delivery or coverage does not look like a concession.
@@ -255,12 +255,6 @@ class BuyerAgent:
             for sheet in latest(events).get("term_sheets") or []
             for proposed in proposals
         )
-        if not confirmed:
-            # A lower unit price alone does not secure the proposed coverage,
-            # payment or warranty. Keep bargaining for the complete exchange.
-            return 0.22
-        remaining = max(1, moves_left(case, events) - 1)
-        step = 1 / max(4, remaining)
         quotes = []
         for i, message in enumerate(events):
             if message.get("from") == "buyer" or not message.get("term_sheets"):
@@ -273,12 +267,20 @@ class BuyerAgent:
                 if must_haves_ok(case, sheet["terms"], standard)
             ]
             quotes.append(min(costs, default=math.inf))
-        if len(quotes) >= 2 and all(math.isfinite(c) for c in quotes[-2:]):
-            if quotes[-1] < quotes[-2] * 0.995:
-                step *= 0.5
-        if signals["resistant"]:
-            step = max(step, 0.20)
-        return step
+        if len(quotes) < 2 or not all(math.isfinite(c) for c in quotes[-2:]):
+            return 0.0
+        # A rounding-size or adverse counter is not a concession on the deal.
+        # The threshold is over full-horizon C, so changes to financing, cover,
+        # quality and delivery count alongside price.
+        if quotes[-1] >= quotes[-2] * 0.999:
+            return 0.0
+        if not confirmed:
+            # Respond to verified price movement with a conditional step while
+            # still asking the supplier to confirm coverage, payment and warranty.
+            # It is smaller than the step for a complete reciprocal exchange.
+            return 0.25
+        remaining = max(1, moves_left(case, events) - 1)
+        return 1 / max(2, min(3, remaining))
 
     def packages(self, case, sid, events):
         # Respond to the most attractive standing alternative, not simply its position
@@ -333,6 +335,10 @@ class BuyerAgent:
             # bid with the supplier's raw unit price can erase an intended move
             # when an equal-value package is converted back to early payment.
             previous_cost = total_cost(case, prior, std, supplier)
+            if step == 0:
+                # Re-optimising the non-price terms may change the headline
+                # price. Keep the whole package within our last buyer-cost bid.
+                first = at_cost(case, first, previous_cost, std, supplier) or first
             commercial = set(case["negotiable"]) - {"unit_price"}
             offered_costs = [
                 total_cost(case, s["terms"], std, supplier) for s in sheets

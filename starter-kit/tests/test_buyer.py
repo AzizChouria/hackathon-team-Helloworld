@@ -422,7 +422,7 @@ def test_price_only_counter_does_not_slow_the_trade_for_complete_terms(case):
     complete = agent.concession_step(case, sid, events, {"resistant": False})
     events[-1]["term_sheets"][0]["terms"].pop("payment_days")
     incomplete = agent.concession_step(case, sid, events, {"resistant": False})
-    assert 0 < complete < incomplete
+    assert complete > incomplete > 0
 
 
 def test_concession_pace_recognises_full_cost_and_resistance(case):
@@ -434,7 +434,19 @@ def test_concession_pace_recognises_full_cost_and_resistance(case):
     events[-1]["term_sheets"][0]["terms"]["unit_price"] = 19.5
     better_cost = agent.concession_step(case, sid, events, {"resistant": False})
     resistant = agent.concession_step(case, sid, events, {"resistant": True})
-    assert better_cost < worse_cost <= resistant
+    assert worse_cost == 0 and better_cost >= 1 / 3 and resistant == better_cost
+
+
+def test_no_supplier_movement_does_not_raise_buyer_cost_bid(case):
+    sid = case["suppliers"][0]
+    prior = {"unit_price": 18, "payment_days": 90}
+    events = [
+        *thread(21, payment=90),
+        {"from": "buyer", "term_sheets": [{"terms": prior}]},
+        *thread(21, payment=90),
+    ]
+    lead = BuyerAgent().packages(case, sid, events)[0]
+    assert total_cost(case, lead) <= total_cost(case, prior)
 
 
 def test_concessions_do_not_move_backwards_after_supplier_holds_price(case):
