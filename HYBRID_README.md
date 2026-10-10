@@ -187,3 +187,13 @@ See [REVISED_BENCHMARK_READY.md](REVISED_BENCHMARK_READY.md). The revised runner
 original results, freezes code/data/configuration and separates read-only preparation from
 explicitly approved execution. Do not use an unrestricted full-set command to bypass the
 original session allowance. Readiness does not authorize new hosted sessions.
+
+
+## Subsequent preference-sensitive strategy validation
+
+See [STRATEGY_IMPROVEMENT_REPORT.md](STRATEGY_IMPROVEMENT_REPORT.md) for the latest changes
+and limitations. Against the previously tested commit `5e21aac`, the 36 existing comparisons
+are unchanged; 72 additional synthetic preference scenarios produce 18 lower costs, 54 ties,
+and no higher costs, with all 72 valid deals and no timeouts. These are development fixtures,
+not hosted supplier results. The revised hosted mean remains unmeasured. Source changes
+invalidate the old frozen benchmark plan; refresh preparation after committing this revision.

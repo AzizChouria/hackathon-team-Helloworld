@@ -2,7 +2,7 @@
 import itertools
 import math
 
-from ..cost import closing_terms, complete_offer, must_haves_ok, total_cost
+from ..cost import OPS, closing_terms, complete_offer, must_haves_ok, total_cost
 from ..docs import standard_terms
 from ..play import latest, live_threads
 
@@ -58,15 +58,29 @@ def standing_offers(case, threads, estimates=None):
     return sorted(offers, key=lambda x: (x["cost"], x["base_cost"], x["supplier_id"]))
 
 
-def candidates(case, standing, std, turn=0, estimate=None, previous=()):
+def candidates(case, standing, std, turn=0, estimate=None, previous=(), *, ceiling=math.inf, closing_bid=False):
     """Beam-search all field domains, retaining diversity; prices are hypotheses, never hidden floors."""
     base = complete_offer(case, closing_terms(case, standing, std))
+    # Supplier standard values are explicitly allowed, even outside the enumerated options.
+    stated = closing_terms(case, standing, std)
+    for field in case["negotiable"]:
+        if (field != "unit_price" and field in std and stated.get(field) == std[field]
+                and (std[field] is not None or field == "index_clause")):
+            base[field] = std[field]
     price = standing.get("unit_price") or case["buyer"].get("current_unit_price")
     price = price or case["buyer"]["fallback_unit_price"]
-    prior = [t["unit_price"] for t in previous if t.get("unit_price")]
+    prior_terms = [t for t in previous if t.get("unit_price")]
+    # Compare concessions in full-cost space: a lower price compensating for worse
+    # non-price terms must not pull the main package's next price anchor down.
+    prior = ([min(prior_terms, key=lambda t: total_cost(case, t, std, estimate))["unit_price"]]
+             if prior_terms else [])
     anchor = price * (0.90 if turn == 0 else 0.96)
     if prior:
         anchor = max(anchor, min(prior) + (price - min(prior)) * 0.35)
+    # A bounded last bid after repeated unchanged supplier offers avoids spending
+    # the final round cycling equivalent non-price profiles at a rejected price.
+    if closing_bid:
+        anchor = max(anchor, price * 0.98)
     prices = sorted({round(max(0.01, x), 2) for x in (anchor, price * 0.98, price)})
     # Supplier-specific should-cost is uncertain; include a sustainable option, not a hard floor.
     if estimate:
@@ -76,17 +90,28 @@ def candidates(case, standing, std, turn=0, estimate=None, previous=()):
     fields = [f for f in case["negotiable"] if f != "unit_price"]
     for field in fields:
         options = list(case.get("term_options", {}).get(field) or [base.get(field)])
-        if field in std and std[field] not in options:
+        if (field in std and (std[field] is not None or field == "index_clause")
+                and std[field] not in options):
             options.append(std[field])
         expanded = [{**t, field: v} for t, v in itertools.product(beam, options)]
-        # Constraints are evaluated after all fields have been filled.
+        # Filter constraints as each field is assigned, before beam truncation can erase
+        # every feasible branch (e.g. a costly minimum-volume or maximum-payment condition).
+        constraints = [m for m in case["buyer"].get("must_haves", []) if m["field"] == field]
+        expanded = [t for t in expanded if all(
+            (t[field] is not None or m["op"] in ("==", "!=")) and OPS[m["op"]](t[field], m["value"])
+            for m in constraints)]
         expanded.sort(key=lambda t: total_cost(case, t, std, estimate))
         beam = expanded[:192]
         # Preserve supplier-friendly branches otherwise lost in the buyer-only beam.
         for v in options:
             group = [t for t in expanded if t[field] == v]
             beam.extend(group[:4])
-    unique = {str(sorted(t.items())): t for t in beam if valid(case, t, std, complete=True)}
+    # Retain a price-only route on the supplier's own terms. Beam search otherwise tends
+    # to erase this commercially plausible branch in favour of changing every field.
+    beam.extend({**base, "unit_price": p} for p in prices if p <= price * 1.05)
+    unique = {str(sorted(t.items())): t for t in beam
+              if valid(case, t, std, complete=True)
+              and total_cost(case, t, std, estimate) < ceiling - 0.01}
     feasible = sorted(unique.values(), key=lambda t: total_cost(case, t, std, estimate))
     if not feasible:
         return []
@@ -116,4 +141,34 @@ def candidates(case, standing, std, turn=0, estimate=None, previous=()):
             profiles.add(profile)
         if len(out) == 3:
             break
+    if closing_bid:
+        # Make the late price concession conditional on our best economic profile;
+        # do not simultaneously give away financing or freight at that higher price.
+        return out[:1]
+    if turn == 1 and len(out) >= 2:
+        # After feedback, include a low-disruption route only at a reciprocal price that
+        # keeps its buyer cost no worse than the most expensive package already selected.
+        target = max(total_cost(case, t, std, estimate) for t in out)
+        profile = {**base, "unit_price": min(prices)}
+        high = profile["unit_price"]
+        low = 0.01
+        if total_cost(case, profile, std, estimate) > target:
+            # Relationship penalties can make cost non-monotonic below supplier cost;
+            # do not solve by bisection in that case.
+            if estimate:
+                return out
+            for _ in range(32):
+                middle = (low + high) / 2
+                if total_cost(case, {**profile, "unit_price": middle}, std) <= target:
+                    low = middle
+                else:
+                    high = middle
+            profile["unit_price"] = math.floor(low * 100) / 100
+        signature = repr(sorted((k, v) for k, v in profile.items() if k != "unit_price"))
+        if (signature not in profiles and profile not in previous
+                and profile["unit_price"] >= min(prices) * 0.90
+                and valid(case, profile, std, complete=True)
+                and total_cost(case, profile, std, estimate) <= target
+                and total_cost(case, profile, std, estimate) < ceiling - 0.01):
+            out = out[:2] + [profile]
     return out

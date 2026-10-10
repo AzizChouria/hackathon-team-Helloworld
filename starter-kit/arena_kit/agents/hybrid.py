@@ -1,6 +1,7 @@
 """Evidence-backed offers; Python controls economics, the LLM adapts the conversation."""
 import json
 import logging
+import math
 import os
 import re
 import time
@@ -99,7 +100,14 @@ class HybridAgent:
                 return [close(case, threads, estimates)]
             previous = [s["terms"] for e in events if e.get("from") == "buyer" for s in e.get("term_sheets", [])]
             _, terms = standing(events)
-            packages = candidates(case, terms, standard_terms(events), turn, estimates.get(sid), previous)
+            supplier_sheets = [e.get("term_sheets") for e in events if e.get("from") != "buyer"][-3:]
+            unchanged = len(supplier_sheets) == 3 and all(
+                [s.get("terms") for s in sheets or []] == [s.get("terms") for s in supplier_sheets[-1] or []]
+                for sheets in supplier_sheets)
+            last_counter = turn == int(os.environ.get("HYBRID_MAX_COUNTERS", "5")) - 1
+            packages = candidates(case, terms, standard_terms(events), turn, estimates.get(sid), previous,
+                                  ceiling=offers[0]["cost"] if offers else math.inf,
+                                  closing_bid=last_counter and unchanged)
             if offers:
                 # No model-selected concession may cost more than the best currently feasible deal.
                 ceiling = offers[0]["cost"]

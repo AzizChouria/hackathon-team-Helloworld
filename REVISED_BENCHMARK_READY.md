@@ -90,3 +90,13 @@ No final run, final submission, or merge to main is part of this preparation.
   model context does not change those deterministic baselines.
 - Fresh Astra/high preflight: valid response, 8.781 seconds, no fallback/retry, $0.02817 estimated.
 - No new hosted negotiation session was started. The readiness command is run only after commit.
+
+
+## Subsequent preference-sensitive strategy validation
+
+See [STRATEGY_IMPROVEMENT_REPORT.md](STRATEGY_IMPROVEMENT_REPORT.md) for the latest changes
+and limitations. Against the previously tested commit `5e21aac`, the 36 existing comparisons
+are unchanged; 72 additional synthetic preference scenarios produce 18 lower costs, 54 ties,
+and no higher costs, with all 72 valid deals and no timeouts. These are development fixtures,
+not hosted supplier results. The revised hosted mean remains unmeasured. Source changes
+invalidate the old frozen benchmark plan; refresh preparation after committing this revision.

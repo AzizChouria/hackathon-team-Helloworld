@@ -1,0 +1,1892 @@
+{
+  "timestamp": "2026-10-10T18:47:06.498838+00:00",
+  "baseline_commit": "5e21aac",
+  "scope": "72 synthetic development fixtures, NOT hosted performance or held-out evaluation",
+  "hosted_sessions": 0,
+  "model_calls": 0,
+  "score": null,
+  "score_caveat": "The standard simulator optimum does not describe these suppliers; report cost only.",
+  "summary": {
+    "fixtures": 72,
+    "lower_cost": 18,
+    "equal_cost": 54,
+    "higher_cost": 0,
+    "after_valid_deals": 72,
+    "after_no_deals": 0,
+    "after_timeouts": 0
+  },
+  "rows": [
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115507.18,
+        "c_alt": null,
+        "realized_cost": 115507.18,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115507.18,
+        "c_alt": null,
+        "realized_cost": 115507.18,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115507.18,
+        "c_alt": null,
+        "realized_cost": 115507.18,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115507.18,
+        "c_alt": null,
+        "realized_cost": 115507.18,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 120239.76,
+        "c_alt": null,
+        "realized_cost": 120239.76,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 120239.76,
+        "c_alt": null,
+        "realized_cost": 120239.76,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116367.24,
+        "c_alt": null,
+        "realized_cost": 116367.24,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116367.24,
+        "c_alt": null,
+        "realized_cost": 116367.24,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 114577.84,
+        "c_alt": null,
+        "realized_cost": 114577.84,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 114577.84,
+        "c_alt": null,
+        "realized_cost": 114577.84,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113648.5,
+        "c_alt": null,
+        "realized_cost": 113648.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 114577.84,
+        "c_alt": null,
+        "realized_cost": 114577.84,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 114577.84,
+        "c_alt": null,
+        "realized_cost": 114577.84,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116498.47,
+        "c_alt": null,
+        "realized_cost": 116498.47,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "c_alt": null,
+        "realized_cost": 118303.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 119271.63,
+        "c_alt": null,
+        "realized_cost": 119271.63,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 119271.63,
+        "c_alt": null,
+        "realized_cost": 119271.63,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116367.24,
+        "c_alt": null,
+        "realized_cost": 116367.24,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 116367.24,
+        "c_alt": null,
+        "realized_cost": 116367.24,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 619966.8,
+        "c_alt": null,
+        "realized_cost": 619966.8,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 27433.4
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 592260.8,
+        "c_alt": null,
+        "realized_cost": 592260.8,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 592260.8,
+        "c_alt": null,
+        "realized_cost": 592260.8,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 658166.87,
+        "c_alt": null,
+        "realized_cost": 658166.87,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 631804.5,
+        "c_alt": null,
+        "realized_cost": 631804.5,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 26362.37
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 607396.35,
+        "c_alt": null,
+        "realized_cost": 607396.35,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 607396.35,
+        "c_alt": null,
+        "realized_cost": 607396.35,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 619966.8,
+        "c_alt": null,
+        "realized_cost": 619966.8,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 27433.4
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 620070.0,
+        "c_alt": null,
+        "realized_cost": 620070.0,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 620070.0,
+        "c_alt": null,
+        "realized_cost": 620070.0,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 658166.87,
+        "c_alt": null,
+        "realized_cost": 658166.87,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 631804.5,
+        "c_alt": null,
+        "realized_cost": 631804.5,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 26362.37
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 635916.23,
+        "c_alt": null,
+        "realized_cost": 635916.23,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 635916.23,
+        "c_alt": null,
+        "realized_cost": 635916.23,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 633223.0,
+        "c_alt": null,
+        "realized_cost": 633223.0,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 14177.2
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 658166.87,
+        "c_alt": null,
+        "realized_cost": 658166.87,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 658166.87,
+        "c_alt": null,
+        "realized_cost": 658166.87,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 622669.28,
+        "c_alt": null,
+        "realized_cost": 622669.28,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 622669.28,
+        "c_alt": null,
+        "realized_cost": 622669.28,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 619966.8,
+        "c_alt": null,
+        "realized_cost": 619966.8,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 27433.4
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 592260.8,
+        "c_alt": null,
+        "realized_cost": 592260.8,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 592260.8,
+        "c_alt": null,
+        "realized_cost": 592260.8,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 652783.54,
+        "c_alt": null,
+        "realized_cost": 652783.54,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 626637.25,
+        "c_alt": null,
+        "realized_cost": 626637.25,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 26146.29
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 607396.35,
+        "c_alt": null,
+        "realized_cost": 607396.35,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 607396.35,
+        "c_alt": null,
+        "realized_cost": 607396.35,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 619966.8,
+        "c_alt": null,
+        "realized_cost": 619966.8,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 27433.4
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 620070.0,
+        "c_alt": null,
+        "realized_cost": 620070.0,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 620070.0,
+        "c_alt": null,
+        "realized_cost": 620070.0,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 652783.54,
+        "c_alt": null,
+        "realized_cost": 652783.54,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 626637.25,
+        "c_alt": null,
+        "realized_cost": 626637.25,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 26146.29
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 635916.23,
+        "c_alt": null,
+        "realized_cost": 635916.23,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 635916.23,
+        "c_alt": null,
+        "realized_cost": 635916.23,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 647400.2,
+        "c_alt": null,
+        "realized_cost": 647400.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 633223.0,
+        "c_alt": null,
+        "realized_cost": 633223.0,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 14177.2
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 652783.54,
+        "c_alt": null,
+        "realized_cost": 652783.54,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 652783.54,
+        "c_alt": null,
+        "realized_cost": 652783.54,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 622669.28,
+        "c_alt": null,
+        "realized_cost": 622669.28,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 622669.28,
+        "c_alt": null,
+        "realized_cost": 622669.28,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3978923.4,
+        "c_alt": 4170118.2,
+        "realized_cost": 3978923.4,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 74032.8
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3660888.0,
+        "c_alt": 4170118.2,
+        "realized_cost": 3660888.0,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3660888.0,
+        "c_alt": 4170118.2,
+        "realized_cost": 3660888.0,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4209384.45,
+        "c_alt": 4239620.17,
+        "realized_cost": 4209384.45,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004645.27,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004645.27,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 204739.18
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3754444.03,
+        "c_alt": 4239620.17,
+        "realized_cost": 3754444.03,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3754444.03,
+        "c_alt": 4239620.17,
+        "realized_cost": 3754444.03,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3978923.4,
+        "c_alt": 4170118.2,
+        "realized_cost": 3978923.4,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 74032.8
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4209384.45,
+        "c_alt": 4239620.17,
+        "realized_cost": 4209384.45,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004645.27,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004645.27,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 204739.18
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004682.25,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004682.25,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004682.25,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004682.25,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4141591.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 4141591.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4141591.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 4141591.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3986224.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 3986224.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3986224.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 3986224.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4209384.45,
+        "c_alt": 4239620.17,
+        "realized_cost": 4209384.45,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4209384.45,
+        "c_alt": 4239620.17,
+        "realized_cost": 4209384.45,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 30,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3919787.72,
+        "c_alt": 4239620.17,
+        "realized_cost": 3919787.72,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3919787.72,
+        "c_alt": 4239620.17,
+        "realized_cost": 3919787.72,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3978923.4,
+        "c_alt": 4170118.2,
+        "realized_cost": 3978923.4,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 74032.8
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3660888.0,
+        "c_alt": 4170118.2,
+        "realized_cost": 3660888.0,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3660888.0,
+        "c_alt": 4170118.2,
+        "realized_cost": 3660888.0,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4175488.12,
+        "c_alt": 4239620.17,
+        "realized_cost": 4175488.12,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004615.56,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004615.56,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 170872.56
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.9,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3754444.03,
+        "c_alt": 4239620.17,
+        "realized_cost": 3754444.03,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3754444.03,
+        "c_alt": 4239620.17,
+        "realized_cost": 3754444.03,
+        "rounds": 1,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3978923.4,
+        "c_alt": 4170118.2,
+        "realized_cost": 3978923.4,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 74032.8
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "c_alt": 4170118.2,
+        "realized_cost": 3904890.6,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4175488.12,
+        "c_alt": 4239620.17,
+        "realized_cost": 4175488.12,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004615.56,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004615.56,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 170872.56
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.94,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004682.25,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004682.25,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4004682.25,
+        "c_alt": 4239620.17,
+        "realized_cost": 4004682.25,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4141591.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 4141591.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4141591.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 4141591.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.0,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3986224.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 3986224.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3986224.8,
+        "c_alt": 4170118.2,
+        "realized_cost": 3986224.8,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": false,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4175488.12,
+        "c_alt": 4239620.17,
+        "realized_cost": 4175488.12,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 4175488.12,
+        "c_alt": 4239620.17,
+        "realized_cost": 4175488.12,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "payment_days": 45,
+      "supplier_price_floor_fraction": 0.98,
+      "interest": 0.2,
+      "flexible_nonprice": true,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3919787.72,
+        "c_alt": 4239620.17,
+        "realized_cost": 3919787.72,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3919787.72,
+        "c_alt": 4239620.17,
+        "realized_cost": 3919787.72,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    }
+  ]
+}

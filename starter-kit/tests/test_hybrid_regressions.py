@@ -196,3 +196,79 @@ def test_model_receives_history_and_python_costs(case):
     assert captured[1]["buyer_round"] == 1
     assert captured[1]["recent_exchange"][0]["body"] == "Payment timing matters to us."
     assert captured[1]["moves_remaining"] == case["round_limit"] - 1
+
+
+def test_beam_keeps_expensive_hard_constraint_before_truncation(case):
+    from arena_kit.agents.optimizer import candidates
+    case["negotiable"] = ["unit_price", "payment_days", "tooling_eur"]
+    case["fixed_terms"].pop("tooling_eur", None)
+    case["term_options"] = {"payment_days": [14, 90], "tooling_eur": list(range(100))}
+    case["buyer"]["must_haves"] = [{"field": "payment_days", "op": "==", "value": 14}]
+    proposals = candidates(case, {"unit_price": 20}, {})
+    assert proposals and all(p["payment_days"] == 14 for p in proposals)
+    assert min(total_cost(case, p) for p in proposals) == total_cost(case, {"unit_price": 18, "payment_days": 14})
+
+
+def test_candidate_diversity_selected_inside_economic_ceiling(case):
+    from arena_kit.agents.optimizer import candidates
+    unconstrained = candidates(case, {"unit_price": 20}, {})
+    ceiling = total_cost(case, unconstrained[0]) + 1
+    proposals = candidates(case, {"unit_price": 20}, {}, ceiling=ceiling)
+    assert proposals and all(total_cost(case, p) < ceiling - .01 for p in proposals)
+
+
+def test_supplier_standard_outside_options_remains_available(case):
+    from arena_kit.agents.optimizer import candidates
+    standard = {"payment_days": 51}
+    proposals = candidates(case, {"unit_price": 20, "payment_days": 51}, standard, turn=1)
+    assert any(p["payment_days"] == 51 for p in proposals)
+    assert all(valid(case, p, standard, complete=True) for p in proposals)
+
+
+def test_unknown_standard_does_not_erase_numeric_defaults(case):
+    from arena_kit.agents.optimizer import candidates
+    assert candidates(case, {"unit_price": 20}, {"payment_days": None})
+
+
+def test_conditional_discount_does_not_reset_main_concession_anchor(case):
+    from arena_kit.agents.optimizer import candidates
+    case["buyer"]["interest_rate"] = .20
+    previous = [{"unit_price": 18, "payment_days": 90}, {"unit_price": 17.9, "payment_days": 14}]
+    base = candidates(case, {"unit_price": 18.3}, {}, turn=3, previous=previous[:1])
+    conditional = candidates(case, {"unit_price": 18.3}, {}, turn=3, previous=previous)
+    assert conditional[0] == base[0]
+
+
+def test_preference_sensitive_supplier_can_accept_reciprocal_package(case):
+    from arena_kit.tradeoff_eval import PreferenceTable
+    table = PreferenceTable(case, payment=30, floor=.94, flexible=False)
+    result = play(table, case["case_id"], HybridAgent())
+    assert result["deal"] and result["must_haves_ok"]
+    assert result["terms"]["payment_days"] == 30
+    assert result["c_deal"] < result["c_open"]
+
+
+def test_last_counter_after_stalemate_improves_price_without_overspending(case):
+    agent = HybridAgent()
+    threads = {"A": [mail(20)]}
+    proposals = []
+    for _ in range(5):
+        move = agent.decide(case, threads)
+        assert not move["message"].get("action")
+        proposals.append(move["message"]["term_sheets"])
+        threads["A"].extend([{**move["message"], "from": "buyer"}, mail(20)])
+    assert len(proposals[-1]) == 1
+    assert proposals[-1][0]["terms"]["unit_price"] >= 19.6
+    assert all(total_cost(case, p["terms"]) < total_cost(case, {"unit_price": 20}) for p in proposals[-1])
+    assert agent.decide(case, threads)["message"]["action"]["type"] == "accept"
+
+
+def test_explicit_no_index_standard_is_a_real_option(case):
+    from arena_kit.agents.optimizer import candidates
+    case["negotiable"].append("index_clause")
+    case["fixed_terms"].pop("index_clause", None)
+    clause = {"series": "synthetic", "material_share": .5, "deadband_pct": 0, "base_month": "2026-08"}
+    case["term_options"]["index_clause"] = [clause]
+    case["buyer"]["index_paths"] = {"synthetic": .1}
+    proposals = candidates(case, {"unit_price": 20}, {"index_clause": None})
+    assert proposals[0]["index_clause"] is None
