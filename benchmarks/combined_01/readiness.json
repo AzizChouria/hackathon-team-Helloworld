@@ -1,0 +1,27 @@
+{
+  "commit": "844cb8066008736558c6f845dc27c5a7b19b756a",
+  "data_fingerprint": "b887bbca488a961321f8ddc4b741f22907eca6e36a1d0a43d0963b7486cdd0ce",
+  "configuration": {
+    "HYBRID_PROPOSAL_MODE": "combined",
+    "HYBRID_TACTICAL_LLM": "0",
+    "HYBRID_OFFLINE": "1",
+    "HYBRID_RESPONSE_GUARD_S": "35"
+  },
+  "authorization": "User: lets test all suppliers online and see what happens in the leaderboard; one new ten-case pass",
+  "prepared_at": "2026-10-10T22:45:26.861423+00:00",
+  "order": [
+    "case:P01",
+    "case:P02",
+    "case:P03",
+    "case:P04",
+    "case:P05",
+    "case:P07",
+    "case:P08",
+    "case:P10",
+    "case:P11",
+    "case:P18"
+  ],
+  "parallel": 2,
+  "openai_batch_forecast_usd": 0,
+  "already_accounted_usd": 1.53832
+}

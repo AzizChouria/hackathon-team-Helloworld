@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-10T22:55:37.100377+00:00",
+  "runtime_commit": "844cb8066008736558c6f845dc27c5a7b19b756a",
+  "remaining": [
+    "case:P10",
+    "case:P11",
+    "case:P18"
+  ],
+  "parallel": 1,
+  "new_authorization_required": false,
+  "reason": "All seven sessions ended with valid deals. One P05 multi-supplier thread timed out; remaining three are single-supplier cases. Preserve timeout and complete existing ten-case authorization without retests.",
+  "agent_or_data_changed": false,
+  "recreated_sessions": 0
+}

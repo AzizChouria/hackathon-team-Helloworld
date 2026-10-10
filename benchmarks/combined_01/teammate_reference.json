@@ -1,0 +1,17 @@
+{
+  "source": "User-provided ten-case practice batch started 2026-10-10T18:08:04.167146+00:00",
+  "reported_mean": 0.6273333070321647,
+  "actual_policy": "deterministic fallback; configured model failed with HTTP 404 on 43 calls",
+  "scores": {
+    "case:P01": 0.8705497300398356,
+    "case:P02": 0.31897281380191805,
+    "case:P03": 0.9228331929713948,
+    "case:P04": 0.8604451426623068,
+    "case:P05": 0.45878370142323266,
+    "case:P07": 0.6625701047143294,
+    "case:P08": 0.41601095126124926,
+    "case:P10": 0.6707108356081908,
+    "case:P11": 0.6195914132799205,
+    "case:P18": 0.4728651845592699
+  }
+}

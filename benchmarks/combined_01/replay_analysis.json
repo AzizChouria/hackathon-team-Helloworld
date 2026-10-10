@@ -1,0 +1,464 @@
+[
+  {
+    "case_id": "case:P01",
+    "replay_url": "https://arena.tacto.ai/replay/92211f266420577b",
+    "buyer_messages": 3,
+    "messages_with_multiple_packages": 3,
+    "max_packages": 2,
+    "claim_results": {
+      "verified": 5
+    },
+    "trace_entries": 8,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70110": [
+        {
+          "status": "open",
+          "unit_price": 138.55,
+          "missing_fields": [
+            "payment_days"
+          ]
+        },
+        {
+          "status": "open",
+          "unit_price": 138.9,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 136.2,
+          "missing_fields": []
+        },
+        {
+          "status": "agreed",
+          "unit_price": 135.69,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P02",
+    "replay_url": "https://arena.tacto.ai/replay/44bef23e1438cbfc",
+    "buyer_messages": 1,
+    "messages_with_multiple_packages": 1,
+    "max_packages": 3,
+    "claim_results": {
+      "verified": 2
+    },
+    "trace_entries": 4,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70510": [
+        {
+          "status": "open",
+          "unit_price": 370.96,
+          "missing_fields": []
+        },
+        {
+          "status": "agreed",
+          "unit_price": 363.54,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P03",
+    "replay_url": "https://arena.tacto.ai/replay/ea71292195593852",
+    "buyer_messages": 5,
+    "messages_with_multiple_packages": 5,
+    "max_packages": 2,
+    "claim_results": {
+      "verified": 3
+    },
+    "trace_entries": 12,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70530": [
+        {
+          "status": "open",
+          "unit_price": 438.21,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 432.15,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 432.15,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 432.15,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 432.15,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 432.15,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P04",
+    "replay_url": "https://arena.tacto.ai/replay/ba2182cd3c7e66d6",
+    "buyer_messages": 3,
+    "messages_with_multiple_packages": 3,
+    "max_packages": 2,
+    "claim_results": {
+      "verified": 2
+    },
+    "trace_entries": 8,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70620": [
+        {
+          "status": "open",
+          "unit_price": 4.96,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 4.94,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 4.94,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 4.94,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P05",
+    "replay_url": "https://arena.tacto.ai/replay/8d4990ed54ca9663",
+    "buyer_messages": 10,
+    "messages_with_multiple_packages": 9,
+    "max_packages": 3,
+    "claim_results": {
+      "verified": 8
+    },
+    "trace_entries": 26,
+    "trace_timeouts": 1,
+    "supplier_progression": {
+      "sup:70210": [
+        {
+          "status": "open",
+          "unit_price": 36.0,
+          "missing_fields": [
+            "payment_days",
+            "lead_time_days"
+          ]
+        },
+        {
+          "status": "open",
+          "unit_price": 32.0,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 31.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 31.5,
+          "missing_fields": []
+        }
+      ],
+      "sup:70240": [
+        {
+          "status": "open",
+          "unit_price": 31.5,
+          "missing_fields": [
+            "payment_days"
+          ]
+        },
+        {
+          "status": "open",
+          "unit_price": 33.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 32.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 32.5,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 32.0,
+          "missing_fields": []
+        }
+      ],
+      "sup:70250": [
+        {
+          "status": "open",
+          "unit_price": 38.5,
+          "missing_fields": [
+            "payment_days",
+            "lead_time_days"
+          ]
+        },
+        {
+          "status": "open",
+          "unit_price": 31.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 31.0,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 31.5,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 31.5,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P07",
+    "replay_url": "https://arena.tacto.ai/replay/8c73d0dca42a878b",
+    "buyer_messages": 4,
+    "messages_with_multiple_packages": 4,
+    "max_packages": 2,
+    "claim_results": {
+      "verified": 2,
+      "duplicate": 3
+    },
+    "trace_entries": 10,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70610": [
+        {
+          "status": "open",
+          "unit_price": 5.74,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.6,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.57,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.54,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 5.51,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P08",
+    "replay_url": "https://arena.tacto.ai/replay/482b0ecfe6edc1a4",
+    "buyer_messages": 5,
+    "messages_with_multiple_packages": 5,
+    "max_packages": 3,
+    "claim_results": {
+      "verified": 4
+    },
+    "trace_entries": 12,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70710": [
+        {
+          "status": "open",
+          "unit_price": 6.05,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.67,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.61,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.58,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.55,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 5.52,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P10",
+    "replay_url": "https://arena.tacto.ai/replay/eb70c70438d0850c",
+    "buyer_messages": 2,
+    "messages_with_multiple_packages": 2,
+    "max_packages": 2,
+    "claim_results": {
+      "verified": 3
+    },
+    "trace_entries": 6,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70410": [
+        {
+          "status": "open",
+          "unit_price": 32.2,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 31.7,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 31.6,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P11",
+    "replay_url": "https://arena.tacto.ai/replay/a084a36616767f20",
+    "buyer_messages": 7,
+    "messages_with_multiple_packages": 7,
+    "max_packages": 3,
+    "claim_results": {
+      "verified": 3
+    },
+    "trace_entries": 16,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70140": [
+        {
+          "status": "open",
+          "unit_price": 47.0,
+          "missing_fields": [
+            "chargeback_eur_per_complaint"
+          ]
+        },
+        {
+          "status": "open",
+          "unit_price": 46.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 46.0,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 46.0,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 46.0,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 45.5,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 45.5,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 45.5,
+          "missing_fields": []
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "case:P18",
+    "replay_url": "https://arena.tacto.ai/replay/35552bdc658fc43a",
+    "buyer_messages": 4,
+    "messages_with_multiple_packages": 4,
+    "max_packages": 3,
+    "claim_results": {
+      "verified": 4
+    },
+    "trace_entries": 10,
+    "trace_timeouts": 0,
+    "supplier_progression": {
+      "sup:70740": [
+        {
+          "status": "open",
+          "unit_price": 6.1,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.6,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.6,
+          "missing_fields": []
+        },
+        {
+          "status": "open",
+          "unit_price": 5.5,
+          "missing_fields": []
+        },
+        {
+          "status": "final_offer",
+          "unit_price": 5.5,
+          "missing_fields": []
+        }
+      ]
+    }
+  }
+]

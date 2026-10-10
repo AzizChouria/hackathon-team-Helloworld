@@ -1,0 +1,203 @@
+{
+  "runtime_commit": "844cb8066008736558c6f845dc27c5a7b19b756a",
+  "summary": {
+    "batch": "combined_01",
+    "timestamp": "2026-10-10T23:01:36.891128+00:00",
+    "agent": "combined",
+    "model": null,
+    "effort": null,
+    "attempted": 10,
+    "completed": 10,
+    "mean_completed_score": 0.626294975560433,
+    "full_10_case_mean": 0.626294975560433,
+    "median": 0.6763805272135898,
+    "min": 0.0,
+    "max": 0.9228331929713948,
+    "population_stdev": 0.2541673141514673,
+    "valid_deals": 9,
+    "buyer_timeouts": 1,
+    "mean_decision_s": 0.013612477231328047,
+    "max_decision_s": 0.39099999999598367,
+    "model_calls": 0,
+    "estimated_api_cost_usd": 0,
+    "not_tested": []
+  },
+  "teammate_mean": 0.6273333070321647,
+  "mean_delta_vs_teammate": -0.0010383314717317127,
+  "better_than_teammate": 3,
+  "equal_to_teammate": 4,
+  "worse_than_teammate": 3,
+  "new_case_bests_vs_start": [],
+  "comparisons": [
+    {
+      "case_id": "case:P01",
+      "score": 0.8533909861603733,
+      "teammate_score": 0.8705497300398356,
+      "delta": -0.017158743879462257,
+      "previous_team_best": 0.8705497300398356,
+      "new_team_best": 0.8705497300398356
+    },
+    {
+      "case_id": "case:P02",
+      "score": 0.7073475548978073,
+      "teammate_score": 0.31897281380191805,
+      "delta": 0.38837474109588926,
+      "previous_team_best": 0.7073475548978073,
+      "new_team_best": 0.7073475548978073
+    },
+    {
+      "case_id": "case:P03",
+      "score": 0.9228331929713948,
+      "teammate_score": 0.9228331929713948,
+      "delta": 0.0,
+      "previous_team_best": 0.9228331929713948,
+      "new_team_best": 0.9228331929713948
+    },
+    {
+      "case_id": "case:P04",
+      "score": 0.8604451426623068,
+      "teammate_score": 0.8604451426623068,
+      "delta": 0.0,
+      "previous_team_best": 0.8604451426623068,
+      "new_team_best": 0.8604451426623068
+    },
+    {
+      "case_id": "case:P05",
+      "score": 0.4519099243930801,
+      "teammate_score": 0.45878370142323266,
+      "delta": -0.0068737770301525725,
+      "previous_team_best": 0.5428437792671016,
+      "new_team_best": 0.5428437792671016
+    },
+    {
+      "case_id": "case:P07",
+      "score": 0.6820502188189888,
+      "teammate_score": 0.6625701047143294,
+      "delta": 0.01948011410465933,
+      "previous_team_best": 0.7466905323485927,
+      "new_team_best": 0.7466905323485927
+    },
+    {
+      "case_id": "case:P08",
+      "score": 0.4946704868122674,
+      "teammate_score": 0.41601095126124926,
+      "delta": 0.07865953555101812,
+      "previous_team_best": 0.6786754259290533,
+      "new_team_best": 0.6786754259290533
+    },
+    {
+      "case_id": "case:P10",
+      "score": 0.6707108356081908,
+      "teammate_score": 0.6707108356081908,
+      "delta": 0.0,
+      "previous_team_best": 0.6707108356081908,
+      "new_team_best": 0.6707108356081908
+    },
+    {
+      "case_id": "case:P11",
+      "score": 0.6195914132799205,
+      "teammate_score": 0.6195914132799205,
+      "delta": 0.0,
+      "previous_team_best": 0.6195914132799205,
+      "new_team_best": 0.6195914132799205
+    },
+    {
+      "case_id": "case:P18",
+      "score": 0.0,
+      "teammate_score": 0.4728651845592699,
+      "delta": -0.4728651845592699,
+      "previous_team_best": 0.5455754367366793,
+      "new_team_best": 0.5455754367366793
+    }
+  ],
+  "claims": {
+    "verified": 36,
+    "duplicate": 3
+  },
+  "verified_trace_timeouts": 1,
+  "action_validation_records": 65,
+  "mean_action_validation_s": 0.08003076923084267,
+  "max_action_validation_s": 0.39099999999598367,
+  "latency_caveat": "Policy computation only. Raw decision_times_s also includes idle polling; neither is full arrival-to-send latency.",
+  "observed_attachment_read_timeouts": 3,
+  "quota_used_delta": 10,
+  "leaderboard_before": {
+    "timestamp": "2026-10-10T22:45:26.708913+00:00",
+    "team_name": "Helllo World",
+    "quota": {
+      "used": 220,
+      "left": 380,
+      "limit": 600,
+      "resets_at": "2026-10-11T12:34:32.024144+00:00"
+    },
+    "team": {
+      "team_name": "Helllo World",
+      "played": 10,
+      "total": 71.7,
+      "deals": 10,
+      "rounds": 46,
+      "rank": 14
+    },
+    "leader": {
+      "team_name": "\ud83c\udccf NoIdea",
+      "played": 10,
+      "total": 87.7,
+      "deals": 10,
+      "rounds": 50,
+      "rank": 1
+    },
+    "team_best": {
+      "case:P01": 0.8705497300398356,
+      "case:P03": 0.9228331929713948,
+      "case:P18": 0.5455754367366793,
+      "case:P07": 0.7466905323485927,
+      "case:P11": 0.6195914132799205,
+      "case:P08": 0.6786754259290533,
+      "case:P02": 0.7073475548978073,
+      "case:P10": 0.6707108356081908,
+      "case:P04": 0.8604451426623068,
+      "case:P05": 0.5428437792671016
+    },
+    "gap": 16.0
+  },
+  "leaderboard_after": {
+    "timestamp": "2026-10-10T23:01:36.885125+00:00",
+    "team_name": "Helllo World",
+    "quota": {
+      "used": 230,
+      "left": 370,
+      "limit": 600,
+      "resets_at": "2026-10-11T12:34:32.024144+00:00"
+    },
+    "team": {
+      "team_name": "Helllo World",
+      "played": 10,
+      "total": 71.7,
+      "deals": 10,
+      "rounds": 46,
+      "rank": 14
+    },
+    "leader": {
+      "team_name": "\ud83c\udccf NoIdea",
+      "played": 10,
+      "total": 88.0,
+      "deals": 10,
+      "rounds": 50,
+      "rank": 1
+    },
+    "team_best": {
+      "case:P01": 0.8705497300398356,
+      "case:P03": 0.9228331929713948,
+      "case:P18": 0.5455754367366793,
+      "case:P07": 0.7466905323485927,
+      "case:P11": 0.6195914132799205,
+      "case:P08": 0.6786754259290533,
+      "case:P02": 0.7073475548978073,
+      "case:P10": 0.6707108356081908,
+      "case:P04": 0.8604451426623068,
+      "case:P05": 0.5428437792671016
+    },
+    "gap": 16.299999999999997
+  },
+  "expected_best_mean_after_our_batch": 0.7165263043740883
+}

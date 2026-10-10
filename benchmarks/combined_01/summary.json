@@ -1,0 +1,22 @@
+{
+  "batch": "combined_01",
+  "timestamp": "2026-10-10T23:01:36.891128+00:00",
+  "agent": "combined",
+  "model": null,
+  "effort": null,
+  "attempted": 10,
+  "completed": 10,
+  "mean_completed_score": 0.626294975560433,
+  "full_10_case_mean": 0.626294975560433,
+  "median": 0.6763805272135898,
+  "min": 0.0,
+  "max": 0.9228331929713948,
+  "population_stdev": 0.2541673141514673,
+  "valid_deals": 9,
+  "buyer_timeouts": 1,
+  "mean_decision_s": 0.013612477231328047,
+  "max_decision_s": 0.39099999999598367,
+  "model_calls": 0,
+  "estimated_api_cost_usd": 0,
+  "not_tested": []
+}

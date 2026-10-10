@@ -1,3 +1,7 @@
+> Hosted follow-up: [COMBINED_BENCHMARK_REPORT.md](COMBINED_BENCHMARK_REPORT.md).
+> Ten-case mean **0.626295**, nine deals, one RFQ timeout; team leaderboard unchanged at 71.7/100.
+> A subsequent acceptance-recovery fix is locally tested only. The integration narrative below describes the earlier local validation.
+
 # Combined buyer agent
 
 The default `hybrid` CLI policy now combines the economic planner from team branch
