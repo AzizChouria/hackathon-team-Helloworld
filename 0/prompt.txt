@@ -1,0 +1,19 @@
+btw can i run locaally so we dont waste attempts we are currentely 103 /200
+
+---
+
+(base) chouria@chouria-Lenovo-Legion-5-15IMH05:~/hackathon-team-Helloworld$ cd starter-kit
+.venv/bin/arena benchmark --data ../data --out /tmp/arena-benchmark.json
+case:S01  naive  score=0.521  C=112451.5  rounds=3
+case:S01  buyer  score=0.888  C=107488.38  rounds=5
+case:S02  naive  score=0.513  C=614057.2  rounds=3
+case:S02  buyer  score=0.886  C=586072.63  rounds=7
+case:S03  naive  score=0.678  C=3864138.6  rounds=3
+case:S03  buyer  score=0.927  C=3688263.16  rounds=5
+Simulator scores validate mechanics, not performance against the hosted suppliers.
+report: /tmp/arena-benchmark.json
+(base) chouria@chouria-Lenovo-Legion-5-15IMH05:~/hackathon-team-Helloworld/starter-kit$
+
+---
+
+bro im lost , lets continue working and always test locally not on practise attempts
