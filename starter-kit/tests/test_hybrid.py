@@ -200,3 +200,118 @@ def test_official_cost_convention_no_double_price_unit_conversion(case):
     terms = complete_offer(case, {"unit_price": 20})
     offers = standing_offers(case, {"A": thread(**terms)})
     assert offers[0]["base_cost"] == total_cost(case, terms)
+
+
+def test_full_cost_components_with_uncovered_need_and_tooling(case):
+    from arena_kit.cost import cost_breakdown
+    case["fixed_terms"] = {}
+    case["buyer"].update(
+        need_per_year=1000, horizon_years=2, fallback_unit_price=12,
+        interest_rate=0.08, reference_payment_days=60, need_lead_time_days=30,
+        late_cost_per_day=10, cost_per_defect=200, fallback_risk_pct=10,
+        index_risk_pct=4, index_paths={"S": 0.06},
+        freight_eur_per_unit={"EXW": 2, "FCA": 1, "DAP": 0},
+        category_goal="leverage",
+    )
+    terms = dict(unit_price=10, volume_per_year=800, contract_months=12,
+                 payment_days=30, lead_time_days=35, incoterm="EXW",
+                 ppm_commitment=1000, chargeback_eur_per_complaint=100, tooling_eur=500,
+                 index_clause={"series": "S", "material_share": 0.5, "deadband_pct": 2,
+                               "base_month": "2026-08"})
+    parts = cost_breakdown(case, terms)
+    expected = {"price": 8000, "uncovered_need": 14400, "fallback_risk": 1440,
+                "payment_terms": 8000 * .08 * 30 / 360, "freight": 1600,
+                "late_delivery": 50, "quality": 80, "tooling": 500,
+                "index_clause": 160, "index_risk": 160, "relationship": 0}
+    assert parts == pytest.approx(expected)
+    assert total_cost(case, terms) == round(sum(expected.values()), 2)
+
+
+def test_runtime_prompt_has_no_benchmark_secrets(case):
+    from arena_kit.agents.strategy import BODIES
+    case["c_best"] = "hidden-marker"
+    case["leaderboard"] = "forbidden-board"
+    captured = []
+    def choose(system, user):
+        captured.append(user)
+        return {"package_order": [0], "evidence": [], "question": "priorities", "body": BODIES[0]}
+    agent = HybridAgent(choose)
+    agent.decide(case, {case["suppliers"][0]: thread()})
+    assert captured and "hidden-marker" not in captured[0] and "forbidden-board" not in captured[0]
+
+
+def test_normal_tests_ignore_hosted_environment(monkeypatch):
+    monkeypatch.setenv("ARENA_TEST_URL", "https://invalid.example")
+    monkeypatch.setenv("ARENA_TEST_KEY", "not-a-key")
+    # The fixture has no environment reads or hosted parameterization.
+    import inspect
+
+    import test_sim
+    assert "os.environ" not in inspect.getsource(test_sim.arena)
+
+
+def test_benchmark_refuses_duplicate_and_eleventh_session(tmp_path, monkeypatch):
+    from arena_kit import benchmark
+    monkeypatch.setattr(benchmark, "PRIVATE", tmp_path)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Network must not be reached")
+    monkeypatch.setattr(benchmark, "ArenaClient", forbidden)
+    with pytest.raises(ValueError, match="Only the ten"):
+        benchmark.run("case:FINAL")
+    journal = tmp_path / "sessions.jsonl"
+    journal.write_text(json.dumps({"case_id": "case:P01"}) + "\n")
+    with pytest.raises(ValueError, match="already attempted"):
+        benchmark.run("case:P01")
+    journal.write_text("\n".join(json.dumps({"case_id": str(n)}) for n in range(10)) + "\n")
+    with pytest.raises(ValueError, match="exhausted"):
+        benchmark.run("case:P02")
+
+
+def test_ten_way_local_final_machine_plumbing(sim, case):
+    url, state, _ = sim
+    ids = []
+    for i in range(10):
+        fixture = copy.deepcopy(case)
+        fixture["case_id"] = f"case:LOAD{i}"
+        state.cases[fixture["case_id"]] = fixture
+        ids.append(fixture["case_id"])
+    signup = ArenaClient(url)
+    key = signup.register("ten-way-local", "sim")["api_key"]
+    client = ArenaClient(url, key, rate=9)
+    result = play_all(lambda: RemoteTable(client), ids, HybridAgent, parallel=10)
+    assert all(isinstance(r, dict) and r["ended"] and r["must_haves_ok"] for r in result.values())
+    assert len(result) == 10
+
+
+def test_aged_rfq_batch_closes_without_model_wait(case):
+    import time
+    def forbidden(*_):
+        raise AssertionError("Do not spend the remaining supplier clock on a model")
+    events = thread()
+    events[0]["_received_at"] = time.monotonic() - 45
+    action = HybridAgent(forbidden).decide(case, {case["suppliers"][0]: events})
+    assert action["message"].get("action")
+
+
+def test_parallel_batch_does_not_reuse_global_fact(case, monkeypatch):
+    agent = HybridAgent()
+    intel = {"evidence": [{"refs": ["idx:S@2026-08"], "text": "Recorded index evidence."}],
+             "notes": [], "hypotheses": [], "estimate": None}
+    monkeypatch.setattr(agent.intelligence, "prepare", lambda *args: intel)
+    actions = agent.decide_many(case, {"A": thread(), "B": thread(supplier="B")})
+    refs = [ref for action in actions for ref in action["message"].get("refs", [])]
+    assert len(refs) == len(set(refs))
+
+
+def test_alternative_packages_differ_in_nonprice_terms(case):
+    case["term_options"]["payment_days"] = [30]
+    packages = candidates(case, {"unit_price": 20}, {"payment_days": 30})
+    signatures = [json.dumps({k: v for k, v in t.items() if k != "unit_price"}, sort_keys=True)
+                  for t in packages]
+    assert len(signatures) == len(set(signatures))
+
+
+def test_missing_supplier_default_cannot_prove_constraint(case):
+    case["buyer"]["must_haves"] = [{"field": "payment_days", "op": ">=", "value": 45}]
+    assert not valid(case, {"unit_price": 20})
+    assert valid(case, {"unit_price": 20}, {"payment_days": 60})

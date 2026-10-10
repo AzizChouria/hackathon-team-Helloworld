@@ -1,0 +1,737 @@
+{
+  "timestamp": "2026-10-10T17:02:14.802685+00:00",
+  "baseline_commit": "08002e0",
+  "scope": "36 synthetic local fixtures, deterministic agent; NOT hosted supplier performance",
+  "hosted_sessions": 0,
+  "model_calls": 0,
+  "rows": [
+    {
+      "case": "case:S01",
+      "script": "standard_simulator",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106865.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106865.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "script": "standard_simulator",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106761.76,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106167.25,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 594.51
+    },
+    {
+      "case": "case:S01",
+      "script": "standard_simulator",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 107343.19,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 105119.88,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 2223.31
+    },
+    {
+      "case": "case:S01",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 112518.0,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 112518.0,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113646.43,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 113646.43,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 127205.78,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115339.08,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": 11866.7
+    },
+    {
+      "case": "case:S01",
+      "script": "delayed_concession",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115976.0,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 118303.5,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": -2327.5
+    },
+    {
+      "case": "case:S01",
+      "script": "delayed_concession",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 115217.01,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 119491.07,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": -4274.06
+    },
+    {
+      "case": "case:S01",
+      "script": "delayed_concession",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 114078.53,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 121272.43,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": -7193.9
+    },
+    {
+      "case": "case:S01",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106865.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106865.5,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S01",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106761.76,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 106167.25,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 594.51
+    },
+    {
+      "case": "case:S01",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 107343.19,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 105119.88,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 2223.31
+    },
+    {
+      "case": "case:S02",
+      "script": "standard_simulator",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 582865.8,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 582865.8,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "standard_simulator",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 578980.03,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 578980.03,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "standard_simulator",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 573151.37,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 573151.37,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 613681.4,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 613681.4,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 685252.93,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 619954.59,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "cost_saved": 65298.34
+    },
+    {
+      "case": "case:S02",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 695653.82,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 629364.37,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "cost_saved": 66289.45
+    },
+    {
+      "case": "case:S02",
+      "script": "delayed_concession",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 620070.0,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 646000.2,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": -25930.2
+    },
+    {
+      "case": "case:S02",
+      "script": "delayed_concession",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 615936.2,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 652603.76,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": -36667.56
+    },
+    {
+      "case": "case:S02",
+      "script": "delayed_concession",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 609735.5,
+        "rounds": 6,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 662509.09,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "cost_saved": -52773.59
+    },
+    {
+      "case": "case:S02",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 582114.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 582114.2,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 578233.44,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 578233.44,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S02",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 572412.3,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 572412.3,
+        "rounds": 10,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "script": "standard_simulator",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3667340.4,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3667340.4,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "script": "standard_simulator",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3664818.3,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3642891.46,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 21926.84
+    },
+    {
+      "case": "case:S03",
+      "script": "standard_simulator",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3684693.96,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3606218.06,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 78475.9
+    },
+    {
+      "case": "case:S03",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "plateau_then_withdrawal",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "delayed_concession",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3904890.6,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "delayed_concession",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3917906.9,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "delayed_concession",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3919787.72,
+        "rounds": 3,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": false,
+        "must_haves_ok": null,
+        "c_deal": null,
+        "rounds": 2,
+        "timeouts": 0
+      },
+      "cost_saved": null
+    },
+    {
+      "case": "case:S03",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.0,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3667340.4,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3667340.4,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 0.0
+    },
+    {
+      "case": "case:S03",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.08,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3664818.3,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3642891.46,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 21926.84
+    },
+    {
+      "case": "case:S03",
+      "script": "gradual_concessions",
+      "buyer_interest": 0.2,
+      "before": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3684693.96,
+        "rounds": 4,
+        "timeouts": 0
+      },
+      "after": {
+        "deal": true,
+        "must_haves_ok": true,
+        "c_deal": 3606218.06,
+        "rounds": 5,
+        "timeouts": 0
+      },
+      "cost_saved": 78475.9
+    }
+  ],
+  "summary": {
+    "fixtures": 36,
+    "lower_cost": 11,
+    "equal_cost": 13,
+    "higher_cost": 6,
+    "after_valid_deals": 30,
+    "after_timeouts": 0
+  }
+}

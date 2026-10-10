@@ -13,7 +13,7 @@ import logging
 import re
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
 from .client import ArenaError
 from .cost import must_haves_ok, total_cost
@@ -147,9 +147,13 @@ def play(table, case_id, agent, deadline=None):
     case, threads = table.open(case_id)
     if getattr(table, "done", None):  # resumed a case that had already ended
         return table.done
+    received = time.monotonic()
     for events in threads.values():
+        latest(events).setdefault("_received_at", received)
         for m in events:
             fetch_documents(table, m)
+    if hasattr(agent, "response_guard_s"):
+        return _play_coordinated(table, case, threads, agent, deadline)
     slowest = 0.0  # the longest round so far: decision + the supplier's reply
     while live_threads(threads):
         t0 = time.monotonic()
@@ -205,6 +209,77 @@ def play(table, case_id, agent, deadline=None):
         slowest = max(slowest, time.monotonic() - t0)
         log.info("%s %s %s", sid, reply.get("status"), standing(threads[sid])[1])
     return table.result()
+
+
+
+def _play_coordinated(table, case, threads, agent, deadline):
+    """Drain RFQ replies without a batch barrier; never act on an in-flight offer.
+
+    Wait for other quotes only while ready threads have enough time. At the response
+    guard, close using available quotes without another model call. One POST per supplier
+    can be in flight; ambiguous transport failures propagate rather than being retried.
+    """
+    pool = ThreadPoolExecutor(max_workers=max(1, len(threads)))
+    pending = {}
+    slowest = 0.0
+
+    def send(sid, message):
+        try:
+            reply = table.send(sid, message)
+        except ArenaError as exc:
+            if exc.status != 409:
+                raise
+            reply = table.missed(sid, exc)
+        reply["_received_at"] = time.monotonic()
+        return fetch_documents(table, reply)
+
+    try:
+        while True:
+            for future in [f for f in pending if f.done()]:
+                sid, started = pending.pop(future)
+                reply = future.result()
+                if "result" in reply:
+                    return reply["result"]
+                threads[sid].append(reply)
+                slowest = max(slowest, time.monotonic() - started)
+            busy = {sid for sid, _ in pending.values()}
+            ready = {s: threads[s] for s in live_threads(threads) if s not in busy}
+            if not ready and not pending:
+                return table.result()
+            now = time.monotonic()
+            cap = deadline() if callable(deadline) else deadline
+            near_cap = cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S)
+            oldest = min((latest(ev).get("_received_at", now) for ev in ready.values()), default=now)
+            remaining = agent.response_guard_s - (now - oldest)
+            if pending and (not ready or remaining > 0 and not near_cap):
+                wait(pending, timeout=max(0.001, min(1.0, remaining)), return_when=FIRST_COMPLETED)
+                continue
+            if near_cap:
+                decisions = [agent.closing_move(case, ready)]
+            else:
+                decisions = agent.decide_many(case, ready, allow_model=not pending)
+            for decision in decisions:
+                sid, msg = decision["supplier_id"], decision["message"]
+                if sid not in ready:
+                    raise ValueError("Agent selected a supplier with no available reply")
+                if msg.get("action"):
+                    try:
+                        result = table.close(sid, msg)
+                    except ArenaError as exc:
+                        if exc.status != 409:
+                            raise
+                        reply = table.missed(sid, exc)
+                        if "result" in reply:
+                            return reply["result"]
+                        reply["_received_at"] = time.monotonic()
+                        threads[sid].append(fetch_documents(table, reply))
+                        break
+                    return result
+                threads[sid].append({**msg, "from": "buyer"})
+                pending[pool.submit(send, sid, msg)] = sid, time.monotonic()
+    finally:
+        # An already sent request cannot be recalled. Let it finish without issuing another POST.
+        pool.shutdown(wait=False, cancel_futures=True)
 
 
 def hosted(cases):

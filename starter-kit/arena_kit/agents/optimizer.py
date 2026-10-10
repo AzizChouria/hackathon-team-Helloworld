@@ -11,6 +11,13 @@ def valid(case, terms, standard=None, complete=False):
     std = standard or {}
     if complete and set(terms) != set(case["negotiable"]):
         return False
+    # Cost estimation fills gaps from the buyer plan. That is NOT supplier agreement.
+    known = {}
+    for layer in (std, case.get("fixed_terms", {}), terms):
+        known.update({k: v for k, v in layer.items() if v is not None})
+    if any(m["field"] not in known and m.get("value") is not None
+           for m in case["buyer"].get("must_haves", [])):
+        return False
     t = closing_terms(case, terms, std)
     p = t.get("unit_price")
     if isinstance(p, bool) or not isinstance(p, int | float) or not math.isfinite(p) or p <= 0:
@@ -101,10 +108,12 @@ def candidates(case, standing, std, turn=0, estimate=None, previous=()):
         if group:
             choices.append(economical(group))
     # A counter must not simply repeat a previously rejected package.
-    out = []
-    for t in choices + feasible[:6]:
-        if t not in out and t not in previous:
+    out, profiles = [], set()
+    for t in choices + feasible:
+        profile = repr(sorted((k, v) for k, v in t.items() if k != "unit_price"))
+        if profile not in profiles and t not in previous:
             out.append(t)
+            profiles.add(profile)
         if len(out) == 3:
             break
     return out

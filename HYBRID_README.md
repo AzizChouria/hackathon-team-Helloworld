@@ -11,8 +11,9 @@ From `starter-kit/`, Python 3.12 and uv:
 
 ```powershell
 uv sync --extra sim
-uv run pytest
-uv run ruff check .
+uv run --offline --extra sim pytest -q
+uv run --offline ruff check .
+uv run --offline python -m arena_kit.local_eval
 uv run arena cases
 uv run arena play case:P01 --agent hybrid --data ../data -v
 uv run arena run --set practice --agent hybrid --data ../data --parallel 2
@@ -55,6 +56,9 @@ process; ordinary CLI commands honor the existing private environment.
 
 Hybrid controls: `HYBRID_LLM_CALLS_PER_CASE` (default 2), `HYBRID_MAX_COUNTERS` (default 5),
 `HYBRID_OFFLINE` (1 disables model calls; results must be labeled deterministic).
+`HYBRID_RESPONSE_GUARD_S` (default/max 35) limits how long to wait on an available supplier
+reply before deterministic closing; `HYBRID_STALL_ROUNDS` (minimum/default 2) protects a
+concession after consecutive non-improving rounds. An unchanged opening does not trigger this rule.
 Budget failure or a transport/schema failure produces a validated deterministic action.
 Only local diagnostics and token/cost metrics are logged; prompts and provider error bodies are not.
 
@@ -71,7 +75,12 @@ Only local diagnostics and token/cost metrics are logged; prompts and provider e
 - `agents/strategy.py`: Responses or Chat Completions with reasoning effort and strict JSON.
   No sampling parameters; incomplete output, refusals, 429s and schema failures fall back without
   model retries. A daemon request worker bounds the buyer's wait even if the transport stalls.
-- `play.py`: dispatches hybrid RFQ counters concurrently, and closes early at wave deadlines.
+- `play.py`: keeps RFQ requests in flight independently, excludes pending offers from acceptance,
+  collects completed replies, and closes ready threads before their response guard. It can close
+  a case while another supplier request is still running; that request is allowed to finish,
+  with no further POST issued by the coordinator. Model calls are skipped when time is short.
+- `local_eval.py`: compares deterministic current behavior against commit 08002e0 on 36 local
+  synthetic fixtures. It never loads credentials, creates network connections, or calls a model.
 - `benchmark.py`: isolated offline reporting, usage/session ledgers, snapshots and practice execution.
   The agent never imports it or reads leaderboards, replays, scores or c_best.
 
@@ -122,9 +131,9 @@ clock with organizers. Jury weighting and Saturday closing time still contain pl
    account RPM/TPM. Ten concurrent cases need ten active sessions and share a client paced at
    nine HTTP calls/s (server allows ten). Each case uses at most two model calls by default.
 4. Review actual measured model latency and RFQ behavior. Supplier replies may take a minute;
-   buyer has 60 seconds per thread. RFQ sends run concurrently, but a slowest-reply batch barrier
-   can still consume a faster thread's time. Ten-way final concurrency remains unverified by
-   the authorized sequential practice benchmark; do not present it as load-tested.
+   buyer has 60 seconds per thread. The revised coordinator removes the slowest-reply batch
+   barrier and has adversarial local timing tests. Revised behavior has NOT been hosted-tested.
+   Ten-way concurrency passes locally; actual final API/account capacity remains unverified.
 5. Set the intended final model/effort explicitly in the launch process. Review development budget
    headroom: the default hard $5 ledger also applies to ordinary hybrid CLI runs. Do not erase
    development spend or raise its cap to evade authorization. A separately approved final budget
@@ -157,3 +166,17 @@ returned model ID and Responses schema on this key. Usage is estimated at standa
 and $50/M output (no cache discount assumed), not reconciled with an invoice.
 Simple-probe latency does not establish a worst-case bound or account concurrency capacity.
 See BENCHMARK_REPORT.md and benchmarks/ for measured outcomes and the actual deployed revision.
+
+## Local validation after the hosted benchmark
+
+See [LOCAL_VALIDATION.md](LOCAL_VALIDATION.md) for exact evidence and limitations.
+All four pending regressions are fixed. The full suite passes 76 tests (one optional MCP test
+skipped), Ruff passes, and all 19 cached economic fixtures validate. On 36 identical synthetic
+fixtures, revised deterministic behavior costs less in 11, ties in 25, and costs more in none
+against the prior commit. These are not hosted scores or evidence of beating team leaderboard bests.
+
+Missing quote defaults cannot establish must-have compliance from the buyer plan. Counteroffers
+must improve on the cheapest feasible standing offer, non-price package profiles are unique, and
+evidence is reserved across pending RFQ moves. The second model call interprets the first reply;
+its numeric terms and acceptance decisions remain controlled by Python. Trigger documents lead
+the evidence brief, including Sunday-release documents absent from SQLite.

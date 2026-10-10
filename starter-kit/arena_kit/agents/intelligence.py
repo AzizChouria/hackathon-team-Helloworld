@@ -22,7 +22,7 @@ class Intelligence:
         for root in roots:
             if root.exists():
                 for p in root.rglob("*"):
-                    if p.is_file() and p.suffix in {".json", ".sqlite", ".csv", ".md", ".txt"}:
+                    if p.is_file() and p.suffix in {".json", ".sqlite", ".db", ".csv", ".md", ".txt", ".pdf", ".xlsx"}:
                         s = p.stat()
                         entries.append((str(p), s.st_mtime_ns, s.st_size))
         return hashlib.sha256(repr(sorted(entries)).encode()).hexdigest()
@@ -37,7 +37,7 @@ class Intelligence:
             self.signature, self.cache = signature, {}
 
     def prepare(self, case, sid):
-        key = (case["case_id"], sid, self.signature, json.dumps(case.get("facts", {}), sort_keys=True))
+        key = (sid, self.signature, json.dumps(case, sort_keys=True, default=str))
         if key in self.cache:
             return self.cache[key]
         p = self.package
@@ -67,11 +67,19 @@ class Intelligence:
                     extra = p.query(f"SELECT * FROM {table} WHERE supplier_id = ?", (sid,), 3)
                     notes.extend(json.dumps(row, default=str)[:700] for row in extra)
 
-            for row in rows[:5]:
+            # Trigger documents may exist only in the Sunday release, outside SQLite.
+            trigger = case.get("trigger_doc")
+            trigger_row = p.lookup(trigger) if trigger else None
+            triggers = [trigger] if trigger and (
+                len(case["suppliers"]) == 1 or trigger_row and trigger_row.get("supplier_id") == sid
+            ) else []
+            document_notes = []
+            for ref in dict.fromkeys(triggers + [row["id"] for row in rows[:5]]):
                 try:
-                    notes.insert(0, p.document(row["id"])[:1200])
+                    document_notes.append(p.document(ref)[:1200])
                 except (FileNotFoundError, ValueError, UnicodeError):
                     pass
+            notes = document_notes + notes
             for _ref, row in sorted(p._ids.items(), reverse=True):
                 if row.get("supplier_id") == sid and row.get("table") in {"news", "supplier_intel"}:
                     notes.append(json.dumps(row, default=str)[:900])

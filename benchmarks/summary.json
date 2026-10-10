@@ -1,0 +1,20 @@
+{
+  "count": 10,
+  "mean": 0.5314956481764634,
+  "median": 0.5302920471338889,
+  "min": 0.3041020884649592,
+  "max": 0.8153309653389462,
+  "population_stdev": 0.1715077584127625,
+  "deals": 10,
+  "completed": 10,
+  "valid_deals": 10,
+  "hosted_model_calls": 16,
+  "hosted_model_failures": 0,
+  "hosted_latency_mean_s": 10.572187499999927,
+  "hosted_latency_max_s": 15.235000000000582,
+  "all_input_tokens": 18850,
+  "all_output_tokens": 6879,
+  "all_reasoning_tokens": 6048,
+  "all_estimated_cost_usd": 0.53245,
+  "all_accounted_upper_usd": 0.53245
+}

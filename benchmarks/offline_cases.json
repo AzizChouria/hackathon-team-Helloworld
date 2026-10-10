@@ -1,0 +1,173 @@
+[
+  {
+    "case_id": "case:P01",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 937419.52,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P02",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 1902654.41,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P03",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 3379980.77,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P04",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 156946.67,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P05",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 9,
+    "fixture_min_cost_excluding_relationship": 273266.0,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P06",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 6,
+    "fixture_min_cost_excluding_relationship": 1901347.28,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P07",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 337336.0,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P08",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 924729.76,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P09",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 226260.32,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P10",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 1267312.8,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P11",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 670503.0,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P12",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 812065.29,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P13",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 262632.38,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P14",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 1934501.57,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P15",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 252803.33,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P16",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 830951.35,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P17",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 611205.95,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P18",
+    "hosted_available": true,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 247661.84,
+    "supplier_behavior_tested": false,
+    "score": null
+  },
+  {
+    "case_id": "case:P19",
+    "hosted_available": false,
+    "status": "offline economic fixture only",
+    "valid_candidates": 3,
+    "fixture_min_cost_excluding_relationship": 64432.37,
+    "supplier_behavior_tested": false,
+    "score": null
+  }
+]

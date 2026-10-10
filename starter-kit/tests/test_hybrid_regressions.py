@@ -1,0 +1,175 @@
+"""Local-only adversarial checks; no hosted clients or paid model calls."""
+import copy
+import threading
+import time
+
+import httpx
+import pytest
+
+from arena_kit.agents.hybrid import HybridAgent
+from arena_kit.agents.intelligence import Intelligence
+from arena_kit.agents.optimizer import valid
+from arena_kit.cost import complete_offer, total_cost
+from arena_kit.data import DataPackage
+from arena_kit.play import play
+from arena_kit.sim import load_cases
+
+
+@pytest.fixture
+def case():
+    return copy.deepcopy(next(iter(load_cases().values())))
+
+
+def mail(price=20, sid="A", **extra):
+    return {"from": "supplier", "status": "open", "body": "", "attachments": [],
+            "term_sheets": [{"term_sheet_id": f"offer:{sid}:{price}", "terms": {"unit_price": price}}], **extra}
+
+
+@pytest.mark.parametrize("slow_sid", ["A", "B"])
+def test_rfq_closes_ready_thread_before_slow_reply(case, slow_sid):
+    case["suppliers"] = ["A", "B"]
+    release = threading.Event()
+    finished = threading.Event()
+    calls = []
+    fast_sid = "B" if slow_sid == "A" else "A"
+
+    class Table:
+        def open(self, _):
+            return case, {s: [mail(20, s)] for s in case["suppliers"]}
+
+        def send(self, sid, message):
+            calls.append(sid)
+            if sid == slow_sid:
+                try:
+                    assert release.wait(3), "Coordinator waited for the slowest reply"
+                finally:
+                    finished.set()
+            return mail(18, sid, status="final_offer")
+
+        def close(self, sid, message):
+            assert sid == fast_sid
+            assert not finished.is_set()
+            release.set()
+            return {"ended": True, "deal": True, "supplier_id": sid}
+
+    agent = HybridAgent()
+    agent.response_guard_s = 0.15  # compress time only, preserve actual scheduling
+    try:
+        result = play(Table(), case["case_id"], agent)
+        assert result["supplier_id"] == fast_sid
+        assert sorted(calls) == ["A", "B"]
+        assert finished.wait(2)
+    finally:
+        release.set()
+
+
+def test_ambiguous_post_is_not_reissued(case):
+    calls = []
+
+    class Table:
+        def open(self, _):
+            return case, {"A": [mail()]}
+
+        def send(self, sid, message):
+            calls.append(sid)
+            raise httpx.ReadTimeout("ambiguous completion")
+
+    with pytest.raises(httpx.ReadTimeout):
+        play(Table(), case["case_id"], HybridAgent())
+    assert calls == ["A"]
+
+
+def test_model_skipped_when_its_budget_cannot_fit(case):
+    calls = []
+
+    def model(*_):
+        calls.append(True)
+        raise AssertionError("Should not be called")
+
+    model.timeout = 30
+    agent = HybridAgent(model)
+    agent.decide(case, {"A": [mail(_received_at=time.monotonic() - 25)]})
+    assert not calls
+    assert not agent.diagnostics[-1]["model_called"]
+
+
+def test_all_proposed_packages_improve_best_standing_cost(case):
+    threads = {"A": [mail(20)], "B": [mail(18)]}
+    agent = HybridAgent()
+    for decision in agent.decide_many(case, threads):
+        for sheet in decision["message"].get("term_sheets", []):
+            assert total_cost(case, sheet["terms"]) < total_cost(case, {"unit_price": 18})
+
+
+def test_no_cost_improving_package_closes_existing_offer(case, monkeypatch):
+    import arena_kit.agents.hybrid as module
+    expensive = complete_offer(case, {"unit_price": 100})
+    monkeypatch.setattr(module, "candidates", lambda *args, **kwargs: [expensive])
+    move = HybridAgent().decide(case, {"A": [mail()]})
+    assert move["message"]["action"] == {"type": "accept", "term_sheet_id": "offer:A:20"}
+
+
+def test_missing_standard_is_not_replaced_by_buyer_preference(case):
+    case["buyer"]["must_haves"] = [{"field": "payment_days", "op": ">=", "value": 45}]
+    assert not valid(case, {"unit_price": 20}, {"payment_days": None})
+    assert valid(case, {"unit_price": 20, "payment_days": 60})
+    case["fixed_terms"]["payment_days"] = 60
+    assert valid(case, {"unit_price": 20})
+
+
+def test_sunday_trigger_has_first_priority_without_sqlite(tmp_path, case):
+    import json
+    ref = "doc:sunday-trigger"
+    (tmp_path / "facts.json").write_text(json.dumps({ref: {"body": "Fresh negotiation trigger"}}))
+    case["trigger_doc"] = ref
+    intel = Intelligence(DataPackage(tmp_path))
+    assert intel.prepare(case, case["suppliers"][0])["notes"][0] == "Fresh negotiation trigger"
+
+
+def test_same_case_id_changed_scenario_invalidates_brief(tmp_path, case):
+    import json
+    sid = case["suppliers"][0]
+    (tmp_path / "facts.json").write_text(json.dumps({"sc:new": {"supplier": sid, "ppm": 555}}))
+    case["facts"] = {}
+    intel = Intelligence(DataPackage(tmp_path))
+    assert not intel.prepare(case, sid)["evidence"]
+    case["type"] = "quality"
+    assert "555 ppm" in intel.prepare(case, sid)["evidence"][0]["text"]
+
+
+def test_deteriorating_offer_does_not_trigger_more_concessions(case):
+    agent = HybridAgent()
+    threads = {"A": [mail(20)]}
+    first = agent.decide(case, threads)
+    threads["A"].extend([{**first["message"], "from": "buyer"}, mail(19)])
+    second = agent.decide(case, threads)
+    threads["A"].extend([{**second["message"], "from": "buyer"}, mail(19.2)])
+    final = agent.decide(case, threads)
+    assert final["message"]["action"]["type"] == "accept"
+    # Old 19.0 quote was withdrawn: never accept a historical/non-standing identifier.
+    assert final["message"]["action"]["term_sheet_id"] == "offer:A:19.2"
+
+
+def test_second_model_call_interprets_first_supplier_reply(case):
+    from arena_kit.agents.strategy import BODIES
+    calls = []
+
+    def model(system, user):
+        calls.append(user)
+        return {"package_order": [0], "evidence": [], "question": "priorities", "body": BODIES[0]}
+
+    agent = HybridAgent(model)
+    threads = {"A": [mail()]}
+    action = agent.decide(case, threads)
+    threads["A"].extend([{**action["message"], "from": "buyer"}, mail(19)])
+    agent.decide(case, threads)
+    assert len(calls) == 2
+
+
+def test_repeated_opening_does_not_trigger_premature_close(case):
+    agent = HybridAgent()
+    threads = {"A": [mail(20)]}
+    for _ in range(3):
+        move = agent.decide(case, threads)
+        assert not move["message"].get("action")
+        threads["A"].extend([{**move["message"], "from": "buyer"}, mail(20)])
