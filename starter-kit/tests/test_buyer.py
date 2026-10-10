@@ -821,3 +821,19 @@ def test_supplier_signals_use_general_language():
     assert objections([{"from": "supplier", "body": "The cost calculation is confidential."}])[
         "breakdown_refused"
     ]
+
+
+def test_indexed_quote_keeps_a_longer_payment_option():
+    case = copy.deepcopy(load_cases()["case:S03"])
+    clause = {"series": "GENERIC", "material_share": 0.4, "deadband_pct": 5, "base_month": "2026-08"}
+    case["negotiable"].append("index_clause")
+    case["term_options"]["index_clause"] = [None, clause]
+    case["buyer"]["index_paths"] = {"GENERIC": 0.06}
+    case["buyer"]["category_goal"] = "leverage"
+    sid = case["suppliers"][0]
+    events = thread(price=220, payment=14)
+    events[0]["term_sheets"][0]["terms"].update({"contract_months": 24, "index_clause": clause})
+
+    packages = BuyerAgent().packages(case, sid, events)
+
+    assert any(p["index_clause"] == clause and p["payment_days"] == 90 for p in packages)

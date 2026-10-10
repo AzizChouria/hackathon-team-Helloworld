@@ -372,6 +372,7 @@ class BuyerAgent:
             trade = optimise(case, first["unit_price"], std, supplier, {"contract_months": max(lengths)})
         if trade and trade not in out:
             out.append(trade)
+        indexed_late = None
         if trade and trade.get("index_clause") and payments:
             # Finance, duration and material protection are complementary. Offer
             # the linked exchange immediately rather than waiting for the supplier
@@ -383,6 +384,23 @@ class BuyerAgent:
             })
             if linked and linked not in out:
                 out.insert(1, linked)
+            # Offer material protection together with longer payment, including
+            # when the opening quote is fixed. The supplier can trade volatility
+            # risk for cash terms without needing the buyer's earliest payment.
+            # The price is adjusted below to the same full-cost budget.
+            if "payment_days" in case["negotiable"]:
+                indexed_late = optimise(case, first["unit_price"], std, supplier, {
+                    "index_clause": trade["index_clause"],
+                    "payment_days": max(payments),
+                    **(
+                        {"contract_months": max(lengths)}
+                        if "contract_months" in case["negotiable"] and lengths else {}
+                    ),
+                })
+                if indexed_late:
+                    if indexed_late in out:
+                        out.remove(indexed_late)
+                    out.insert(2, indexed_late)
         if quality and "ppm_commitment" in case["negotiable"] and "chargeback_eur_per_complaint" in case["negotiable"]:
             # Price a third, less burdensome route to the required quality level. Full
             # reimbursement and a stretch defect target are not the only feasible deal.
@@ -449,6 +467,16 @@ class BuyerAgent:
                 preferred = template
                 out.insert(1, template)
         packages = value_equivalent(case, first, out[1:], std, supplier, events)
+        if indexed_late and not any(p.get("index_clause") for p in packages):
+            # Should-cost estimates have stated uncertainty. An indexed package
+            # can look too expensive under the central margin estimate even when
+            # it lowers buyer cash cost and stays within today's standing cost.
+            # Keep one bounded option to test the supplier's risk preference.
+            standing_cost = self.valuation(case, sid, events, terms)[0]
+            indexed_cost = total_cost(case, indexed_late, std, supplier)
+            cash_benefit = total_cost(case, indexed_late, std) <= total_cost(case, first, std)
+            if indexed_cost <= standing_cost and (terms.get("index_clause") or cash_benefit):
+                packages = [*packages[:2], indexed_late]
         if preferred:
             packages.sort(key=lambda t: not same_exchange(t, preferred))
         return packages
@@ -663,6 +691,29 @@ class BuyerAgent:
             age_guard = 45 if better_pending or challenge_pending else 30
             expiring = received is not None and time.monotonic() - received >= age_guard
         all_contacted = all(any(m.get("from") == "buyer" for m in threads[s]) for s in live_threads(threads))
+        # In an RFQ, a supplier that has met a complete buyer package within a
+        # tenth of a percent of its total cost has little left to negotiate.
+        # Close the best standing quote before another message can replace it.
+        if len(case["suppliers"]) > 1 and all_contacted and not pending:
+            for sid in live:
+                events = threads[sid]
+                if sum(m.get("from") == "buyer" for m in events) < 2:
+                    continue
+                prior = next((m.get("term_sheets") or [] for m in reversed(events) if m.get("from") == "buyer"), [])
+                std = standard_terms(events)
+                for quote in latest(events).get("term_sheets") or []:
+                    terms = quote["terms"]
+                    if not must_haves_ok(case, terms, std):
+                        continue
+                    quote_cost = self.valuation(case, sid, events, terms)[0]
+                    if quote_cost > alternative_cost(case):
+                        continue
+                    if any(
+                        same_exchange(closing_terms(case, terms, std), closing_terms(case, bid["terms"], std))
+                        and quote_cost <= self.valuation(case, sid, events, bid["terms"])[0] * 1.001
+                        for bid in prior
+                    ):
+                        return self.close(case, {s: threads[s] for s in live})
         challengers = []
         if terminal_offers and all_contacted:
             incumbent_cost, incumbent, incumbent_received = min(ready_offers, key=lambda item: item[:2])

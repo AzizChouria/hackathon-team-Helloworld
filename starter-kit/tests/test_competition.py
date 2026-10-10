@@ -93,6 +93,22 @@ def test_final_quote_gets_one_competitive_challenge_before_award(case):
     assert agent.decide(case, threads)["message"]["action"]["type"] == "accept"
 
 
+def test_rfq_accepts_a_complete_offer_that_meets_its_last_bid(case):
+    agent = BuyerAgent()
+    bid = {"from": "buyer", "term_sheets": [{"terms": {
+        "unit_price": 20, "payment_days": 30, "lead_time_days": 35,
+    }}]}
+    threads = {
+        "sup:A": [quote("A", 21), bid, quote("A", 20.5), bid, quote("A", 20.01)],
+        "sup:B": contacted(quote("B", 22)),
+    }
+
+    decision = agent.decide(case, threads)
+
+    assert decision["supplier_id"] == "sup:A"
+    assert decision["message"]["action"]["type"] == "accept"
+
+
 def test_pending_challenge_has_bounded_extra_reply_time(case):
     agent = BuyerAgent()
     threads = {"sup:A": contacted(quote("A", 20, "final_offer")), "sup:B": contacted(quote("B", 20.25))}
