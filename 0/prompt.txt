@@ -1,0 +1,18 @@
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"call_Nhmlz1EeJ423jfH7Aq78AatZ\",0]","question":"Which branch or commit did your friend run for the attached 0.627 batch? The report gives only a source hash. A branch name, commit hash, or file path will let me audit that exact version.","answer":"idk"}]
+</send_user_message_question_reply>
+
+---
+
+1. The batch commit is e41db33 (origin/main, "best till now"). It is already audited:
+   no c_best/replay/leaderboard at runtime, no hardcoded case answers. Only issue: six
+   reply phrases copied from practice suppliers in strategy.py supplier_signals and
+   commercial.py objections - replace them with general patterns.
+2. Rebase/merge your 8ae3718 preflight + fallback counters onto origin/main (e41db33),
+   resolve conflicts in buyer.py/cli.py/play.py, run tests with
+   `env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run pytest -q`.
+3. Stop using S01-S03 to judge strategy. Run all 10 hosted practice cases twice:
+   `--agent buyer` and `--agent buyer-llm --require-model`. Report per-case score,
+   rounds, fallbacks. Fallbacks must be ~0 for the LLM run.
+4. Then improve the 3 weakest cases (likely P02, P05, P18) using their replay reasons,
+   with general rules only, and re-run just those cases.
