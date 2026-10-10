@@ -48,6 +48,15 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
+class ProviderError(RuntimeError):
+    """Sanitized provider status; classify temporary failures without exposing response content."""
+
+    def __init__(self, status):
+        super().__init__(f"OpenAI HTTP {status}")
+        self.status = status
+        self.transient = status in {408, 429, 500, 502, 503, 504}
+
+
 class OpenAI:
     def __init__(self, *, transport=None, ledger=None):
         self.model = os.environ["LLM_MODEL"]
@@ -139,7 +148,7 @@ class OpenAI:
             metric["http_status"] = response.status_code
             if response.is_error:
                 # Never emit raw provider errors or headers: they can contain request data.
-                raise RuntimeError(f"OpenAI HTTP {response.status_code}")
+                raise ProviderError(response.status_code)
             data = response.json()
             metric["model_returned"] = data.get("model")
             if data.get("model") != self.model:

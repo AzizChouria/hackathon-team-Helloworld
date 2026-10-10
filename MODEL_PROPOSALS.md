@@ -25,9 +25,10 @@ acceptance, confidence in evidence and a calibrated closing decision remain open
 - `LLM_TIMEOUT_S`: default 22 seconds. `HYBRID_RESPONSE_GUARD_S`: at most 35 seconds.
 - At most one economic-validation repair is attempted, only if call and response-time budgets
   allow it. Provider errors are not retried. Invalid packages are never clamped to another price.
-- A failed call, exhausted budget or no viable proposal triggers an explicitly logged safe close:
+- Permanent/repeated failures, exhausted budget or no viable proposal trigger an explicitly logged safe close:
   accept the cheapest valid standing offer within the alternative cost, otherwise walk away.
   This can sacrifice further savings; it does not silently invoke the old price generator.
+  A first transient failure can now use one bounded clarification turn; see RECOVERY_VALIDATION.md.
 - Model trade descriptions stay internal. Outward messages use existing templates and validated
   evidence indices. Free-form adaptive messages are intentionally a later experiment.
 
@@ -111,3 +112,10 @@ The first hosted model-proposal case (P07) hit the 22-second API timeout and clo
 walk-away fallback, score 0.121058. The experiment stopped; P03/P04 were not started.
 See [MODEL_PROPOSAL_BENCHMARK_REPORT.md](MODEL_PROPOSAL_BENCHMARK_REPORT.md).
 The earlier smoke-test success does not establish hosted reliability or a competitive mean.
+
+
+## Current recovery revision
+
+See [RECOVERY_VALIDATION.md](RECOVERY_VALIDATION.md): one bounded clarification after a
+transient provider failure, preserved valid packages after repair failure, 152 passing tests,
+and three successful Astra/medium API-only probes. No hosted score yet measures this fix.

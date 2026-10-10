@@ -6,6 +6,8 @@ import os
 import re
 import time
 
+import httpx
+
 from ..cost import total_cost
 from ..docs import standard_terms
 from ..play import latest, live_threads, moves_left, standing
@@ -13,7 +15,7 @@ from . import proposals
 from .decision import close
 from .intelligence import Intelligence
 from .optimizer import candidates, standing_offers
-from .strategy import QUESTIONS, SYSTEM, validate
+from .strategy import QUESTIONS, SYSTEM, ProviderError, validate
 
 log = logging.getLogger("arena")
 
@@ -28,6 +30,8 @@ class HybridAgent:
         self.max_calls = int(os.environ.get("HYBRID_LLM_CALLS_PER_CASE",
                                            "5" if self.proposal_mode == "model" else "2"))
         self.calls = 0
+        self.recoveries = 0
+        self.max_recoveries = min(1, max(0, int(os.getenv("HYBRID_RECOVERY_TURNS", "1"))))
         self.case_id = None
         self.diagnostics = []
         self.used_refs = set()
@@ -57,6 +61,7 @@ class HybridAgent:
         start = time.monotonic()
         if self.case_id != case["case_id"]:
             self.case_id, self.calls = case["case_id"], 0
+            self.recoveries = 0
             self.used_refs = set()
             self.best_seen = self.last_cost = self.opening_cost = None
             self.stalls = 0
@@ -215,10 +220,10 @@ class HybridAgent:
             return fallback("response_deadline")
         self.used_refs.update(r for events in threads.values() for m in events if m.get("from") == "buyer"
                               for r in m.get("refs", []))
+        results, feedback = {}, []
         try:
             context, evidence = proposals.context(case, active, self.intelligence, self.used_refs, estimates, offers)
             schema = proposals.response_schema(case, active)
-            results, feedback = {}, []
             for attempt in range(2):
                 if attempt:
                     if self.calls >= self.max_calls or not clock_safe():
@@ -240,7 +245,29 @@ class HybridAgent:
         except Exception as exc:
             diagnostic["error_type"] = type(exc).__name__
             log.warning("model proposal fallback: %s", type(exc).__name__)
-            return fallback("proposal_error")
+            transient = (isinstance(exc, TimeoutError | httpx.TransportError)
+                         or isinstance(exc, ProviderError) and exc.transient)
+            diagnostic["transient_error"] = transient
+            if any(r["packages"] for r in results.values()):
+                # A failed optional repair must not discard already validated packages.
+                diagnostic.update(source="validated_before_repair_error", fallback=True,
+                                  fallback_reason="repair_error")
+            elif (transient and allow_model and self.recoveries < self.max_recoveries
+                  and self.calls < self.max_calls
+                  and age + time.monotonic() - start + 5 < self.response_guard_s
+                  and all(moves_left(case, events) >= 3 for events in active.values())
+                  and len(active) == len(live)
+                  and not (offers and self.opening_cost is not None
+                           and offers[0]["cost"] < self.opening_cost - .01)):
+                self.recoveries += 1
+                diagnostic.update(source="clarification_recovery", fallback=True, fallback_reason="transient_provider",
+                                  recovery_turn=self.recoveries, decision_s=time.monotonic() - start)
+                self.diagnostics.append(diagnostic)
+                return [{"supplier_id": sid, "message": {"subject": case["title"][:300],
+                         "body": "Thank you for the quote. Which payment and planning terms could support "
+                                 "an improved commercial offer?", "refs": []}} for sid in active]
+            else:
+                return fallback("proposal_error")
         if not any(r["packages"] for r in results.values()):
             return fallback("no_valid_improving_proposal")
         actions = []

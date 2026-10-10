@@ -216,3 +216,10 @@ See [MODEL_PROPOSALS.md](MODEL_PROPOSALS.md) for the new default when a model is
 local test commands, verified OpenAI-only smoke results and remaining limitations. Historical
 benchmark results above describe the legacy proposal generator. No hosted result yet measures
 the new policy; the stopped benchmark must not be silently resumed.
+
+
+## Timeout recovery and recommended next configuration
+
+[RECOVERY_VALIDATION.md](RECOVERY_VALIDATION.md) documents the current recovery behavior
+and measured Astra/medium configuration. No credentials or frozen hosted plans were changed.
+The remaining two hosted slots were not consumed by these fixes.

@@ -119,13 +119,13 @@ def test_schema_and_constraints(case, mutation):
     assert agent.diagnostics[-1]["fallback"]
 
 
-def test_provider_failure_no_retry_or_heuristic_fallback(case):
+def test_provider_failure_clarifies_once_without_retry_or_invented_terms(case):
     model = Model(TimeoutError("local test"))
     agent = HybridAgent(model)
     move = agent.decide(case, {"A": thread()})
     assert len(model.contexts) == 1
-    assert move["message"]["action"]["type"] == "accept"
-    assert agent.diagnostics[-1]["source"] == "safe_close"
+    assert "action" not in move["message"] and "term_sheets" not in move["message"]
+    assert agent.diagnostics[-1]["source"] == "clarification_recovery"
 
 
 def test_call_budget_does_not_trigger_legacy_mode(case, monkeypatch):
@@ -202,7 +202,8 @@ def test_historical_runner_cannot_use_wrong_model_cost_forecast(monkeypatch):
         benchmark.run("case:P01")
 
 
-def test_model_proposals_through_all_local_simulator_cases(sim, monkeypatch):
+@pytest.mark.parametrize("inject_timeout", [False, True])
+def test_model_proposals_through_all_local_simulator_cases(sim, monkeypatch, inject_timeout):
     from arena_kit.client import ArenaClient
     from arena_kit.cost import complete_offer
     from arena_kit.play import RemoteTable, play_all
@@ -210,7 +211,12 @@ def test_model_proposals_through_all_local_simulator_cases(sim, monkeypatch):
     monkeypatch.setenv("HYBRID_LLM_CALLS_PER_CASE", "5")
     class FixtureModel:
         timeout = .01
+        def __init__(self):
+            self.calls = 0
         def __call__(self, system, user, *, schema):
+            self.calls += 1
+            if inject_timeout and self.calls == 1:
+                raise TimeoutError("Injected model outage")
             ctx = json.loads(user)
             draft = {"suppliers": {}}
             for sid, supplier in ctx["suppliers"].items():
@@ -235,3 +241,101 @@ def test_model_proposals_through_all_local_simulator_cases(sim, monkeypatch):
     assert len(results) == 3
     assert all(isinstance(r, dict) and r["ended"] and r["must_haves_ok"] for r in results.values())
     assert all(any(d["source"] == "model" for d in a.diagnostics) for a in agents)
+    if inject_timeout:
+        assert all(a.recoveries == 1 for a in agents)
+
+
+def advance(events, move):
+    return events + [{**move["message"], "from": "buyer"}, copy.deepcopy(events[-1])]
+
+
+def test_second_transient_failure_closes_without_endless_questions(case):
+    model = Model(TimeoutError())
+    agent = HybridAgent(model)
+    events = thread()
+    first = agent.decide(case, {"A": events})
+    second = agent.decide(case, {"A": advance(events, first)})
+    assert second["message"]["action"]["type"] == "accept"
+    assert len(model.contexts) == 2
+    assert agent.recoveries == 1
+
+
+def test_new_supplier_reply_allows_fresh_model_proposal_after_timeout(case):
+    model = Model(TimeoutError(), response({"A": 17.37}))
+    agent = HybridAgent(model)
+    events = thread()
+    first = agent.decide(case, {"A": events})
+    second = agent.decide(case, {"A": advance(events, first)})
+    assert second["message"]["term_sheets"][0]["terms"]["unit_price"] == 17.37
+    assert len(model.contexts) == 2
+    assert not agent.diagnostics[-1]["fallback"]
+
+
+@pytest.mark.parametrize("status,recover", [(429, True), (503, True), (401, False), (404, False), (400, False)])
+def test_recovery_only_for_transient_provider_errors(case, status, recover):
+    from arena_kit.agents.strategy import ProviderError
+    agent = HybridAgent(Model(ProviderError(status)))
+    move = agent.decide(case, {"A": thread()})
+    assert ("action" not in move["message"]) == recover
+
+
+@pytest.mark.parametrize("limit", ["calls", "rounds", "deadline", "disabled"])
+def test_no_recovery_without_safe_future_turn(case, monkeypatch, limit):
+    if limit == "calls":
+        monkeypatch.setenv("HYBRID_LLM_CALLS_PER_CASE", "1")
+    elif limit == "rounds":
+        case["round_limit"] = 2
+    elif limit == "disabled":
+        monkeypatch.setenv("HYBRID_RECOVERY_TURNS", "0")
+    model = Model(TimeoutError())
+    agent = HybridAgent(model)
+    if limit == "deadline":
+        clock = [100.0]
+        monkeypatch.setattr("arena_kit.agents.hybrid.time.monotonic", lambda: clock[0])
+        def delayed(*args, **kwargs):
+            clock[0] += 31
+            raise TimeoutError()
+        agent.complete = delayed
+    move = agent.decide(case, {"A": thread()})
+    assert move["message"]["action"]["type"] == "accept"
+    assert agent.recoveries == 0
+
+
+def test_recovery_services_all_rfq_suppliers_and_resets_between_cases(case):
+    agent = HybridAgent(Model(TimeoutError()))
+    moves = agent.decide_many(case, {"A": thread(), "B": thread(18)})
+    assert {m["supplier_id"] for m in moves} == {"A", "B"}
+    assert all("action" not in m["message"] for m in moves)
+    case["case_id"] = "local:new"
+    assert "action" not in agent.decide(case, {"C": thread()})["message"]
+    assert agent.recoveries == 1
+
+
+def test_valid_packages_survive_optional_repair_timeout(case):
+    draft = response({"A": 17.37})
+    draft["suppliers"]["A"]["packages"].append({"unit_price": 25, "payment_days": 14})
+    agent = HybridAgent(Model(draft, TimeoutError()))
+    move = agent.decide(case, {"A": thread()})
+    assert move["message"]["term_sheets"] == [{"terms": {"unit_price": 17.37, "payment_days": 60}}]
+    assert agent.diagnostics[-1]["source"] == "validated_before_repair_error"
+
+
+def test_timeout_does_not_risk_an_earned_concession(case):
+    agent = HybridAgent(Model(response({"A": 17.37}), TimeoutError()))
+    first = agent.decide(case, {"A": thread(20)})
+    events = thread(20) + [{**first["message"], "from": "buyer"}] + thread(18)
+    move = agent.decide(case, {"A": events})
+    assert move["message"]["action"]["type"] == "accept"
+    assert agent.recoveries == 0
+
+
+def test_full_22_second_timeout_still_leaves_safe_clarification_window(case, monkeypatch):
+    clock = [100.0]
+    monkeypatch.setattr("arena_kit.agents.hybrid.time.monotonic", lambda: clock[0])
+    def timeout(*args, **kwargs):
+        clock[0] += 22
+        raise TimeoutError()
+    agent = HybridAgent(timeout)
+    move = agent.decide(case, {"A": thread()})
+    assert "action" not in move["message"]
+    assert agent.diagnostics[-1]["decision_s"] == 22
