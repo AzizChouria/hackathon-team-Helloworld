@@ -1,0 +1,55 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4KGS5HBHXD8VPACDNQ7SFS9",
+  "session_id": "01a12684-0f90-70e2-a242-6a13f0a23992",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-10T18:21:40.503635914Z",
+  "branch": "codex/negotiation-improvements-20261010",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "HYBRID_README.md",
+    "notes.md",
+    "starter-kit/arena_kit/play.py",
+    "starter-kit/tests/test_hybrid_regressions.py"
+  ],
+  "agent": "Codex",
+  "model": "gpt-6-sol",
+  "turn_id": "e321c31de7a4",
+  "checkpoint_transcript_start": 4057,
+  "transcript_lines_at_start": 4057,
+  "compact_transcript_start": 523,
+  "token_usage": {
+    "input_tokens": 89391,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 2973354,
+    "output_tokens": 18641,
+    "api_call_count": 45
+  },
+  "session_metrics": {
+    "turn_count": 16
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-10T18:21:40.263032956Z",
+    "agent_lines": 87,
+    "agent_removed": 5,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 87,
+    "total_lines_changed": 92,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 111,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "AGENTS.md": 111
+      }
+    }
+  ]
+}
