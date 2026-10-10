@@ -14,6 +14,8 @@ def objections(events):
         )),
         "breakdown_refused": bool(re.search(
             r"(?:do not|don't|not).{0,25}share.{0,30}(?:breakdown|detail|calculation)"
+            r"|\b(?:do not|don't|cannot|can't|will not|won't)\b.{0,30}"
+            r"\b(?:provide|give|send|do)\b.{0,25}\b(?:cost\s+)?(?:breakdowns?|calculations?)\b"
             r"|(?:breakdown|calculation|cost detail).{0,30}(?:confidential|proprietary|internal)",
             reply, re.I,
         )),

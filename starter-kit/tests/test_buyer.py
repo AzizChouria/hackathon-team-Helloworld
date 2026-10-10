@@ -860,6 +860,12 @@ def test_supplier_signals_use_general_language():
     assert objections([{"from": "supplier", "body": "The cost calculation is confidential."}])[
         "breakdown_refused"
     ]
+    assert objections([{"from": "supplier", "body": "We cannot provide a cost breakdown."}])[
+        "breakdown_refused"
+    ]
+    assert objections([{"from": "supplier", "body": "We don't do cost breakdowns."}])[
+        "breakdown_refused"
+    ]
 
 
 def test_indexed_quote_keeps_a_longer_payment_option():
