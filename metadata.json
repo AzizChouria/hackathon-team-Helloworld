@@ -1,0 +1,60 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4KGYCS8AV2F3JPD601VRW5F",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 12,
+  "files_touched": [
+    "README.md",
+    "docs/all-hosted-current-evaluation.json",
+    "docs/all-hosted-current-evaluation.md",
+    "docs/competitive-strategy-hosted.json",
+    "docs/competitive-strategy-local.json",
+    "docs/competitive-strategy-validation.md",
+    "docs/evaluation.json",
+    "docs/evaluation.md",
+    "docs/hidden-case-agent-prompt.md",
+    "docs/hidden-case-validation.md",
+    "docs/hosted-minimal-score-test.json",
+    "docs/local-score-optimization.json",
+    "docs/local-score-optimization.md",
+    "docs/package-exchange-validation.json",
+    "docs/package-exchange-validation.md",
+    "docs/pitch.md",
+    "docs/solution.md",
+    "docs/strategy.md",
+    "starter-kit/README.md",
+    "starter-kit/arena_kit/agents/buyer.py",
+    "starter-kit/arena_kit/agents/llm.py",
+    "starter-kit/arena_kit/cli.py",
+    "starter-kit/arena_kit/commercial.py",
+    "starter-kit/arena_kit/evaluation.py",
+    "starter-kit/arena_kit/exchanges.py",
+    "starter-kit/arena_kit/play.py",
+    "starter-kit/arena_kit/research.py",
+    "starter-kit/arena_kit/strategy.py",
+    "starter-kit/arena_kit/stress.py",
+    "starter-kit/tests/test_buyer.py",
+    "starter-kit/tests/test_competition.py",
+    "starter-kit/tests/test_evaluation.py",
+    "starter-kit/tests/test_exchanges.py",
+    "starter-kit/tests/test_stress.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1272344,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 39480513,
+    "output_tokens": 253954,
+    "api_call_count": 365,
+    "subagent_tokens_complete": true
+  }
+}

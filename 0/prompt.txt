@@ -1,0 +1,222 @@
+# Context from my IDE setup:
+
+## Active file: brief/api.md
+
+## Open tabs:
+- api.md: brief/api.md
+- solution.md: docs/solution.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+- test_buyer.py: starter-kit/tests/test_buyer.py
+
+## My request:
+improve this so we win the first prize
+
+---
+
+# Context from my IDE setup:
+
+## Active file: brief/api.md
+
+## Open tabs:
+- api.md: brief/api.md
+- solution.md: docs/solution.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+- test_buyer.py: starter-kit/tests/test_buyer.py
+
+## My request:
+based on the results we got, prepare a well structured startegy that we use
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/solution.md
+
+## Open tabs:
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+- test_buyer.py: starter-kit/tests/test_buyer.py
+
+## My request:
+as procurement specialist develop a general well structured strategy for our agents to make our team win the first prize.
+no implementation now. just the startegy
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/solution.md
+
+## Open tabs:
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+- test_buyer.py: starter-kit/tests/test_buyer.py
+
+## My request:
+you should know that there hidden tests, so i want a solid strategy that works generally. Write it in an md file as a prompt and also take in consideration the used models.
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-agent-prompt.md
+
+## Open tabs:
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+
+## My request:
+i mean what is the best model we can use in this case ?
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-agent-prompt.md
+
+## Open tabs:
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+
+## My request:
+apply the strategy we discussed on the code and run to test it.
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-agent-prompt.md
+
+## Open tabs:
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+
+## My request:
+the live runs are limited so be careful
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-agent-prompt.md
+
+## Open tabs:
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+- solution.md: docs/solution.md
+- api.md: brief/api.md
+- hooks.json: .codex/hooks.json
+- pitch.md: docs/pitch.md
+
+## My request:
+continue optimizing and test locally
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-validation.md
+
+## Open tabs:
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+
+## My request:
+now just focus on improving the score to at least 0.8. loop, test locally and improve.
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-validation.md
+
+## Open tabs:
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+
+## My request:
+run minimal test on the host
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-validation.md
+
+## Open tabs:
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+
+## My request:
+rethink it and find an original way to improve it. test locally first
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/hidden-case-validation.md
+
+## Open tabs:
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+- hidden-case-agent-prompt.md: docs/hidden-case-agent-prompt.md
+
+## My request:
+try to do a great improvement and test it on host
+
+---
+
+# Context from my IDE setup:
+
+## Active file: starter-kit/.env
+
+## Open tabs:
+- .env: starter-kit/.env
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+
+## My request:
+run evrything on the host
+
+---
+
+# Context from my IDE setup:
+
+## Active file: starter-kit/.env
+
+## Open tabs:
+- .env: starter-kit/.env
+- hidden-case-validation.md: docs/hidden-case-validation.md
+- cli.py: starter-kit/arena_kit/cli.py
+- llm.py: starter-kit/arena_kit/agents/llm.py
+- buyer.py: starter-kit/arena_kit/agents/buyer.py
+
+## My request:
+what do you suggest
