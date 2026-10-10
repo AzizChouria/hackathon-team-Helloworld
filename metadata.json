@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M19FN3S9CHYEACTB7KE6R5",
+  "strategy": "manual-commit",
+  "branch": "codex/main-preflight-eval-20261010",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "starter-kit/arena_kit/agents/buyer.py",
+    "starter-kit/tests/test_competition.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1500827,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 115721455,
+    "output_tokens": 377232,
+    "api_call_count": 1036
+  }
+}
