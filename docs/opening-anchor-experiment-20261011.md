@@ -15,3 +15,6 @@ The candidate passed 125 tests (1 skipped) and Ruff. Free hosted sandbox gates:
 Rejected and fully reverted. No 10-case hosted batch was run because D02 failed
 the required held-out gate. The repository strategy remains the `a6e1dcf` one.
 The D02 replay was not used to tune the candidate.
+
+Follow-up: repeated free sandbox runs showed that the single 0.30575 D02 score
+was not representative. See [the repeat and Variant B results](anchor-repeat-check-20261011.md).

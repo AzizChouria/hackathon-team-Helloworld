@@ -1,0 +1,1371 @@
+{
+  "set": "practice",
+  "case_ids": [
+    "case:P01",
+    "case:P02",
+    "case:P03",
+    "case:P04",
+    "case:P05",
+    "case:P07",
+    "case:P08",
+    "case:P10",
+    "case:P11",
+    "case:P18"
+  ],
+  "seconds_per_case": 480,
+  "runs": [
+    {
+      "case_id": "case:P02",
+      "session_id": "11900767ee4449a5",
+      "seconds": 6.01,
+      "rounds": 2,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70510",
+        "offer_id": "offer:70510-1",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 35,
+          "volume_per_year": 6110,
+          "contract_months": 12,
+          "effective_date": "2027-01-01",
+          "index_clause": {
+            "series": "CU-NOTATION",
+            "material_share": 0.2,
+            "deadband_pct": 5.0,
+            "base_month": "2026-08"
+          },
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 250,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 363.54
+        },
+        "c_open": 2282867.49,
+        "c_deal": 2249372.15,
+        "c_alt": 2604227.78,
+        "c_best": 2235514.05,
+        "score": 0.7073475548978073,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 2221229.4,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -14808.2,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 1191.45,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 17769.84,
+          "relationship": 23989.66
+        }
+      },
+      "replay_url": "/replay/11900767ee4449a5",
+      "claim_counts": {
+        "verified": 2
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70510",
+          "reason": "Rules selected partnership for the case and supplier context.",
+          "tactic": "partnership",
+          "evidence": [
+            "The demand forecast changed +11.9% (fc:350011@2026-09).",
+            "On-time delivery was 90.4% (sc:70510@2026Q3)."
+          ],
+          "estimated_costs": [
+            2264498.99,
+            2264500.11,
+            2285250.73
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70510",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 2285250.73,
+          "breakdown": {
+            "price": 2221229.4,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -14808.195999999998,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 1191.45,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 17769.8352,
+            "relationship": 59868.244785589406
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 374.95,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 6110,
+              "contract_months": 12,
+              "payment_days": 60,
+              "lead_time_days": 35,
+              "incoterm": "DAP",
+              "ppm_commitment": 250,
+              "chargeback_eur_per_complaint": 0.0,
+              "effective_date": "2027-01-01",
+              "tooling_eur": 0
+            },
+            "source": "cost:350011",
+            "uncertainty_pct": 5.0
+          }
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P01",
+      "session_id": "673cd64175be9a51",
+      "seconds": 6.57,
+      "rounds": 4,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70110",
+        "offer_id": "offer:70110-3",
+        "terms": {
+          "payment_days": 14,
+          "lead_time_days": 42,
+          "volume_per_year": 8150,
+          "contract_months": 12,
+          "effective_date": "2027-04-01",
+          "index_clause": null,
+          "incoterm": "FCA",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 900,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 135.76
+        },
+        "c_open": 1153779.74,
+        "c_deal": 1105395.96,
+        "c_alt": 1176178.02,
+        "c_best": 1096815.78,
+        "score": 0.8493752892179557,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 1075323.73,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": 10992.2,
+          "freight": 15485.0,
+          "late_delivery": 0.0,
+          "quality": 1584.36,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 2010.67
+        }
+      },
+      "replay_url": "/replay/673cd64175be9a51",
+      "claim_counts": {
+        "verified": 5
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70110",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [
+            "The letter gives 51 days of notice against the agreed 90 days (doc:20260911-70110-P01, ctr:4600070110).",
+            "The PPI-D351 index changed -6.1% from 2025-11 to 2026-08 (idx:PPI-D351@2025-11, idx:PPI-D351@2026-08)."
+          ],
+          "estimated_costs": [
+            1118830.65,
+            1118829.8
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70110",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [
+            "The demand forecast changed +10.1% (fc:310010@2026-09).",
+            "Our should-cost estimate is EUR 132.64 per price unit (cost:310010); please help us reconcile this estimate with your cost breakdown."
+          ],
+          "estimated_costs": [
+            1118871.31,
+            1118873.81
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70110",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [
+            "On-time delivery was 85.2% (sc:70110@2026Q3)."
+          ],
+          "estimated_costs": [
+            1118962.17,
+            1118965.63
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70110",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 1113148.01,
+          "breakdown": {
+            "price": 1075323.7273972603,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 10992.198102283106,
+            "freight": 15485.0,
+            "late_delivery": 0,
+            "quality": 1584.36,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 9762.720178033467
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 132.64,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 8150,
+              "contract_months": 12,
+              "payment_days": 60,
+              "lead_time_days": 42,
+              "incoterm": "FCA",
+              "ppm_commitment": 900,
+              "chargeback_eur_per_complaint": 0.0,
+              "index_clause": null,
+              "tooling_eur": 0
+            },
+            "source": "cost:310010",
+            "uncertainty_pct": 5.0
+          }
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P03",
+      "session_id": "7c04136a4a0e8f14",
+      "seconds": 6.99,
+      "rounds": 5,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70530",
+        "offer_id": "offer:70530-4",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 49,
+          "volume_per_year": 4580,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 350,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 432.15
+        },
+        "c_open": 4246314.02,
+        "c_deal": 3935069.22,
+        "c_alt": 4332545.92,
+        "c_best": 3909043.1,
+        "score": 0.9228331929713948,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 3958494.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -26389.96,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 2000.54,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 964.63
+        }
+      },
+      "replay_url": "/replay/7c04136a4a0e8f14",
+      "claim_counts": {
+        "verified": 3
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70530",
+          "reason": "Rules selected partnership for the case and supplier context.",
+          "tactic": "partnership",
+          "evidence": [
+            "The demand forecast changed +10.3% (fc:350020@2026-09).",
+            "Our should-cost estimate is EUR 403.21 per price unit (cost:350020); please help us reconcile this estimate with your cost breakdown."
+          ],
+          "estimated_costs": [
+            3945556.72,
+            3945555.41
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70530",
+          "reason": "Rules selected partnership for the case and supplier context.",
+          "tactic": "partnership",
+          "evidence": [
+            "On-time delivery was 84.6% (sc:70530@2026Q3)."
+          ],
+          "estimated_costs": [
+            3948753.65,
+            3948742.46
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70530",
+          "reason": "Rules selected approval for the case and supplier context.",
+          "tactic": "approval",
+          "evidence": [],
+          "estimated_costs": [
+            3948753.65,
+            3948742.46
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70530",
+          "reason": "Rules selected approval for the case and supplier context.",
+          "tactic": "approval",
+          "evidence": [],
+          "estimated_costs": [
+            3948753.65,
+            3948742.46
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70530",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 3955220.12,
+          "breakdown": {
+            "price": 3958494.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -26389.960000000003,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 2000.5439999999999,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 21115.538197847854
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 403.21,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 4580,
+              "contract_months": 24,
+              "payment_days": 60,
+              "lead_time_days": 49,
+              "incoterm": "DAP",
+              "ppm_commitment": 350,
+              "chargeback_eur_per_complaint": 0.0,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "tooling_eur": 0
+            },
+            "source": "cost:350020",
+            "uncertainty_pct": 5.0
+          }
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P05",
+      "session_id": "a0cedb54af848250",
+      "seconds": 24.17,
+      "rounds": 12,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70210",
+        "offer_id": "offer:70210-3",
+        "terms": {
+          "payment_days": 14,
+          "lead_time_days": 35,
+          "volume_per_year": 4200,
+          "contract_months": 24,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 1200,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 31.01
+        },
+        "c_open": 305544.96,
+        "c_deal": 264275.69,
+        "c_alt": null,
+        "c_best": 223424.17,
+        "score": 0.5025435093841647,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 260484.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": 2662.73,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 1128.96,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/a0cedb54af848250",
+      "claim_counts": {
+        "verified": 10
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70240",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The PPI-D351 index changed -6.1% from 2025-11 to 2026-08 (idx:PPI-D351@2025-11, idx:PPI-D351@2026-08).",
+            "The AS-14404 index changed -5.5% from 2026-06 to 2026-09 (idx:AS-14404@2026-06, idx:AS-14404@2026-09)."
+          ],
+          "estimated_costs": [
+            227239.04,
+            227272.64,
+            227295.75
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70210",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The PPI-C2431 index changed -2.1% from 2026-05 to 2026-08 (idx:PPI-C2431@2026-05, idx:PPI-C2431@2026-08).",
+            "On-time delivery was 80.8% (sc:70210@2026Q3)."
+          ],
+          "estimated_costs": [
+            259375.76,
+            259438.74,
+            259357.28
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70250",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [
+            "Another supplier currently quotes EUR 36.00 per price unit (offer:70210-0).",
+            "Our should-cost estimate is EUR 36.87 per price unit (cost:320070); please help us reconcile this estimate with your cost breakdown."
+          ],
+          "estimated_costs": [
+            262732.96,
+            262692.9,
+            262714.48
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70240",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "On-time delivery was 62.5% (sc:70240@2026Q3)."
+          ],
+          "estimated_costs": [
+            227189.2,
+            227170.72
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70210",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [],
+          "estimated_costs": [
+            262239.08,
+            262296.16,
+            262277.68
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70250",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [
+            "On-time delivery was 88% (sc:70250@2026Q3)."
+          ],
+          "estimated_costs": [
+            262947.48,
+            262983.28,
+            262964.8
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70240",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "Another supplier currently quotes EUR 31.50 per price unit (offer:70250-1)."
+          ],
+          "estimated_costs": [
+            242240.88,
+            242291.84,
+            242230.87
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70250",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [],
+          "estimated_costs": [
+            262899.84
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70210",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [],
+          "estimated_costs": [
+            264275.69,
+            264298.72,
+            264280.24
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70240",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "Another supplier currently quotes EUR 31.50 per price unit (offer:70250-2)."
+          ],
+          "estimated_costs": [
+            252185.92,
+            252221.2,
+            252159.34
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70250",
+          "reason": "Rules selected cash for the case and supplier context.",
+          "tactic": "cash",
+          "evidence": [],
+          "estimated_costs": [
+            262899.84
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70210",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 264275.69,
+          "breakdown": {
+            "price": 260484.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 2662.7253333333338,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 1128.96,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 36.87,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "payment_days": 30,
+              "lead_time_days": 28,
+              "incoterm": "DAP",
+              "ppm_commitment": 1200,
+              "chargeback_eur_per_complaint": 0.0,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "tooling_eur": 0
+            },
+            "source": "cost:320070",
+            "uncertainty_pct": 10.0
+          }
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P10",
+      "session_id": "fcfe6a5bd00664a6",
+      "seconds": 37.95,
+      "rounds": 2,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70410",
+        "offer_id": "offer:70410-1",
+        "terms": {
+          "payment_days": 30,
+          "lead_time_days": 42,
+          "volume_per_year": 23400,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 300,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 33.8
+        },
+        "c_open": 1932492.18,
+        "c_deal": 1597720.8,
+        "c_alt": null,
+        "c_best": 1328926.89,
+        "score": 0.5546564481864089,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 1581840.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": 10545.6,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 5335.2,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/fcfe6a5bd00664a6",
+      "claim_counts": {
+        "verified": 2
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70410",
+          "reason": "Rules selected delivery for the case and supplier context.",
+          "tactic": "delivery",
+          "evidence": [
+            "The demand forecast changed +10.1% (fc:340010@2026-09).",
+            "Our should-cost estimate is EUR 24.31 per price unit (cost:340010); please help us reconcile this estimate with your cost breakdown."
+          ],
+          "estimated_costs": [
+            1277830.36
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70410",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 1537008.0,
+          "breakdown": {
+            "price": 1492920.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 9952.8,
+            "freight": 0.0,
+            "late_delivery": 28800,
+            "quality": 5335.2,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 24.31,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 23400,
+              "contract_months": 24,
+              "payment_days": 30,
+              "lead_time_days": 42,
+              "incoterm": "DAP",
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0.0,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "tooling_eur": 0
+            },
+            "source": "cost:340010",
+            "uncertainty_pct": 5.0
+          }
+        },
+        {
+          "supplier_id": "sup:70410",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 1597720.8,
+          "breakdown": {
+            "price": 1581839.9999999998,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 10545.599999999999,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 5335.2,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": {
+            "full_cost": 24.31,
+            "interest_rate": 0.08,
+            "standard": {
+              "volume_per_year": 23400,
+              "contract_months": 24,
+              "payment_days": 30,
+              "lead_time_days": 42,
+              "incoterm": "DAP",
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0.0,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "tooling_eur": 0
+            },
+            "source": "cost:340010",
+            "uncertainty_pct": 5.0
+          }
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P07",
+      "session_id": "9679aa71c8d6b5b7",
+      "seconds": 38.68,
+      "rounds": 3,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70610",
+        "offer_id": "offer:70610-2",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 5,
+          "volume_per_year": 30000,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 80,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 5.6
+        },
+        "c_open": 391027.4,
+        "c_deal": 333788.8,
+        "c_alt": 379916.0,
+        "c_best": 299241.49,
+        "score": 0.6236098765050105,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 336000.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -2240.0,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 28.8,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/9679aa71c8d6b5b7",
+      "claim_counts": {
+        "verified": 1,
+        "duplicate": 3
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70610",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The demand forecast changed +6.0% (fc:360010@2026-09).",
+            "The demand forecast changed +15.3% (fc:360011@2026-09)."
+          ],
+          "estimated_costs": [
+            267036.8,
+            266727.47
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70610",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The demand forecast changed +9.0% (fc:360012@2026-09).",
+            "The demand forecast changed +8.7% (fc:360030@2026-09)."
+          ],
+          "estimated_costs": [
+            290876.8,
+            290366.67
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70610",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 333788.8,
+          "breakdown": {
+            "price": 336000.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -2240.0,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 28.799999999999997,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P04",
+      "session_id": "d15bcb5c2fc82c81",
+      "seconds": 39.23,
+      "rounds": 3,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70620",
+        "offer_id": "offer:70620-2",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 7,
+          "volume_per_year": 20000,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 150,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 4.94
+        },
+        "c_open": 198846.33,
+        "c_deal": 196852.67,
+        "c_alt": 203169.0,
+        "c_best": 196529.32,
+        "score": 0.8604451426623068,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 197600.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -1317.33,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 570.0,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/d15bcb5c2fc82c81",
+      "claim_counts": {
+        "verified": 2
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70620",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The demand forecast changed +4.2% (fc:360020@2026-09).",
+            "On-time delivery was 85% (sc:70620@2026Q3)."
+          ],
+          "estimated_costs": [
+            154338.0,
+            154123.78
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70620",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [],
+          "estimated_costs": [
+            168244.67,
+            167862.8
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70620",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 196852.67,
+          "breakdown": {
+            "price": 197600.00000000003,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -1317.3333333333335,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 570.0,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P18",
+      "session_id": "9cf3028dcc720496",
+      "seconds": 73.86,
+      "rounds": 4,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70740",
+        "offer_id": "offer:70740-3",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 14,
+          "volume_per_year": 23700,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": {
+            "series": "AS-14404",
+            "material_share": 0.45,
+            "deadband_pct": 5.0,
+            "base_month": "2026-08"
+          },
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 70,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 5.4
+        },
+        "c_open": 295173.23,
+        "c_deal": 256557.24,
+        "c_alt": 301087.96,
+        "c_best": 222651.27,
+        "score": 0.5324730605736524,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 255960.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -1706.4,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 0.0,
+          "tooling": 0.0,
+          "index_clause": 1151.82,
+          "index_risk": 1151.82,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/9cf3028dcc720496",
+      "claim_counts": {
+        "verified": 4
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70740",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The AS-14404 index changed -5.5% from 2026-06 to 2026-09 (idx:AS-14404@2026-06, idx:AS-14404@2026-09).",
+            "The PPI-C2431 index changed -2.1% from 2026-05 to 2026-08 (idx:PPI-C2431@2026-05, idx:PPI-C2431@2026-08)."
+          ],
+          "estimated_costs": [
+            224119.84,
+            223680.55,
+            223774.93
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70740",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The demand forecast changed +1.9% (fc:370010@2026-09).",
+            "On-time delivery was 81% (sc:70740@2026Q3)."
+          ],
+          "estimated_costs": [
+            235758.33,
+            235890.84,
+            235652.58
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70740",
+          "reason": "Rules selected approval for the case and supplier context.",
+          "tactic": "approval",
+          "evidence": [],
+          "estimated_costs": [
+            243488.11,
+            243895.12,
+            243729.38
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70740",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 256049.01,
+          "breakdown": {
+            "price": 251220.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 2568.026666666667,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 0.0,
+            "tooling": 0.0,
+            "index_clause": 1130.4899999999993,
+            "index_risk": 1130.49,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        },
+        {
+          "supplier_id": "sup:70740",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 256557.24,
+          "breakdown": {
+            "price": 255960.00000000003,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -1706.4000000000003,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 0.0,
+            "tooling": 0.0,
+            "index_clause": 1151.8199999999995,
+            "index_risk": 1151.8200000000002,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P08",
+      "session_id": "b0b705131bf69c47",
+      "seconds": 74.31,
+      "rounds": 4,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70710",
+        "offer_id": "offer:70710-3",
+        "terms": {
+          "payment_days": 90,
+          "lead_time_days": 10,
+          "volume_per_year": 94800,
+          "contract_months": 36,
+          "effective_date": "2027-01-01",
+          "index_clause": {
+            "series": "AS-14404",
+            "material_share": 0.45,
+            "deadband_pct": 5.0,
+            "base_month": "2026-08"
+          },
+          "incoterm": "DAP",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 50,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 5.48
+        },
+        "c_open": 1135887.28,
+        "c_deal": 1041432.35,
+        "c_alt": 1157019.84,
+        "c_best": 960309.33,
+        "score": 0.5379657867061326,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 1039008.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": -6926.72,
+          "freight": 0.0,
+          "late_delivery": 0.0,
+          "quality": 0.0,
+          "tooling": 0.0,
+          "index_clause": 4675.54,
+          "index_risk": 4675.54,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/b0b705131bf69c47",
+      "claim_counts": {
+        "verified": 4
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70710",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The AS-14404 index changed -5.5% from 2026-06 to 2026-09 (idx:AS-14404@2026-06, idx:AS-14404@2026-09).",
+            "The PPI-C2431 index changed -2.1% from 2026-05 to 2026-08 (idx:PPI-C2431@2026-05, idx:PPI-C2431@2026-08)."
+          ],
+          "estimated_costs": [
+            888945.92,
+            888924.85,
+            887498.01
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70710",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [
+            "The demand forecast changed +1.9% (fc:370010@2026-09).",
+            "On-time delivery was 88% (sc:70710@2026Q3)."
+          ],
+          "estimated_costs": [
+            946411.15,
+            947330.08,
+            946898.21
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70710",
+          "reason": "Rules selected cost for the case and supplier context.",
+          "tactic": "cost",
+          "evidence": [],
+          "estimated_costs": [
+            980618.78,
+            981230.56,
+            979749.78
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70710",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 1041432.35,
+          "breakdown": {
+            "price": 1039008.0000000001,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": -6926.72,
+            "freight": 0.0,
+            "late_delivery": 0,
+            "quality": 0.0,
+            "tooling": 0.0,
+            "index_clause": 4675.535999999998,
+            "index_risk": 4675.536,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    },
+    {
+      "case_id": "case:P11",
+      "session_id": "0aedfd2c056bfb0f",
+      "seconds": 114.7,
+      "rounds": 6,
+      "result": {
+        "ended": true,
+        "deal": true,
+        "supplier_id": "sup:70140",
+        "offer_id": "offer:70140-5",
+        "terms": {
+          "payment_days": 60,
+          "lead_time_days": 56,
+          "volume_per_year": 15900,
+          "contract_months": 12,
+          "effective_date": "2027-01-01",
+          "index_clause": null,
+          "incoterm": "FCA",
+          "tooling_eur": 0.0,
+          "ppm_commitment": 1500,
+          "chargeback_eur_per_complaint": 0.0,
+          "unit_price": 45.5
+        },
+        "c_open": 817578.0,
+        "c_deal": 758668.5,
+        "c_alt": 894383.19,
+        "c_best": 722500.02,
+        "score": 0.6195914132799205,
+        "must_haves_ok": true,
+        "cost_breakdown": {
+          "price": 723450.0,
+          "uncovered_need": 0.0,
+          "fallback_risk": 0.0,
+          "payment_terms": 0.0,
+          "freight": 24486.0,
+          "late_delivery": 0.0,
+          "quality": 10732.5,
+          "tooling": 0.0,
+          "index_clause": 0.0,
+          "index_risk": 0.0,
+          "relationship": 0.0
+        }
+      },
+      "replay_url": "/replay/0aedfd2c056bfb0f",
+      "claim_counts": {
+        "verified": 3
+      },
+      "decisions": [
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Rules selected quality for the case and supplier context.",
+          "tactic": "quality",
+          "evidence": [
+            "Recorded quality was 2376 ppm (sc:70140@2026Q3).",
+            "The PPI-D351 index changed -6.1% from 2025-11 to 2026-08 (idx:PPI-D351@2025-11, idx:PPI-D351@2026-08)."
+          ],
+          "estimated_costs": [
+            607300.5,
+            607380.0,
+            607300.5
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Rules selected quality for the case and supplier context.",
+          "tactic": "quality",
+          "evidence": [
+            "The demand forecast changed +20.0% (fc:310020@2026-09)."
+          ],
+          "estimated_costs": [
+            607221.0
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Rules selected quality for the case and supplier context.",
+          "tactic": "quality",
+          "evidence": [],
+          "estimated_costs": [
+            675193.5,
+            675273.0,
+            675193.5
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Rules selected quality for the case and supplier context.",
+          "tactic": "quality",
+          "evidence": [],
+          "estimated_costs": [
+            702859.5,
+            702939.0,
+            702859.5
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Rules selected quality for the case and supplier context.",
+          "tactic": "quality",
+          "evidence": [],
+          "estimated_costs": [
+            702780.0
+          ],
+          "final_challenge": false
+        },
+        {
+          "supplier_id": "sup:70140",
+          "reason": "Cheapest feasible standing offer that beats or matches the alternative.",
+          "estimated_cost": 758668.5,
+          "breakdown": {
+            "price": 723450.0,
+            "uncovered_need": 0.0,
+            "fallback_risk": 0.0,
+            "payment_terms": 0.0,
+            "freight": 24486.0,
+            "late_delivery": 0,
+            "quality": 10732.5,
+            "tooling": 0.0,
+            "index_clause": 0.0,
+            "index_risk": 0.0,
+            "relationship": 0.0
+          },
+          "supplier_cost_estimate": null
+        }
+      ],
+      "model_calls": {
+        "succeeded": 0,
+        "fell_back": 0
+      }
+    }
+  ],
+  "started_at": "2026-10-10T23:13:18.731516+00:00",
+  "agent": "buyer",
+  "source_sha256": "fb367680b59dca8361550926f4f0f18859eefd9b34b7c78f7a728ff6bb599b5b",
+  "model_preflight": {
+    "ok": true,
+    "mode": "deterministic"
+  },
+  "mean_score": 0.6710841274384755,
+  "practice_remaining": 360
+}
