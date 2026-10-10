@@ -1,7 +1,11 @@
 """A rejected accept may only recover server-confirmed current offer terms."""
 
+import copy
+
+from arena_kit.agents import BuyerAgent
 from arena_kit.client import ArenaError
-from arena_kit.play import RemoteTable
+from arena_kit.play import RemoteTable, play
+from arena_kit.sim import load_cases
 
 
 class Client:
@@ -59,3 +63,43 @@ def test_closed_thread_has_no_recoverable_offer():
     old = {"from": "supplier", "term_sheets": [
         {"term_sheet_id": "offer:current", "terms": {"unit_price": 8}}]}
     assert refresh(Client([old], status="walked_away"))["term_sheets"] == []
+
+
+def test_rfq_tries_cheapest_alternative_then_uses_next_valid_supplier():
+    case = copy.deepcopy(load_cases()["case:S01"])
+    case["suppliers"] = ["sup:A", "sup:B"]
+    a = {"from": "supplier", "status": "final_offer", "body": "Final package", "attachments": [],
+         "term_sheets": [{"term_sheet_id": "offer:A", "terms": {"unit_price": 20, "payment_days": 30}}]}
+    b = {"from": "supplier", "status": "final_offer", "body": "Two packages", "attachments": [],
+         "term_sheets": [
+             {"term_sheet_id": "offer:B", "terms": {"unit_price": 22, "payment_days": 30}},
+             {"term_sheet_id": "offer:B-alt", "terms": {"unit_price": 19, "payment_days": 30}},
+         ]}
+
+    class RejectAlternative:
+        def __init__(self):
+            self.attempts = []
+
+        def open_session(self, case_id):
+            return {"session_id": "synthetic", "case": case,
+                    "threads": {"sup:A": [copy.deepcopy(a)], "sup:B": [copy.deepcopy(b)]}}
+
+        def session(self, sid):
+            return {"status": "active"}
+
+        def thread(self, sid, supplier):
+            return {"offer_id": "offer:B", "status": "final_offer", "closed": False,
+                    "timeouts": [], "messages": [copy.deepcopy(b)]}
+
+        def send_message(self, sid, supplier, message):
+            ref = message["action"]["term_sheet_id"]
+            self.attempts.append(ref)
+            if ref == "offer:B-alt":
+                raise ArenaError(422, "not a standing offer in this session")
+            assert ref == "offer:A"
+            return {"result": {"ended": True, "deal": True, "must_haves_ok": True}}
+
+    client = RejectAlternative()
+    result = play(RemoteTable(client), case["case_id"], BuyerAgent())
+    assert result["deal"] and result["must_haves_ok"]
+    assert client.attempts == ["offer:B-alt", "offer:A"]
