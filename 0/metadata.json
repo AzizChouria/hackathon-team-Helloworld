@@ -1,0 +1,40 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M1EF9SVCFBC99CX05ZJMSN",
+  "session_id": "01a12684-0f90-70e2-a242-6a13f0a23992",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-10T23:12:57.273071573Z",
+  "branch": "codex/main-preflight-eval-20261010",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "starter-kit/arena_kit/agents/buyer.py",
+    "starter-kit/tests/test_competition.py"
+  ],
+  "agent": "Codex",
+  "model": "gpt-6-sol",
+  "turn_id": "42ad67e8a2aa",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 1504395,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 116446863,
+    "output_tokens": 379545,
+    "api_call_count": 1046
+  },
+  "session_metrics": {
+    "turn_count": 28
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-10T23:12:56.885908052Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 12,
+    "human_modified": 4,
+    "human_removed": 0,
+    "total_committed": 12,
+    "total_lines_changed": 16,
+    "agent_percentage": 0,
+    "metric_version": 2
+  }
+}
