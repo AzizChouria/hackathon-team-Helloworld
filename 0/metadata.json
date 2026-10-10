@@ -1,0 +1,40 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M25PVTTXGT72V3W13G2GRD",
+  "session_id": "01a12684-0f90-70e2-a242-6a13f0a23992",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-10T23:25:38.362490091Z",
+  "branch": "codex/main-preflight-eval-20261010",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "docs/p05-rfq-close-audit-20261011.md",
+    "starter-kit/tests/test_offer_recovery.py"
+  ],
+  "agent": "Codex",
+  "model": "gpt-6-sol",
+  "turn_id": "3593aefd915c",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 1546347,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 120145048,
+    "output_tokens": 392885,
+    "api_call_count": 1086
+  },
+  "session_metrics": {
+    "turn_count": 29
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-10T23:25:37.9804128Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 71,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 71,
+    "total_lines_changed": 72,
+    "agent_percentage": 0,
+    "metric_version": 2
+  }
+}
