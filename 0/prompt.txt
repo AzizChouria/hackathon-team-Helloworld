@@ -1,0 +1,1 @@
+Append the line "CLI test" to notes.md
