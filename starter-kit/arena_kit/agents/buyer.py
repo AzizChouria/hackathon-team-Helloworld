@@ -87,8 +87,6 @@ def alternative_cost(case):
 def opening_anchor(case, quote, supplier):
     """Set the first price from the quote or a comparable should-cost estimate."""
     goal = case["buyer"].get("category_goal")
-    if len(case["suppliers"]) != 1:
-        return quote * (0.90 if goal in {"stabilise", "secure_supply"} else 0.86)
     if goal == "stabilise":
         return quote * 0.90
     if supplier and supplier.get("full_cost") is not None:
@@ -778,7 +776,9 @@ class BuyerAgent:
                         if must_haves_ok(case, sheet["terms"], standard_terms(threads[rival]))
                     ]
                     if rival_costs:
-                        factor = 0.90 if case["buyer"].get("category_goal") in {"stabilise", "secure_supply"} else 0.86
+                        factor = 0.90 if case["buyer"].get("category_goal") == "stabilise" else (
+                            0.82 if case["buyer"].get("category_goal") == "secure_supply" else 0.78
+                        )
                         budget = min(min(rival_costs) * factor,
                                      min(self.valuation(case, sid, events, t)[0] for t in sheets))
                         _, std, supplier = self.valuation(case, sid, events, sheets[0])
