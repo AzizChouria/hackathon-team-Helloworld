@@ -1,0 +1,5 @@
+Reply with exactly: connected
+
+---
+
+Append the line `test from rusha` to a file named `notes.md` in the repository root. If the file doesn't exist, create it. Do not change any other files.
