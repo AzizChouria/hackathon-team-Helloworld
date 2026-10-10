@@ -5,6 +5,7 @@ import time
 import pytest
 
 from arena_kit.agents import BuyerAgent
+from arena_kit.agents.buyer import opening_anchor
 from arena_kit.benchmark import LocalTable
 from arena_kit.cost import total_cost
 from arena_kit.exchanges import same_exchange
@@ -193,8 +194,19 @@ def test_protected_open_quote_expiry_is_respected(case):
 def test_opening_anchor_uses_compliant_market_cost(case):
     threads = {"sup:A": [quote("A", 40)], "sup:B": [quote("B", 20)]}
     offers = BuyerAgent().decide_ready(case, threads, ["sup:A"])["message"]["term_sheets"]
-    assert all(total_cost(case, s["terms"]) <= 0.78 * total_cost(case, threads["sup:B"][0]["term_sheets"][0]["terms"])
+    assert all(total_cost(case, s["terms"]) <= 0.86 * total_cost(case, threads["sup:B"][0]["term_sheets"][0]["terms"])
                for s in offers)
+
+
+def test_lower_anchor_applies_only_to_single_supplier(case):
+    case["buyer"]["category_goal"] = "leverage"
+    assert opening_anchor(case, 100, {"full_cost": 80}) == pytest.approx(86)
+    case["suppliers"] = ["sup:A"]
+    assert opening_anchor(case, 100, None) == pytest.approx(78)
+    assert opening_anchor(case, 100, {"full_cost": 80}) == pytest.approx(83.2)
+    assert opening_anchor(case, 100, {"full_cost": 60}) == pytest.approx(72)
+    case["buyer"]["category_goal"] = "stabilise"
+    assert opening_anchor(case, 100, {"full_cost": 80}) == pytest.approx(90)
 
 
 def test_infeasible_rival_cannot_reset_our_opening_anchor(case):
