@@ -171,6 +171,29 @@ def test_serve_says_which_clock(monkeypatch, capsys):
     assert "60-second rule is on" in out[0] and "--no-clock - no 60-second rule" in out[1]
 
 
+def test_the_replay_is_a_page_for_a_browser(sim):
+    url, state, _ = sim
+    client = team(url)
+    sid = client.open_session("case:S01")["session_id"]
+    sheet = {"terms": {"unit_price": 15.5, "payment_days": 60}}
+    body = "<script>alert(1)</script> & 15.50 EUR"
+    client.send_message(sid, "sup:70270", {"subject": "<b>Hi</b>", "body": body, "term_sheets": [sheet]})
+    client.walk_away(sid)
+    s = state.sessions[sid]
+    threads = {k: th["messages"] for k, th in s["threads"].items()}
+    expected = {"session_id": sid, "case_id": "case:S01", "result": s["result"], "threads": threads}
+    expected = json.loads(json.dumps(expected))
+    for accept in ({}, {"Accept": "application/json"}, {"Accept": "*/*"}):  # JSON clients: the JSON, unchanged
+        r = httpx.get(f"{url}/replay/{sid}", headers=accept)
+        assert r.headers["content-type"] == "application/json" and r.json() == expected
+    browser = {"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}
+    page = httpx.get(f"{url}/replay/{sid}", headers=browser)
+    assert page.headers["content-type"].startswith("text/html")
+    assert "No deal" in page.text and f"{s['result']['c_open']:,.2f}" in page.text and "Unit price (EUR)" in page.text
+    assert "<script>" not in page.text and "<b>Hi" not in page.text  # every text escaped
+    assert "&lt;script&gt;alert(1)&lt;/script&gt; &amp; 15.50 EUR" in page.text and "&lt;b&gt;Hi&lt;/b&gt;" in page.text
+
+
 def test_the_structured_path(sim):
     client = team(sim[0])
     s = client.open_session("case:S01")

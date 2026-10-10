@@ -48,6 +48,23 @@ uv run arena play case:D02 -v                              # the sandbox: 3 demo
 **Sunday 08:00:** run `arena data` again - it adds `data/release-sunday` (new news, letters, a
 memo). `DataPackage` merges its facts and documents automatically; hidden cases may cite them.
 
+## Hello World (local, 3 commands)
+
+No key yet? Play a whole case against the local simulator - no network, no quota, no LLM costs.
+The simulator's supplier is a plain script; the real ones are on arena.tacto.ai. After
+`uv sync --all-extras` (step 2 above):
+
+```bash
+# terminal 1: the simulator (--data is optional: leave it out until you have run `arena data`)
+uv run arena-sim serve --no-clock --data data/package
+# terminal 2: a simulator key, then the naive agent plays case:S01
+ARENA_URL=http://127.0.0.1:8000 uv run arena register "Hello World" sim                  # prints an api_key
+ARENA_URL=http://127.0.0.1:8000 ARENA_API_KEY=<the api_key> uv run arena play case:S01 -v
+```
+
+It prints the deal, `c_deal` against `c_open` and `c_best`, the score and a replay link - open it
+in your browser: the result on top, then every e-mail of the negotiation.
+
 ## Try it by hand (Postman, curl)
 
 Feel the API before you put a model in front of it. On the real arena (practice and sandbox) the

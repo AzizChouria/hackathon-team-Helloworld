@@ -15,6 +15,7 @@ whether the ID exists. The simulator teaches the contract; the real suppliers th
 import argparse
 import datetime
 import hashlib
+import html
 import io
 import itertools
 import json
@@ -454,6 +455,57 @@ def _public(result):
     return {k: v for k, v in result.items() if k != "trace"}
 
 
+PAGE_CSS = """body{font:15px/1.45 system-ui,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;
+color:#1d1d1f;background:#fff}h1{font-size:20px}h2{font-size:17px;margin-top:28px}
+table{border-collapse:collapse;margin:6px 0}caption{text-align:left}
+td,th{border:1px solid #ccc;padding:3px 8px;text-align:left}
+.mail{border:1px solid #ccc;border-radius:6px;padding:8px 12px;margin:10px 0}.buyer{background:#eef4ff}
+.who{font-weight:600}.tag{color:#555;font-size:13px}.body{white-space:pre-wrap;margin:6px 0}
+@media (prefers-color-scheme:dark){body{color:#e8e8e8;background:#18181a}.buyer{background:#1e2a3d}
+.tag{color:#aaa}td,th,.mail{border-color:#444}}"""
+
+
+def replay_html(replay):
+    """The replay as a page for a browser: the result on top, then each thread's e-mails in order."""
+    e, r = html.escape, replay["result"]
+
+    def sheet(terms, caption=""):
+        cap = f"<caption class='tag'>{e(caption)}</caption>" if caption else ""
+        rows = "".join(f"<tr><td>{e(NAMES.get(k, k))}</td><td>{e(_fmt(v))}</td></tr>" for k, v in terms.items())
+        return f"<table>{cap}{rows}</table>"
+
+    money = {k: "-" if r[k] is None else f"{r[k]:,.2f}" for k in ("c_open", "c_deal", "c_best")}
+    head = f"Deal with {r['supplier_id']}" if r["deal"] else "No deal"
+    out = [
+        f"<h1>Replay {e(replay['session_id'])} - {e(replay['case_id'])}</h1><h2>{e(head)}</h2><table>",
+        *(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in money.items()),
+        f"<tr><th>score</th><td>{r['score']:.3f}</td></tr></table>",
+        sheet(r["terms"], f"agreed terms ({r['offer_id']})") if r["deal"] else "",
+    ]
+    for sup, messages in replay["threads"].items():
+        out.append(f"<h2>Thread with {e(sup)}</h2>")
+        for m in messages:
+            buyer = m.get("from") == "buyer"
+            status = "" if buyer else f" <span class='tag'>{e(str(m.get('status')))}</span>"
+            out.append(f"<div class='mail {'buyer' if buyer else 'supplier'}'>")
+            out.append(f"<div><span class='who'>{e(str(m.get('from')))}</span>{status}</div>")
+            out.append(f"<div class='tag'>{e(str(m.get('subject', '')))}</div>")
+            out.append(f"<div class='body'>{e(str(m.get('body', '')))}</div>")
+            for t in m.get("term_sheets") or []:
+                out.append(sheet(t.get("terms", {}), t.get("term_sheet_id") or "term sheet"))
+            if m.get("action"):
+                out.append(f"<div class='tag'>action: {e(json.dumps(m['action']))}</div>")
+            if m.get("attachments"):
+                out.append(f"<div class='tag'>attached: {e(', '.join(a['name'] for a in m['attachments']))}</div>")
+            out.append("</div>")
+    title = f"Replay {replay['session_id']}"
+    return (
+        f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>{e(title)}</title>"
+        f"<meta name='viewport' content='width=device-width,initial-scale=1'><style>{PAGE_CSS}</style></head>"
+        f"<body>{''.join(out)}</body></html>"
+    )
+
+
 def create_app(sim):
     from fastapi import FastAPI, Request
     from fastapi.responses import HTMLResponse, JSONResponse, Response
@@ -624,17 +676,22 @@ def create_app(sim):
     def leaderboard_html():
         with sim.lock:
             teams = sim.board()["teams"]
-        rows = "".join(f"<tr><td>{t['rank']}</td><td>{t['team_name']}</td><td>{t['total']}</td></tr>" for t in teams)
+        rows = "".join(
+            f"<tr><td>{t['rank']}</td><td>{html.escape(t['team_name'])}</td><td>{t['total']}</td></tr>" for t in teams
+        )
         return f"<h1>arena-sim</h1><table>{rows}</table>"
 
     @app.get("/replay/{sid}")
-    def replay(sid: str):
+    def replay(request: Request, sid: str):
         with sim.lock:
             s = sim.sessions.get(sid)
             if s is None or s["status"] != "ended":
                 raise Fail(404, "no replay yet: the session is open")
             threads = {k: th["messages"] for k, th in s["threads"].items()}
-            return {"session_id": sid, "case_id": s["case"]["case_id"], "result": s["result"], "threads": threads}
+            out = {"session_id": sid, "case_id": s["case"]["case_id"], "result": s["result"], "threads": threads}
+            if "text/html" in request.headers.get("accept", ""):  # a browser: the same replay as a page
+                return HTMLResponse(replay_html(out))
+            return out
 
     return app
 
