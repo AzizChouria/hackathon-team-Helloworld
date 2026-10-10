@@ -94,10 +94,11 @@ This uses one practice session per case. Add `--cases case:P05 case:P10 case:P11
 experiment. Errors count as zero in the reported average; the report records the code fingerprint.
 
 For the AI mode, also configure `LLM_PROVIDER`, `LLM_MODEL` and the provider's key; Anthropic users
-install `uv sync --extra sim --extra anthropic`. Run with `--agent buyer-llm`. The final command is:
+install `uv sync --extra sim --extra anthropic`. Run that mode with `--agent buyer-llm`.
+The current measured final choice is `buyer` (see the [hosted comparison](docs/codex-hosted-comparison-20261010.md)):
 
 ```bash
-uv run arena run --set final --agent buyer-llm --data ../data --parallel 10 -v
+uv run arena run --set final --agent buyer --data ../data --parallel 10 -v
 ```
 
 Before the final, refresh the Sunday data with `uv run arena data --out ../data`. Research is

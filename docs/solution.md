@@ -121,6 +121,9 @@ variables take precedence; `.env` is already ignored by git.
 `buyer` makes no model calls. `buyer-llm` requires a configured provider; missing provider
 configuration fails at startup, before a session is opened. Runtime model failures fall back
 automatically. For Anthropic, install `uv sync --extra sim --extra anthropic` first.
+Practice `buyer-llm` play/run checks a real model reply before opening sessions.
+`evaluate --agent buyer-llm --require-model` also checks a tactical response and records
+successful calls and fallbacks per case.
 
 ```bash
 uv run arena play case:P01 --agent buyer --data ../data -v
@@ -131,7 +134,7 @@ uv run arena run --set practice --agent buyer-llm --data ../data --parallel 8 -v
 For a repeatable experiment with a saved report and replay links:
 
 ```bash
-uv run arena evaluate --agent buyer-llm --data ../data --parallel 5 \
+uv run arena evaluate --agent buyer-llm --require-model --data ../data --parallel 5 \
   --out /tmp/arena-evaluation.json
 # Or spend only one session per selected case:
 uv run arena evaluate --cases case:P05 case:P10 case:P11 --agent buyer-llm \
@@ -139,8 +142,9 @@ uv run arena evaluate --cases case:P05 case:P10 case:P11 --agent buyer-llm \
 ```
 
 `evaluate` opens one session per selected hosted practice case and checks the remaining quota
-first. It saves each result as it finishes, including errors, replay links, claim-check counts,
-private decisions, and a source-code fingerprint. Failed runs count as zero in the mean.
+first. It saves each result as it finishes, including errors, replay links, rounds,
+model-call counts, claim-check counts, private decisions, and a source-code fingerprint.
+Failed runs count as zero in the mean.
 The default budget is 390 seconds per case, including a 90-second closing reserve; use
 `--seconds 480` to match the final wave duration. Reports contain private reasoning, so the
 checked-in evaluation summary includes only metrics and replay links.
@@ -149,8 +153,14 @@ For the final, refresh the data before starting the runner:
 
 ```bash
 uv run arena data --out ../data
-uv run arena run --set final --agent buyer-llm --data ../data --parallel 10 -v
+uv run arena run --set final --agent buyer --data ../data --parallel 10 -v
 ```
+
+The [hosted comparison](codex-hosted-comparison-20261010.md) measured 0.654 mean for
+`buyer` and 0.617 for `buyer-llm` across one ten-case batch each, with zero model
+fallbacks. That evidence currently favors `buyer` for the final launch; hidden cases
+and Sunday data can change the choice. To use the model, replace `buyer` with
+`buyer-llm` in the command.
 
 The data command creates `../data/package` and `../data/release-sunday`. The committed base data
 is already in `../data`; `DataPackage` merges the release there. Alternatively, use
@@ -181,7 +191,7 @@ evaluation failures and quota checks, and negotiations through both local simula
 | S03 | 3,864,138.60 | 3,688,263.16 | 0.678 | 0.927 |
 
 These results validate mechanics against a scripted opponent. The latest local suite passed
-**117 tests, with 2 optional tests skipped**, and lint passed. The historical hosted evaluation record covers
+**124 tests, with 1 optional test skipped**, and lint passed. The historical hosted evaluation record covers
 34 sessions across several revisions: five matched cases averaged **0.583 initially and 0.620
 in the later full-practice batch**. The complete ten-case batch averaged **0.559**, including
 one acceptance error. Targeted follow-ups then tested quality packages and settlement handling.
