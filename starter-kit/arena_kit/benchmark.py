@@ -133,6 +133,9 @@ def batch_paths(batch="original"):
         return PRIVATE / "sessions.jsonl", REPORTS, PRIVATE
     if batch == "revised_01":
         return PRIVATE / "revised_01_sessions.jsonl", REPORTS / batch, PRIVATE / batch
+    if batch == "model_proposals_01":
+        # Reuse the SAME authorization counter; these are its three remaining slots.
+        return PRIVATE / "revised_01_sessions.jsonl", REPORTS / batch, PRIVATE / batch
     raise ValueError("Unknown benchmark batch; additional batches need explicit authorization")
 
 
@@ -140,6 +143,8 @@ def forecast(batch="original"):
     journal, _, _ = batch_paths(batch)
     model = OpenAI()
     input_bound = 12000 + len((SYSTEM + json.dumps(SCHEMA)).encode()) + 512
+    if batch == "model_proposals_01":
+        input_bound = int(os.environ["LLM_MAX_INPUT_BOUND"])
     per_call = (input_bound * model.input_rate + model.max_tokens * model.output_rate) / 1e6
     remaining = max(0, 10 - len(records(journal)))
     expected_calls = remaining * int(os.environ.get("HYBRID_LLM_CALLS_PER_CASE", "2"))
@@ -151,7 +156,12 @@ def forecast(batch="original"):
 
 def run(case_id, *, batch="original", approved=False, expected_case=None):
     journal, report_dir, trace_dir = batch_paths(batch)
-    if os.getenv("HYBRID_PROPOSAL_MODE", "model") != "legacy":
+    if batch == "model_proposals_01":
+        if case_id not in {"case:P07", "case:P03", "case:P04"}:
+            raise ValueError("Only the three remaining case slots are authorized")
+        if os.getenv("HYBRID_PROPOSAL_MODE") != "model":
+            raise ValueError("This experiment requires model-authored proposals")
+    elif os.getenv("HYBRID_PROPOSAL_MODE", "model") != "legacy":
         raise ValueError("Historical benchmark supports legacy proposals only; use a reviewed model-proposal plan")
     if batch != "original" and not approved:
         raise ValueError("Revised hosted sessions need fresh explicit approval; preparation is not execution")
@@ -192,7 +202,7 @@ def run(case_id, *, batch="original", approved=False, expected_case=None):
         table = RemoteTable(client, case)
         started = now()
         append(journal, {"case_id": case_id, "reserved_at": started, "commit": commit,
-                         "model": model.model, "effort": model.effort})
+                         "model": model.model, "effort": model.effort, "batch": batch})
         print(json.dumps({"starting": case_id, "session_slot": len(uses) + 1, "forecast": forecast_}), flush=True)
         result, error, replay = None, None, None
         error_context = None

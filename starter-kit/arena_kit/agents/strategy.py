@@ -91,6 +91,8 @@ class OpenAI:
             raise ValueError("LLM context exceeds compact-context limit")
         # UTF-8 byte count bounds token count conservatively; include schema/protocol allowance.
         input_bound = len((system + user + json.dumps(schema)).encode()) + 512
+        if input_bound > int(os.getenv("LLM_MAX_INPUT_BOUND", "1000000")):
+            raise BudgetExceeded("Request exceeds configured input budget bound")
         reserve = (input_bound * self.input_rate + self.max_tokens * self.output_rate) / 1e6
         import uuid
         call_id = uuid.uuid4().hex
