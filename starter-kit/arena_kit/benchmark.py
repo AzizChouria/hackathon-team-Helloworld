@@ -193,12 +193,15 @@ def run(case_id, *, batch="original", approved=False, expected_case=None):
                          "model": model.model, "effort": model.effort})
         print(json.dumps({"starting": case_id, "session_slot": len(uses) + 1, "forecast": forecast_}), flush=True)
         result, error, replay = None, None, None
+        error_context = None
         wall = time.monotonic()
         state = {}
         try:
             result = play(table, case_id, agent)
         except Exception as exc:
             error = type(exc).__name__
+            error_context = {"type": error, "http_status": getattr(exc, "status", None),
+                             "method": getattr(exc, "method", None), "operation": getattr(exc, "operation", None)}
         if table.session_id:
             try:
                 state = client.session(table.session_id)
@@ -215,7 +218,7 @@ def run(case_id, *, batch="original", approved=False, expected_case=None):
         row = {"batch": batch, "case_id": case_id, "scenario": case["type"], "suppliers": case["suppliers"],
                "timestamp": started, "commit": commit, "model": model.model, "effort": model.effort,
                "status": "completed" if result.get("ended") else "failed", "result": result,
-               "session_id": table.session_id, "replay_url": replay, "error": error,
+               "session_id": table.session_id, "replay_url": replay, "error": error, "error_context": error_context,
                "buyer_timeouts": sum(m.get("move", {}).get("type") == "timeout"
                                      for m in state.get("moves", [])),
                "turns": state.get("rounds"), "wall_s": time.monotonic() - wall,

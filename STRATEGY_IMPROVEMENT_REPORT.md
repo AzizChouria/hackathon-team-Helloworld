@@ -1,5 +1,10 @@
 # Strategy improvements and comparison readiness
 
+> Subsequent hosted outcome: the approved revised batch stopped after seven sessions,
+> including one API failure and manual recovery. The seven-case mean was 0.365154;
+> three cases remain unstarted. See [REVISED_BENCHMARK_REPORT.md](REVISED_BENCHMARK_REPORT.md).
+> The preparation and local results below are historical and do not establish hosted superiority.
+
 These are local development results, not a new hosted benchmark. No hosted session or paid
 model call was made in this improvement pass. The teammate comparison remains unproven online.
 

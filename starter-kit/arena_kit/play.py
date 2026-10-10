@@ -15,6 +15,8 @@ import threading
 import time
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
+import httpx
+
 from .client import ArenaError
 from .cost import must_haves_ok, total_cost
 from .docs import read_document, standard_terms
@@ -59,7 +61,21 @@ class RemoteTable:
         state = self.client.session(session_id)
         if state["status"] == "ended":
             self.done = self.result()
-        return self.case, {s: self.client.thread(session_id, s)["messages"] for s in state["threads"]}
+        threads = {}
+        for supplier in state["threads"]:
+            thread = self.client.thread(session_id, supplier)
+            events = list(thread["messages"])
+            # Timeout replies are stored separately by the arena. Historical message IDs
+            # are no longer standing offers; never resume by accepting one of them.
+            current = next((q for q in reversed(thread.get("timeouts", []))
+                            if q.get("offer_id") == thread.get("offer_id")), None)
+            if current:
+                events.append({"from": "arena", "status": "walked_away" if thread.get("closed") else thread["status"],
+                               "body": "Current offer after timeout.", "attachments": [],
+                               "term_sheets": [] if thread.get("closed") else [
+                                   {"term_sheet_id": thread["offer_id"], "terms": current["terms"]}]})
+            threads[supplier] = events
+        return self.case, threads
 
     def send(self, supplier_id, message):
         return self.client.send_message(self.session_id, supplier_id, message)
@@ -119,7 +135,16 @@ def fetch_documents(table, message):
     """Download every attachment of a supplier message and add its text."""
     for att in message.get("attachments") or []:
         if att.get("attachment_id") and "text" not in att:
-            att["text"] = read_document(att["name"], table.attachment(att["attachment_id"]))
+            try:
+                att["text"] = read_document(att["name"], table.attachment(att["attachment_id"]))
+            except (ArenaError, httpx.TransportError) as exc:
+                # An unavailable auxiliary file must not discard an already received
+                # supplier offer. Missing standards still cannot establish must-haves.
+                status = getattr(exc, "status", None)
+                if isinstance(exc, ArenaError) and status not in {404, 408, 410, 429} and status < 500:
+                    raise
+                att["read_error"] = {"type": type(exc).__name__, "http_status": status}
+                log.warning("attachment unavailable: %s status=%s", type(exc).__name__, status)
     return message
 
 

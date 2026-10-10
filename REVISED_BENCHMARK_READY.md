@@ -1,5 +1,10 @@
 # Revised hosted benchmark: prepared, not started
 
+> Subsequent hosted outcome: the approved revised batch stopped after seven sessions,
+> including one API failure and manual recovery. The seven-case mean was 0.365154;
+> three cases remain unstarted. See [REVISED_BENCHMARK_REPORT.md](REVISED_BENCHMARK_REPORT.md).
+> The preparation and local results below are historical and do not establish hosted superiority.
+
 ## Selected configuration
 
 - Model: API-verified `gpt-6-astra`; reasoning `high`; Responses with strict JSON.

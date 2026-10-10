@@ -94,3 +94,12 @@ are unchanged; 72 additional synthetic preference scenarios produce 18 lower cos
 and no higher costs, with all 72 valid deals and no timeouts. These are development fixtures,
 not hosted supplier results. The revised hosted mean remains unmeasured. Source changes
 invalidate the old frozen benchmark plan; refresh preparation after committing this revision.
+
+
+## Reliability checks after the stopped revised hosted batch
+
+105 tests pass, one optional MCP test is skipped, and Ruff passes. Added checks cover unavailable
+attachments, authentication errors, per-operation download timeouts without retries, safe error
+metadata, and recovery from a current timeout quote rather than stale message history.
+These post-run changes have not been hosted-tested. They do not establish the root cause of
+P11's original ArenaError. See REVISED_BENCHMARK_REPORT.md for the failed run and manual recovery.

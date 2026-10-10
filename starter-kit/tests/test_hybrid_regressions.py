@@ -272,3 +272,63 @@ def test_explicit_no_index_standard_is_a_real_option(case):
     case["buyer"]["index_paths"] = {"synthetic": .1}
     proposals = candidates(case, {"unit_price": 20}, {"index_clause": None})
     assert proposals[0]["index_clause"] is None
+
+
+@pytest.mark.parametrize("status", [404, 408, 410, 429, 500, 503])
+def test_auxiliary_attachment_failure_preserves_received_offer(status):
+    from arena_kit.client import ArenaError
+    from arena_kit.play import fetch_documents
+    class Table:
+        def attachment(self, _):
+            raise ArenaError(status, "Synthetic error")
+    message = mail(19, attachments=[{"attachment_id": "a", "name": "8d-report.pdf"}])
+    result = fetch_documents(Table(), message)
+    assert result["term_sheets"][0]["terms"]["unit_price"] == 19
+    assert result["attachments"][0]["read_error"]["http_status"] == status
+    assert "text" not in result["attachments"][0]
+
+
+def test_attachment_authentication_failure_is_not_hidden():
+    from arena_kit.client import ArenaError
+    from arena_kit.play import fetch_documents
+    class Table:
+        def attachment(self, _):
+            raise ArenaError(401, "Synthetic auth error")
+    with pytest.raises(ArenaError):
+        fetch_documents(Table(), mail(attachments=[{"attachment_id": "a", "name": "quote.pdf"}]))
+
+
+def test_attachment_requests_have_bounded_timeout_and_no_retry():
+    from arena_kit.client import ArenaClient
+    calls = []
+    def handler(request):
+        calls.append(request)
+        assert all(v == 5 for v in request.extensions["timeout"].values())
+        raise httpx.ReadTimeout("Synthetic timeout")
+    client = ArenaClient("https://local.invalid", transport=httpx.MockTransport(handler))
+    with pytest.raises(httpx.ReadTimeout) as error:
+        client.attachment("session", "attachment")
+    assert len(calls) == 1
+    assert error.value.operation == "attachment"
+
+
+def test_arena_error_has_secret_free_request_context():
+    from arena_kit.client import ArenaClient, ArenaError
+    client = ArenaClient("https://local.invalid", transport=httpx.MockTransport(
+        lambda _: httpx.Response(422, json={"detail": "Synthetic invalid offer"})))
+    with pytest.raises(ArenaError) as error:
+        client.send_message("session", "supplier", {})
+    assert (error.value.status, error.value.method, error.value.operation) == (422, "POST", "message")
+
+
+def test_resume_uses_timeout_offer_instead_of_stale_message(case):
+    from arena_kit.play import RemoteTable
+    class Client:
+        def session(self, _):
+            return {"status": "open", "threads": {"A": {}}}
+        def thread(self, *_):
+            return {"offer_id": "offer:current", "status": "open", "closed": None,
+                    "messages": [mail(18)], "timeouts": [{"offer_id": "offer:current", "terms": {"unit_price": 19}}]}
+    _, threads = RemoteTable(Client(), case).resume("existing-session")
+    action = HybridAgent().closing_move(case, threads)
+    assert action["message"]["action"]["term_sheet_id"] == "offer:current"

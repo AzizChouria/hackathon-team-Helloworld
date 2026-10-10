@@ -197,3 +197,14 @@ are unchanged; 72 additional synthetic preference scenarios produce 18 lower cos
 and no higher costs, with all 72 valid deals and no timeouts. These are development fixtures,
 not hosted supplier results. The revised hosted mean remains unmeasured. Source changes
 invalidate the old frozen benchmark plan; refresh preparation after committing this revision.
+
+
+## Latest hosted status: batch stopped
+
+The revised benchmark used seven of its ten approved slots, then stopped on P11's API failure.
+After manual recovery its seven-case mean is 0.365154. Three cases were not started; no complete
+ten-case mean exists. See [REVISED_BENCHMARK_REPORT.md](REVISED_BENCHMARK_REPORT.md).
+The teammate leads on the same seven cases. Do not present local scores as evidence otherwise.
+Post-run reliability fixes pass 105 tests (one optional skip) and Ruff, but have no hosted results.
+The existing benchmark journal intentionally blocks silent resumption; its frozen source differs
+from the later fixes. No final run or submission has been performed.

@@ -1,0 +1,85 @@
+{
+  "batch": "revised_01",
+  "prepared_at": "2026-10-10T20:58:51.252546+00:00",
+  "commit": "d4fc5935484d67cbbb62821c4a2a33f717457c7e",
+  "data_fingerprint": "b887bbca488a961321f8ddc4b741f22907eca6e36a1d0a43d0963b7486cdd0ce",
+  "configuration": {
+    "LLM_PROVIDER": "openai",
+    "LLM_BASE_URL": "https://api.openai.com/v1",
+    "LLM_MODEL": "gpt-6-astra",
+    "LLM_EFFORT": "high",
+    "LLM_ENDPOINT": "responses",
+    "LLM_TIMEOUT_S": "22",
+    "LLM_MAX_OUTPUT_TOKENS": "1200",
+    "LLM_BUDGET_USD": "5",
+    "LLM_INPUT_USD_PER_M": "10",
+    "LLM_OUTPUT_USD_PER_M": "50",
+    "HYBRID_LLM_CALLS_PER_CASE": "2",
+    "HYBRID_MAX_COUNTERS": "5",
+    "HYBRID_RESPONSE_GUARD_S": "35",
+    "HYBRID_STALL_ROUNDS": "2",
+    "HYBRID_OFFLINE": "0"
+  },
+  "parallel_cases": 1,
+  "order": [
+    "case:P01",
+    "case:P05",
+    "case:P02",
+    "case:P18",
+    "case:P08",
+    "case:P10",
+    "case:P11",
+    "case:P07",
+    "case:P03",
+    "case:P04"
+  ],
+  "forecast": {
+    "remaining_sessions": 10,
+    "maximum_remaining_model_calls": 20,
+    "per_call_upper_usd": 0.20079,
+    "remaining_upper_usd": 4.0158,
+    "already_accounted_usd": 0.56062,
+    "forecast_total_upper_usd": 4.57642
+  },
+  "snapshot": {
+    "timestamp": "2026-10-10T20:58:51.141701+00:00",
+    "team_name": "Helllo World",
+    "quota": {
+      "used": 160,
+      "left": 440,
+      "limit": 600,
+      "resets_at": "2026-10-11T12:34:32.024144+00:00"
+    },
+    "team": {
+      "team_name": "Helllo World",
+      "played": 10,
+      "total": 69.6,
+      "deals": 10,
+      "rounds": 49,
+      "rank": 14
+    },
+    "leader": {
+      "team_name": "\ud83c\udccf NoIdea",
+      "played": 10,
+      "total": 86.8,
+      "deals": 10,
+      "rounds": 48,
+      "rank": 1
+    },
+    "team_best": {
+      "case:P01": 0.8705497300398356,
+      "case:P03": 0.9228331929713948,
+      "case:P18": 0.5455754367366793,
+      "case:P07": 0.7466905323485927,
+      "case:P11": 0.6195914132799205,
+      "case:P08": 0.6786754259290533,
+      "case:P02": 0.5067213701897855,
+      "case:P10": 0.6707108356081908,
+      "case:P04": 0.8604451426623068,
+      "case:P05": 0.5428437792671016
+    },
+    "gap": 17.200000000000003
+  },
+  "execution_approved": false,
+  "status": "prepared only; no hosted sessions or model calls started"
+}

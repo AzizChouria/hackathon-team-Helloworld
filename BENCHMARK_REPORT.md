@@ -1,5 +1,10 @@
 # Benchmark report
 
+> Subsequent hosted outcome: the approved revised batch stopped after seven sessions,
+> including one API failure and manual recovery. The seven-case mean was 0.365154;
+> three cases remain unstarted. See [REVISED_BENCHMARK_REPORT.md](REVISED_BENCHMARK_REPORT.md).
+> The preparation and local results below are historical and do not establish hosted superiority.
+
 Generated 2026-10-10T17:05:13.800322+00:00.
 
 Hosted practice is measured once per case. Offline fixtures and the scripted local simulator are not hosted results. Leaderboard uses best-per-case aggregation, not this run mean.

@@ -1,0 +1,17 @@
+{
+  "batch": "revised_01",
+  "attempted": 7,
+  "planned": 10,
+  "completed": 6,
+  "mean_completed_score": 0.42601354427418336,
+  "full_10_case_mean": null,
+  "buyer_timeouts": 0,
+  "model_calls": 10,
+  "model_failures": 0,
+  "estimated_batch_usd": 0.3574,
+  "not_tested": [
+    "case:P07",
+    "case:P03",
+    "case:P04"
+  ]
+}

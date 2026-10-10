@@ -25,9 +25,10 @@ MAX_RETRY_AFTER_S = 5
 
 
 class ArenaError(Exception):
-    def __init__(self, status: int, detail):
+    def __init__(self, status: int, detail, *, method=None, operation=None):
         super().__init__(f"HTTP {status}: {detail}")
         self.status, self.detail = status, detail
+        self.method, self.operation = method, operation
 
 
 class ArenaClient:
@@ -57,20 +58,24 @@ class ArenaClient:
         if wait > 0:
             time.sleep(wait)
 
-    def _call(self, method, path, body=None, params=None, raw=False):
+    def _call(self, method, path, body=None, params=None, raw=False, *, timeout=None, retries=None):
         headers = {MOVE_ID_HEADER: uuid.uuid4().hex} if method == "POST" else {}
-        for attempt in range(self.retries + 1):
+        retries = self.retries if retries is None else retries
+        operation = "attachment" if "/attachments/" in path else "message" if path.endswith("/messages") else "arena"
+        request_options = {"timeout": timeout} if timeout is not None else {}
+        for attempt in range(retries + 1):
             self._pace()
             try:
-                r = self.http.request(method, path, json=body, params=params, headers=headers)
-            except httpx.TransportError:
-                if attempt == self.retries:
+                r = self.http.request(method, path, json=body, params=params, headers=headers, **request_options)
+            except httpx.TransportError as exc:
+                exc.method, exc.operation = method, operation
+                if attempt == retries:
                     raise
                 wait = None
             else:
                 wait = r.headers.get("Retry-After", "")
                 short = wait.isdigit() and int(wait) <= MAX_RETRY_AFTER_S
-                if r.status_code not in RETRY_STATUS or attempt == self.retries or (r.status_code == 429 and not short):
+                if r.status_code not in RETRY_STATUS or attempt == retries or (r.status_code == 429 and not short):
                     break
             time.sleep(float(wait) if wait and wait.isdigit() else 0.5 * 2**attempt)
         if (left := r.headers.get(REMAINING_HEADER, "")).isdigit():
@@ -80,7 +85,7 @@ class ArenaClient:
                 detail = r.json().get("detail", r.text)
             except (ValueError, AttributeError):
                 detail = r.text
-            raise ArenaError(r.status_code, detail)
+            raise ArenaError(r.status_code, detail, method=method, operation=operation)
         return r.content if raw else r.json()
 
     def register(self, team_name, event_code):
@@ -108,7 +113,8 @@ class ArenaClient:
 
     def attachment(self, session_id, attachment_id):
         """The bytes of a document a supplier attached."""
-        return self._call("GET", f"/sessions/{session_id}/attachments/{attachment_id}", raw=True)
+        return self._call("GET", f"/sessions/{session_id}/attachments/{attachment_id}",
+                          raw=True, timeout=5.0, retries=0)
 
     def backoffice(self, session_id):
         return self._call("GET", f"/sessions/{session_id}/backoffice")
