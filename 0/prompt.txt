@@ -1,0 +1,24 @@
+# Context from my IDE setup:
+
+## Active file: README.md
+
+## Open tabs:
+- README.md: README.md
+
+## My request:
+do the task asked in the readme. explain the problem and the solution
+
+---
+
+# Context from my IDE setup:
+
+## Active file: docs/solution.md
+
+## Open tabs:
+- solution.md: docs/solution.md
+- pitch.md: docs/pitch.md
+- test_buyer.py: starter-kit/tests/test_buyer.py
+- README.md: README.md
+
+## My request:
+i want to test the submission

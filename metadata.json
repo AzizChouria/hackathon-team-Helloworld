@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4K67Q6AZEN9BYKK4CKP9TT0",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "README.md",
+    "docs/pitch.md",
+    "docs/solution.md",
+    "starter-kit/README.md",
+    "starter-kit/arena_kit/agents/__init__.py",
+    "starter-kit/arena_kit/agents/buyer.py",
+    "starter-kit/arena_kit/agents/llm.py",
+    "starter-kit/arena_kit/benchmark.py",
+    "starter-kit/arena_kit/cli.py",
+    "starter-kit/arena_kit/play.py",
+    "starter-kit/arena_kit/research.py",
+    "starter-kit/tests/test_buyer.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 249983,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 8563929,
+    "output_tokens": 46936,
+    "api_call_count": 85,
+    "subagent_tokens_complete": true
+  }
+}
