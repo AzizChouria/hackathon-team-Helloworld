@@ -1,8 +1,7 @@
 """Contract tests: the kit's client and both example agents against arena-sim over HTTP - and
-against a hosted arena when ARENA_TEST_URL and ARENA_TEST_KEY are set."""
+All normal tests run locally; hosted benchmarks use the explicit benchmark harness."""
 
 import json
-import os
 import secrets
 import sys
 import time
@@ -33,15 +32,9 @@ def scripted(system, user):
     return json.dumps({"supplier_id": sid, "action": "send", "body": body, "term_sheets": [{"unit_price": 1.0}]})
 
 
-@pytest.fixture(params=["sim", "hosted"])
-def arena(request):
-    if request.param == "hosted":
-        url, key = os.environ.get("ARENA_TEST_URL"), os.environ.get("ARENA_TEST_KEY")
-        if not (url and key):
-            pytest.skip("set ARENA_TEST_URL and ARENA_TEST_KEY to run against a hosted arena")
-        return ArenaClient(url, key), 1
-    url, _, _ = request.getfixturevalue("sim")
-    return team(url), 3
+@pytest.fixture
+def arena(sim):
+    return team(sim[0]), 3
 
 
 def test_both_agents_play_unchanged(arena):

@@ -19,3 +19,5 @@ __pycache__/
 # Temporary and backup files
 *.bak
 .DS_Store
+# Private runtime ledgers and local benchmark evidence
+.local/

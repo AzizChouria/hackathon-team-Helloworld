@@ -142,6 +142,8 @@ def closing_move(case, threads):
 def play(table, case_id, agent, deadline=None):
     """Play one case to its end. `deadline` (time.time(), or a function returning it): a Live Final
     wave's cap - shortly before it, `closing_move` closes the case so it does not end without a deal."""
+    if hasattr(agent, "prepare") and getattr(table, "case", None):
+        agent.prepare(table.case)
     case, threads = table.open(case_id)
     if getattr(table, "done", None):  # resumed a case that had already ended
         return table.done
@@ -154,9 +156,33 @@ def play(table, case_id, agent, deadline=None):
         cap = deadline() if callable(deadline) else deadline
         if cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S):
             log.info("%s: the wave's cap is near - closing", case_id)
-            decision = closing_move(case, threads)
+            decision = getattr(agent, "closing_move", closing_move)(case, threads)
         else:
-            decision = agent.decide(case, threads)
+            if hasattr(agent, "decide_many"):
+                decisions = agent.decide_many(case, threads)
+                if len(decisions) > 1 and not any(d["message"].get("action") for d in decisions):
+                    # All RFQ threads receive a move together. No serial supplier-reply waits.
+                    def send_one(d):
+                        supplier, message = d["supplier_id"], d["message"]
+                        try:
+                            reply = table.send(supplier, message)
+                        except ArenaError as exc:
+                            if exc.status != 409:
+                                raise
+                            reply = table.missed(supplier, exc)
+                        return supplier, message, fetch_documents(table, reply)
+
+                    with ThreadPoolExecutor(max_workers=len(decisions)) as pool:
+                        replies = list(pool.map(send_one, decisions))
+                    for supplier, message, reply in replies:
+                        if "result" in reply:
+                            return reply["result"]
+                        threads[supplier] += [{**message, "from": "buyer"}, reply]
+                    slowest = max(slowest, time.monotonic() - t0)
+                    continue
+                decision = decisions[0]
+            else:
+                decision = agent.decide(case, threads)
         if (took := time.monotonic() - t0) > MOVE_LIMIT_S * 0.75:
             log.warning("decision took %.1fs - the limit is %ss per message", took, MOVE_LIMIT_S)
         sid, msg = decision["supplier_id"], decision["message"]
