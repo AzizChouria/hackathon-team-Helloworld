@@ -7,7 +7,9 @@ its opening per message with a term sheet down to 90 %, agrees when you meet its
 final offer from round 5 and walks away if you push after that. It checks cited data only for
 whether the ID exists. The simulator teaches the contract; the real suppliers think for themselves.
 
-    arena-sim serve [--port 8000] [--data <data package>] [--event-code sim]
+    arena-sim serve [--port 8000] [--data <data package>] [--event-code sim] [--no-clock]
+
+--no-clock switches the 60-second rule off (threads wait forever) to try the API by hand.
 """
 
 import argparse
@@ -104,8 +106,9 @@ class Fail(Exception):
 class Sim:
     """The arena's state and its one scripted supplier. One lock serialises every call."""
 
-    def __init__(self, cases, facts=None, event_code="sim", clock=time.time):
+    def __init__(self, cases, facts=None, event_code="sim", clock=time.time, no_clock=False):
         self.cases, self.facts, self.code, self.clock = cases, facts or {}, event_code, clock
+        self.no_clock = no_clock  # no 60-second rule: to try the API by hand
         self.teams, self.sessions, self.replies, self.calls = {}, {}, {}, {}
         self.ids, self.lock = itertools.count(1), threading.Lock()
 
@@ -260,6 +263,8 @@ class Sim:
         """The 60-second rule: a supplier left waiting counts a timeout - its offer stands; the
         third in a row (or one after the last round) ends the thread. Returns who just got one."""
         late = set()
+        if self.no_clock:
+            return late
         for sup, th in s["threads"].items():
             while s["status"] == "open" and not th["closed"] and self.clock() > th["last_at"] + MOVE_S:
                 th["last_at"] += MOVE_S
@@ -394,7 +399,9 @@ class Sim:
                 "status": t["status"],
                 "closed": t["closed"],
                 "offers": t["round"] - t["timeouts"],
-                "seconds_left": None if t["closed"] else max(0.0, round(t["last_at"] + MOVE_S - now, 1)),
+                "seconds_left": None
+                if t["closed"] or self.no_clock
+                else max(0.0, round(t["last_at"] + MOVE_S - now, 1)),
             }
             for k, t in s["threads"].items()
         }
@@ -644,6 +651,7 @@ def main(argv=None):
     ap.add_argument("--port", type=int, default=8000)
     ap.add_argument("--data", help="data package folder: cited IDs are checked against it")
     ap.add_argument("--event-code", default="sim")
+    ap.add_argument("--no-clock", action="store_true", help="no 60-second rule: threads wait forever (by hand)")
     a = ap.parse_args(argv)
     facts = {}
     if a.data:
@@ -652,4 +660,9 @@ def main(argv=None):
         facts = DataPackage(a.data).facts
     import uvicorn
 
-    uvicorn.run(create_app(Sim(load_cases(), facts, a.event_code)), host=a.host, port=a.port)
+    if a.no_clock:
+        print("arena-sim: --no-clock - no 60-second rule, threads wait forever (the arena keeps the rule)", flush=True)
+    else:
+        print("arena-sim: the 60-second rule is on, as on the arena (--no-clock switches it off)", flush=True)
+    app = create_app(Sim(load_cases(), facts, a.event_code, no_clock=a.no_clock))
+    uvicorn.run(app, host=a.host, port=a.port)

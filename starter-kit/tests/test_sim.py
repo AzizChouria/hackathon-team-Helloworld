@@ -139,6 +139,38 @@ def test_the_sixty_second_rule(sim):
     assert client.session(sid)["end_reason"] == "timeout"
 
 
+def test_no_clock_never_times_out(sim):
+    url, state, clock = sim
+    state.no_clock = True  # arena-sim serve --no-clock
+    client = team(url)
+    sid, low = client.open_session("case:S01")["session_id"], {"unit_price": 1.0, "payment_days": 60}
+    for _ in range(3):
+        clock.now += 5 * 3600  # hours between moves, by hand
+        reply = client.send_message(sid, "sup:70270", {"term_sheets": [{"terms": low}]})
+        assert reply["status"] == "open"
+    state_ = client.session(sid)
+    assert state_["status"] == "open" and state_["threads"]["sup:70270"]["seconds_left"] is None
+    assert client.thread(sid, "sup:70270")["timeouts"] == []
+    clock.now += 24 * 3600
+    assert client.accept(sid, reply["term_sheets"][0]["term_sheet_id"])["deal"]
+
+
+def test_serve_says_which_clock(monkeypatch, capsys):
+    pytest.importorskip("uvicorn")
+    import uvicorn
+
+    from arena_kit import sim as sim_mod
+
+    built = []
+    monkeypatch.setattr(sim_mod, "create_app", built.append)
+    monkeypatch.setattr(uvicorn, "run", lambda *a, **k: None)
+    sim_mod.main(["serve"])
+    sim_mod.main(["serve", "--no-clock"])
+    assert [s.no_clock for s in built] == [False, True]  # the default keeps the arena's rule
+    out = capsys.readouterr().out.splitlines()
+    assert "60-second rule is on" in out[0] and "--no-clock - no 60-second rule" in out[1]
+
+
 def test_the_structured_path(sim):
     client = team(sim[0])
     s = client.open_session("case:S01")

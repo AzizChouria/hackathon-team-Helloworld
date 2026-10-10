@@ -48,6 +48,50 @@ uv run arena play case:D02 -v                              # the sandbox: 3 demo
 **Sunday 08:00:** run `arena data` again - it adds `data/release-sunday` (new news, letters, a
 memo). `DataPackage` merges its facts and documents automatically; hidden cases may cite them.
 
+## Try it by hand (Postman, curl)
+
+Feel the API before you put a model in front of it. On the real arena (practice and sandbox) the
+60-second rule applies: three late replies in a row end the thread - too fast for typing. **By
+hand, use the simulator first**, without the clock:
+
+```bash
+uv run arena-sim serve --no-clock --data data/package           # data/package from `arena data`; --data is optional
+ARENA_URL=http://127.0.0.1:8000 uv run arena register "Team Name" sim   # prints a simulator api_key
+export SIM=http://127.0.0.1:8000 KEY=<the api_key>
+```
+
+Every call sends `X-API-Key: <key>`; every `POST` also `Content-Type: application/json` and a
+fresh `X-Move-Id` (any unique string - the same id again returns the same answer). In Postman:
+those headers, the body as raw JSON.
+
+```bash
+# 1. the cases: case:S01 has one supplier, sup:70270, and the negotiable fields unit_price, payment_days
+curl -s "$SIM/v1/cases?set=practice" -H "X-API-Key: $KEY"
+
+# 2. open a session: the reply carries session_id (sim1 on a fresh simulator) and each supplier's quote e-mail
+curl -s -X POST "$SIM/v1/sessions" -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
+  -H "X-Move-Id: open-1" -d '{"case_id": "case:S01"}'
+
+# 3. the supplier's opening e-mail: its term sheet (offer:70270-0) and the quote PDF to fetch
+curl -s "$SIM/v1/sessions/sim1/threads/sup:70270" -H "X-API-Key: $KEY"
+
+# 4. your e-mail with an offer: the reply is the supplier's answer (status, term_sheets, claim_results)
+curl -s -X POST "$SIM/v1/sessions/sim1/threads/sup:70270/messages" -H "X-API-Key: $KEY" \
+  -H "Content-Type: application/json" -H "X-Move-Id: msg-1" \
+  -d '{"message": {"subject": "Adapter piece HI", "body": "Thank you for your quote. We offer 15.50 EUR at 60 days.",
+       "term_sheets": [{"terms": {"unit_price": 15.5, "payment_days": 60}}]}}'
+
+# 5. read the reply in the thread, and the session state
+curl -s "$SIM/v1/sessions/sim1/threads/sup:70270" -H "X-API-Key: $KEY"
+curl -s "$SIM/v1/sessions/sim1" -H "X-API-Key: $KEY"
+```
+
+To close, send `{"message": {"action": {"type": "accept", "term_sheet_id": "offer:70270-1"}}}` (the
+term sheet you take) or `{"message": {"action": {"type": "walk_away"}}}` to the same `messages` path;
+the answer carries the result and score. The quote PDF: `GET $SIM/v1/sessions/sim1/attachments/att:70270-0-quote`.
+The same calls work on the arena (`https://arena.tacto.ai`, your team's key, a practice case) - with
+the clock running.
+
 ## The Live Final: waves, in parallel, within the cap
 
 The final comes in 5 themed waves. A wave holds several hidden cases that appear when the host
@@ -198,6 +242,8 @@ else. The arena's key comes from `/apply` (step 1).
 the 60-second rule, quote PDFs and cost-breakdown XLSX files in the arena's format, RFQs with
 parallel threads, leaderboard and replay JSON - with three example cases (`case:S01`-`S03`). Point
 your agent at it to get the plumbing right without a network or a rate limit to worry about.
+`--no-clock` switches the 60-second rule off for trying it by hand (above); without it the clock
+runs, as on the arena. The first line it prints says which.
 
 Its supplier is a deliberately plain script and **not** how the arena's suppliers behave: it opens
 10 % above your current price, concedes a fixed 2 % per term sheet down to 90 %, agrees when you
