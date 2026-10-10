@@ -51,19 +51,19 @@ Reply with ONE JSON object and nothing else:
   120 words, no placeholders."""
 
 
-def llm_from_env():
+def llm_from_env(timeout=45.0, max_tokens=16000):
     """LLM_PROVIDER=anthropic (Anthropic SDK) or openai (any OpenAI-compatible endpoint)."""
     provider, model = os.environ.get("LLM_PROVIDER", "openai"), os.environ["LLM_MODEL"]
     if provider == "anthropic":
         import anthropic
 
-        client = anthropic.Anthropic(timeout=45.0)
+        client = anthropic.Anthropic(timeout=timeout, max_retries=0)
         extra = {"output_config": {"effort": e}} if (e := os.environ.get("LLM_EFFORT")) else {}
 
         def complete(system, user):
             r = client.messages.create(
                 model=model,
-                max_tokens=16000,
+                max_tokens=max_tokens,
                 system=system,
                 messages=[{"role": "user", "content": user}],
                 **extra,
@@ -79,7 +79,7 @@ def llm_from_env():
             "model": model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         }
-        r = httpx.post(f"{base}/chat/completions", json=body, headers=headers, timeout=45.0)
+        r = httpx.post(f"{base}/chat/completions", json=body, headers=headers, timeout=timeout)
         r.raise_for_status()
         return r.json()["choices"][0]["message"]["content"]
 

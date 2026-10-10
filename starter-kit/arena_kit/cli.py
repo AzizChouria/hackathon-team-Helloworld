@@ -27,16 +27,25 @@ def load_env(path=".env"):
 
 
 def agent_factory(name, data):
-    from .agents import LLMAgent, NaiveAgent, llm_from_env
+    from .agents import BuyerAgent, LLMAgent, NaiveAgent, llm_from_env
 
     if name == "naive":
         return NaiveAgent
+    if name in {"buyer", "buyer-llm"} and not data:
+        bundled = Path(__file__).resolve().parents[2] / "data"
+        data = bundled if (bundled / "facts.json").is_file() else None
     package = None
     if data:
         from .data import DataPackage
 
         package = DataPackage(data)
         package.lookup("")  # build the ID index once, before agents share it
+    if name in {"buyer", "buyer-llm"}:
+        from .research import Research
+
+        research = Research(package)
+        complete = llm_from_env(timeout=12.0, max_tokens=600) if name == "buyer-llm" else None
+        return lambda: BuyerAgent(research, complete)
     complete = llm_from_env()
     return lambda: LLMAgent(complete, package)
 
@@ -65,11 +74,11 @@ def main(argv=None):
     c.add_argument("--set", **sets)
     p = sub.add_parser("play", help="play one case")
     p.add_argument("case_id")
-    p.add_argument("--agent", default="naive", choices=["naive", "llm"])
+    p.add_argument("--agent", default="buyer", choices=["naive", "llm", "buyer", "buyer-llm"])
     p.add_argument("--data", **data)
     a = sub.add_parser("run", help="play every case of a set in parallel")
     a.add_argument("--set", **sets)
-    a.add_argument("--agent", default="naive", choices=["naive", "llm"])
+    a.add_argument("--agent", default="buyer", choices=["naive", "llm", "buyer", "buyer-llm"])
     a.add_argument("--data", **data)
     a.add_argument("--parallel", type=int, default=8, help="cases at once (at most 10)")
     a.add_argument("--waves", type=int, default=5, help="final: stop after this many waves have closed")
@@ -80,6 +89,9 @@ def main(argv=None):
     b.add_argument("--set", **sets)
     m = sub.add_parser("mcp", help="run the read-only MCP server over the data (stdio)")
     m.add_argument("--data", **data)
+    bench = sub.add_parser("benchmark", help="compare buyer and naive locally, with no keys or network")
+    bench.add_argument("--data", **data)
+    bench.add_argument("--out", help="optional JSON report including decision explanations")
     args = ap.parse_args(argv)
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
@@ -91,6 +103,21 @@ def main(argv=None):
         from .mcp_server import main as serve
 
         return serve(args.data)
+    if args.cmd == "benchmark":
+        from .benchmark import benchmark
+
+        report = benchmark(agent_factory("buyer", args.data)().research)
+        for run in report["runs"]:
+            result = run["result"]
+            print(
+                f"{run['case_id']}  {run['agent']:5}  score={result['score']:.3f}  "
+                f"C={result['c_deal']}  rounds={run['rounds']}"
+            )
+        print(report["limitation"])
+        if args.out:
+            Path(args.out).write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            print(f"report: {args.out}")
+        return
     client = ArenaClient()
     if args.cmd == "register":
         out = client.register(args.team_name, args.event_code)

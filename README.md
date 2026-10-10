@@ -21,6 +21,66 @@ Sunday at 12:00 a Live Final on hidden cases ranks every team.
 This repo holds everything you need: the brief, the API docs, a Python starter kit and the data
 package. Bring your own LLM, any provider; we run the suppliers.
 
+## Our solution: Hello World Buyer
+
+Implemented: a buyer that researches suppliers, negotiates complete commercial packages, and
+accepts only deals that satisfy the case's requirements and beat or match its alternative.
+`buyer` runs without an LLM; `buyer-llm` uses a model to choose tactics and relevant evidence.
+Both compute prices, claims and acceptance checks in Python.
+
+**The problem:** a cheap unit price can hide expensive freight, early payment, uncovered demand,
+poor quality or an unsustainable supplier relationship. The challenge rewards the total cost of
+covering the full need, with supplier-specific arguments and strict reply deadlines.
+
+**The solution:** research the supplied notes, contracts, market indices and supplier history;
+compute citable figures; search the allowed terms for good packages; negotiate RFQ threads
+concurrently; compare the complete standing offers before accepting or walking away. Every
+decision has a private explanation available with `-v`.
+
+Run the complete local comparison without API keys, a model or a running server:
+
+```bash
+cd starter-kit
+uv sync --extra sim
+uv run arena benchmark --data ../data --out /tmp/arena-benchmark.json
+uv run pytest
+uv run ruff check .
+```
+
+After installation, `.venv/bin/arena`, `.venv/bin/pytest` and `.venv/bin/ruff` also work directly.
+
+| Local case | Starter score | Buyer score |
+|---|---:|---:|
+| S01: price negotiation | 0.521 | 0.888 |
+| S02: competing quotes | 0.513 | 0.886 |
+| S03: framework renewal | 0.678 | 0.927 |
+
+These are results against the supplied scripted simulator. A separate hosted P01 practice run
+with `buyer-llm` closed a deal at **0.755**; its cited claims were verified and the model did not
+fall back. The final small concession adjustment was verified locally after that run. One
+hosted case does not establish general supplier performance.
+
+For hosted practice, set `ARENA_URL` and `ARENA_API_KEY` in `starter-kit/.env`, then run:
+
+```bash
+uv run arena play case:P01 --agent buyer --data ../data -v
+```
+
+For the AI mode, also configure `LLM_PROVIDER`, `LLM_MODEL` and the provider's key; Anthropic users
+install `uv sync --extra sim --extra anthropic`. Run with `--agent buyer-llm`. The final command is:
+
+```bash
+uv run arena run --set final --agent buyer-llm --data ../data --parallel 10 -v
+```
+
+Before the final, refresh the Sunday data with `uv run arena data --out ../data`. Research is
+loaded when the runner starts, so download the release before starting it. The agent uses the
+existing wave runner and reads only its cases, sessions and attachments.
+
+Read the [implementation and configuration guide](docs/solution.md) and the
+[pitch slides](docs/pitch.md). The original challenge instructions follow below; its examples
+using `--agent naive` or `--agent llm` remain available. `buyer` is now the default agent.
+
 ## Start in 15 minutes
 
 You need Python 3.12, [uv](https://docs.astral.sh/uv/) and git.
@@ -39,7 +99,7 @@ cp .env.example .env            # paste your key: ARENA_API_KEY=...
 
 uv sync --all-extras            # install
 uv run arena me                 # your team and its practice quota
-uv run arena play case:P01      # the naive example agent negotiates one practice case
+uv run arena play case:P01 --agent naive  # the original baseline negotiates one practice case
 uv run arena board              # your team on the practice leaderboard
 ```
 

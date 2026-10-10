@@ -1,5 +1,10 @@
 # Tacto Negotiation Arena - starter kit
 
+This team's implementation adds `buyer` (the default) and `buyer-llm`, plus an offline
+`benchmark` command. See the [solution guide](../docs/solution.md) for the problem, design,
+configuration and validation, and the [root README](../README.md#our-solution-hello-world-buyer)
+for commands. The original starter examples remain below.
+
 A Python client for the arena API, two example buyer agents that negotiate by e-mail, helpers that
 read the suppliers' documents and price a term sheet, a runner that plays many cases in parallel,
 `arena-sim` - a local simulator of the arena's API - and a read-only MCP server over the data
@@ -21,7 +26,7 @@ uv sync --all-extras            # 2. install
 cp .env.example .env            # 3. put ARENA_URL and your key (ARENA_API_KEY) into .env
 uv run arena me                 # 4. your team and its practice quota
 uv run arena cases              # 5. the practice cases (the 10 hosted ones are playable)
-uv run arena play case:P01 -v   # 6. the naive agent negotiates one case
+uv run arena play case:P01 --agent naive -v   # 6. the original baseline negotiates one case
 uv run arena board              # 7. you are on the practice leaderboard
 ```
 
@@ -177,6 +182,9 @@ print(play(RemoteTable(ArenaClient()), "case:P01", Haggler()))
 
 | Module | What |
 |---|---|
+| `agents/buyer.py` | The team's buyer: bounded term search, optional LLM tactics, grounded claims and guarded closure |
+| `research.py` | Supplier dossiers, Sunday updates, computed evidence and supplier cost estimates |
+| `benchmark.py` | A network-free comparison with the baseline, including JSON decision explanations |
 | `client.py` | `ArenaClient`: one method per endpoint (messages, threads, attachments, back office, `me`, ...); paced, safe retries; `practice_remaining` |
 | `play.py` | `play()`, `play_all()`, `play_waves()` (the Live Final); `RemoteTable` - the hosted arena (practice, sandbox, final) |
 | `cost.py` | the published cost function C with the category goal's rates, `supplier_value` for the relationship term, must-haves, term-sheet completion |

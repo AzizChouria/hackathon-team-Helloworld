@@ -13,7 +13,7 @@ import logging
 import re
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
 from .client import ArenaError
 from .cost import must_haves_ok, total_cost
@@ -148,13 +148,15 @@ def play(table, case_id, agent, deadline=None):
     for events in threads.values():
         for m in events:
             fetch_documents(table, m)
+    if hasattr(agent, "decide_ready") and len(threads) > 1:
+        return play_threads(table, case, threads, agent, deadline)
     slowest = 0.0  # the longest round so far: decision + the supplier's reply
     while live_threads(threads):
         t0 = time.monotonic()
         cap = deadline() if callable(deadline) else deadline
         if cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S):
             log.info("%s: the wave's cap is near - closing", case_id)
-            decision = closing_move(case, threads)
+            decision = getattr(agent, "close", closing_move)(case, threads)
         else:
             decision = agent.decide(case, threads)
         if (took := time.monotonic() - t0) > MOVE_LIMIT_S * 0.75:
@@ -178,6 +180,68 @@ def play(table, case_id, agent, deadline=None):
         threads[sid] += [{**msg, "from": "buyer"}, fetch_documents(table, reply)]
         slowest = max(slowest, time.monotonic() - t0)
         log.info("%s %s %s", sid, reply.get("status"), standing(threads[sid])[1])
+    return table.result()
+
+
+def play_threads(table, case, threads, agent, deadline=None):
+    """Keep RFQ requests in flight independently, so one slow bidder cannot starve the others.
+
+    Only this coordinator mutates transcripts or calls the agent. Worker threads perform
+    transport and attachment reads; at most one request per supplier is outstanding.
+    """
+    pending, slowest = {}, 0.0
+
+    def send(sid, message):
+        try:
+            reply = table.send(sid, message)
+        except ArenaError as exc:
+            if exc.status != 409:
+                raise
+            reply = table.missed(sid, exc)
+        return fetch_documents(table, reply)
+
+    with ThreadPoolExecutor(max_workers=len(threads)) as pool:
+        while live_threads(threads):
+            for sid, (future, message, started) in list(pending.items()):
+                if not future.done():
+                    continue
+                reply = future.result()
+                del pending[sid]
+                if "result" in reply:
+                    return reply["result"]
+                threads[sid] += [{**message, "from": "buyer"}, reply]
+                slowest = max(slowest, time.monotonic() - started)
+            if not live_threads(threads):
+                break
+            cap = deadline() if callable(deadline) else deadline
+            closing = cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S)
+            if closing and pending:
+                wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                continue
+            ready = [sid for sid in live_threads(threads) if sid not in pending]
+            started = time.monotonic()
+            decision = agent.close(case, threads) if closing else agent.decide_ready(case, threads, ready)
+            if decision is None:
+                if not pending:
+                    decision = agent.close(case, threads)
+                else:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+            sid, message = decision["supplier_id"], decision["message"]
+            if message.get("action"):
+                try:
+                    return table.close(sid, message)
+                except ArenaError as exc:
+                    if exc.status != 409:
+                        raise
+                    reply = table.missed(sid, exc)
+                    if "result" in reply:
+                        return reply["result"]
+                    threads[sid].append(fetch_documents(table, reply))
+                    continue
+            if sid not in ready:
+                raise ValueError("agent selected a supplier with a request already in flight")
+            pending[sid] = (pool.submit(send, sid, message), message, started)
     return table.result()
 
 
