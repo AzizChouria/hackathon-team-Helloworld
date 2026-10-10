@@ -84,6 +84,16 @@ def alternative_cost(case):
     return total_cost(case, alt["terms"])
 
 
+def opening_anchor(case, quote, supplier):
+    """Set the first price from the quote or a comparable should-cost estimate."""
+    goal = case["buyer"].get("category_goal")
+    if goal == "stabilise":
+        return quote * 0.90
+    if supplier and supplier.get("full_cost") is not None:
+        return min(quote * 0.90, max(quote * 0.72, supplier["full_cost"] * 1.04))
+    return quote * (0.82 if goal == "secure_supply" else 0.78)
+
+
 def optimise(case, price, standard, supplier=None, forced=None):
     """Exact search for small menus; a bounded beam for large, previously unseen menus.
 
@@ -305,13 +315,7 @@ class BuyerAgent:
             previous = [(equivalent or prior)["unit_price"]]
         strategic = case["buyer"].get("category_goal") in {"stabilise", "secure_supply"}
         quality = case["buyer"].get("category_goal") == "quality_first"
-        # A quality requirement is not a reason to volunteer almost the asking
-        # price. Price the compliant warranty/liability packages separately.
-        anchor = theirs * (0.90 if strategic else 0.86)
-        if supplier and case["buyer"].get("category_goal") == "secure_supply":
-            # The cost estimate and sustainable margin below protect supplier health;
-            # a bottleneck label alone should not anchor us at almost the asking price.
-            anchor = theirs * 0.90
+        anchor = opening_anchor(case, theirs, supplier)
         if supplier and strategic:
             margin = case["buyer"].get("sustainable_margin_pct", 5) / 100
             anchor = max(anchor, min(theirs, supplier["full_cost"] / max(0.5, 1 - margin)))
@@ -772,7 +776,9 @@ class BuyerAgent:
                         if must_haves_ok(case, sheet["terms"], standard_terms(threads[rival]))
                     ]
                     if rival_costs:
-                        factor = 0.90 if case["buyer"].get("category_goal") in {"stabilise", "secure_supply"} else 0.86
+                        factor = 0.90 if case["buyer"].get("category_goal") == "stabilise" else (
+                            0.82 if case["buyer"].get("category_goal") == "secure_supply" else 0.78
+                        )
                         budget = min(min(rival_costs) * factor,
                                      min(self.valuation(case, sid, events, t)[0] for t in sheets))
                         _, std, supplier = self.valuation(case, sid, events, sheets[0])

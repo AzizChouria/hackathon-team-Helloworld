@@ -193,7 +193,7 @@ def test_protected_open_quote_expiry_is_respected(case):
 def test_opening_anchor_uses_compliant_market_cost(case):
     threads = {"sup:A": [quote("A", 40)], "sup:B": [quote("B", 20)]}
     offers = BuyerAgent().decide_ready(case, threads, ["sup:A"])["message"]["term_sheets"]
-    assert all(total_cost(case, s["terms"]) <= 0.86 * total_cost(case, threads["sup:B"][0]["term_sheets"][0]["terms"])
+    assert all(total_cost(case, s["terms"]) <= 0.78 * total_cost(case, threads["sup:B"][0]["term_sheets"][0]["terms"])
                for s in offers)
 
 
