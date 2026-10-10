@@ -256,6 +256,45 @@ def test_local_rfq_collects_better_pending_final_quote(case):
     assert result == {"deal": True, "supplier_id": "sup:B"}
 
 
+def test_rfq_can_use_reply_while_its_attachment_is_still_loading(case):
+    case["suppliers"] = ["sup:A", "sup:B"]
+    release = threading.Event()
+
+    class Table:
+        def send(self, sid, _message):
+            assert sid == "sup:B"
+            reply = thread(18, "final_offer", supplier="B")[0]
+            reply["attachments"] = [{"attachment_id": "att:B", "name": "cost.txt"}]
+            return reply
+
+        def attachment(self, _ref):
+            assert release.wait(timeout=2)
+            return b"The document."
+
+        def close(self, sid, _message):
+            release.set()
+            return {"deal": True, "supplier_id": sid}
+
+    class Agent:
+        called = False
+
+        def decide_ready(self, _case, threads, _ready):
+            if not self.called:
+                self.called = True
+                return {"supplier_id": "sup:B", "message": {"body": "Please revise."}}
+            assert "text" not in threads["sup:B"][-1]["attachments"][0]
+            return {"supplier_id": "sup:B", "message": {
+                "action": {"type": "accept", "term_sheet_id": "offer:B-0"}
+            }}
+
+    threads = {"sup:A": thread(20, supplier="A"), "sup:B": thread(21, supplier="B")}
+    try:
+        result = play_threads(Table(), case, threads, Agent())
+    finally:
+        release.set()
+    assert result == {"deal": True, "supplier_id": "sup:B"}
+
+
 def test_wave_deadline_accepts_ready_offer_while_another_bidder_is_pending(case):
     case["suppliers"] = ["sup:A", "sup:B"]
     sending = threading.Event()

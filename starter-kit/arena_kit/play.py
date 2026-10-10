@@ -178,6 +178,9 @@ def play(table, case_id, agent, deadline=None):
     case, threads = open_with_capacity_retry(table, case_id, deadline)
     if getattr(table, "done", None):  # resumed a case that had already ended
         return table.done
+    received = time.monotonic()
+    for events in threads.values():
+        latest(events).setdefault("_received_at", received)
     messages = [m for events in threads.values() for m in events if m.get("attachments")]
     if messages:
         with ThreadPoolExecutor(max_workers=min(3, len(messages))) as pool:
@@ -233,7 +236,7 @@ def play_threads(table, case, threads, agent, deadline=None):
     Only this coordinator mutates transcripts or calls the agent. Worker threads perform
     transport and attachment reads; at most one request per supplier is outstanding.
     """
-    pending, slowest, rejected = {}, 0.0, set()
+    pending, docs_pending, slowest, rejected = {}, {}, 0.0, set()
     closing_checked = None
 
     def send(sid, message):
@@ -244,10 +247,23 @@ def play_threads(table, case, threads, agent, deadline=None):
                 raise
             reply = table.missed(sid, exc)
         reply["_received_at"] = time.monotonic()
-        return fetch_documents(table, reply)
+        return reply
 
-    with ThreadPoolExecutor(max_workers=len(threads)) as pool:
+    with (
+        ThreadPoolExecutor(max_workers=len(threads)) as pool,
+        ThreadPoolExecutor(max_workers=len(threads)) as docs_pool,
+    ):
         while live_threads(threads):
+            for future, (sid, index, original) in list(docs_pending.items()):
+                if future.done():
+                    del docs_pending[future]
+                    try:
+                        hydrated = future.result()
+                    except Exception as exc:
+                        log.warning("%s attachment read failed (%s)", sid, type(exc).__name__)
+                        continue
+                    if threads[sid][index] is original:
+                        threads[sid][index] = hydrated
             for sid, (future, message, started) in list(pending.items()):
                 if not future.done():
                     continue
@@ -257,6 +273,10 @@ def play_threads(table, case, threads, agent, deadline=None):
                 if "result" in reply:
                     return reply["result"]
                 threads[sid] += [{**message, "from": "buyer"}, reply]
+                if reply.get("attachments"):
+                    copy = {**reply, "attachments": [a.copy() for a in reply["attachments"]]}
+                    future = docs_pool.submit(fetch_documents, table, copy)
+                    docs_pending[future] = (sid, len(threads[sid]) - 1, reply)
                 slowest = max(slowest, time.monotonic() - started)
             if not live_threads(threads):
                 break

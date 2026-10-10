@@ -744,6 +744,8 @@ class BuyerAgent:
         ordered = sorted(
             challengers or active,
             key=lambda s: (
+                0 if latest(threads[s]).get("_received_at") is not None
+                and time.monotonic() - latest(threads[s])["_received_at"] > 35 else 1,
                 sum(m.get("from") == "buyer" for m in threads[s]),
                 self.valuation(case, s, threads[s], standing(threads[s])[1])[0],
                 s,
