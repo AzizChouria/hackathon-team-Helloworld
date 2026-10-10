@@ -25,7 +25,7 @@ package. Bring your own LLM, any provider; we run the suppliers.
 
 Implemented: a buyer that researches suppliers, negotiates complete commercial packages, and
 accepts only deals that satisfy the case's requirements and beat or match its alternative.
-`buyer` runs without an LLM; `buyer-llm` uses a model to choose tactics and relevant evidence.
+`buyer` runs without an LLM; `buyer-llm` uses a model to choose evidence and answer supplier objections.
 Both compute prices, claims and acceptance checks in Python.
 
 **The problem:** a cheap unit price can hide expensive freight, early payment, uncovered demand,
@@ -35,7 +35,9 @@ covering the full need, with supplier-specific arguments and strict reply deadli
 **The solution:** research the supplied notes, contracts, market indices and supplier history;
 compute citable figures; search the allowed terms for good packages; negotiate RFQ threads
 concurrently; compare the complete standing offers before accepting or walking away. Every
-decision has a private explanation available with `-v`.
+decision has a private explanation available with `-v`. The planner trades payment, duration,
+indexation and quality liability, and avoids demanding extra supplier effort when it adds no
+value under the case's cost function.
 
 Run the complete local comparison without API keys, a model or a running server:
 
@@ -55,16 +57,41 @@ After installation, `.venv/bin/arena`, `.venv/bin/pytest` and `.venv/bin/ruff` a
 | S02: competing quotes | 0.513 | 0.886 |
 | S03: framework renewal | 0.678 | 0.927 |
 
-These are results against the supplied scripted simulator. A separate hosted P01 practice run
-with `buyer-llm` closed a deal at **0.755**; its cited claims were verified and the model did not
-fall back. The final small concession adjustment was verified locally after that run. One
-hosted case does not establish general supplier performance.
+These are results against the supplied scripted simulator. Hosted experiments now cover all ten
+practice case types. On five matched cases, the observed mean rose from **0.583 to 0.620**.
+The complete ten-case batch averaged **0.559**, including one failed acceptance; later targeted
+runs tested settlement fixes and quality alternatives. Results vary between runs and versions.
+
+Use the [negotiation strategy](docs/strategy.md) for the operating playbook, and the
+[evaluation report](docs/evaluation.md) for all experiment summaries, limitations and replay links.
+
+The [later local optimization](docs/local-score-optimization.md) adds a 48-case development suite
+and 48-case parameter holdout. The [equal-value package strategy](docs/package-exchange-validation.md)
+improved the paired holdout mean from **0.816 to 0.834**, with no errors or requirement breaches.
+The subsequent [competition policy](docs/competitive-strategy-validation.md) reached **0.843** locally.
+Its corrected hosted P05 run scored **0.459**, a small gain over 0.452 after one failed experiment;
+these synthetic scores do not predict hosted performance. Run it without
+keys, network or a model from `starter-kit`:
+
+```bash
+.venv/bin/python -m arena_kit.stress --split holdout --out /tmp/local-holdout.json
+```
 
 For hosted practice, set `ARENA_URL` and `ARENA_API_KEY` in `starter-kit/.env`, then run:
 
 ```bash
 uv run arena play case:P01 --agent buyer --data ../data -v
 ```
+
+To test all hosted practice cases once and save scores, claim checks and replay links:
+
+```bash
+uv run arena evaluate --agent buyer-llm --data ../data --parallel 5 \
+  --out /tmp/arena-evaluation.json
+```
+
+This uses one practice session per case. Add `--cases case:P05 case:P10 case:P11` for a smaller
+experiment. Errors count as zero in the reported average; the report records the code fingerprint.
 
 For the AI mode, also configure `LLM_PROVIDER`, `LLM_MODEL` and the provider's key; Anthropic users
 install `uv sync --extra sim --extra anthropic`. Run with `--agent buyer-llm`. The final command is:
@@ -77,7 +104,7 @@ Before the final, refresh the Sunday data with `uv run arena data --out ../data`
 loaded when the runner starts, so download the release before starting it. The agent uses the
 existing wave runner and reads only its cases, sessions and attachments.
 
-Read the [implementation and configuration guide](docs/solution.md) and the
+Read the [implementation and configuration guide](docs/solution.md), the [strategy](docs/strategy.md), and the
 [pitch slides](docs/pitch.md). The original challenge instructions follow below; its examples
 using `--agent naive` or `--agent llm` remain available. `buyer` is now the default agent.
 

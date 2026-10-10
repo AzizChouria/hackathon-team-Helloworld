@@ -138,7 +138,11 @@ class Research:
             end_month = month_number(end["month"])
             if newest - end_month > 12:
                 continue
-            start = next(((ref, f) for ref, f in rows if 0 < end_month - month_number(f["month"]) <= 12), None)
+            windows = [
+                (ref, f) for ref, f in rows if 3 <= end_month - month_number(f["month"]) <= 12 and float(f["value"]) > 0
+            ]
+            # Cite the actual, explicit window. Recent declines can coexist with an annual rise.
+            start = max(windows, key=lambda pair: float(pair[1]["value"]), default=None)
             if not start or float(start[1]["value"]) <= 0:
                 continue
             start_id, start = start
@@ -182,4 +186,40 @@ class Research:
                             "volume",
                         )
                     )
+        # Only the case's available alternative/quotes are commercial leverage; old RFQs
+        # in the ERP are not represented as still available.
+        alternative = case.get("buyer", {}).get("alternative") or {}
+        refs = list(case.get("refs", [])) + [alternative.get("ref")]
+        for ref in dict.fromkeys(refs):
+            fact = self.fact(case, ref) if ref else {}
+            if (
+                ref
+                and ref.startswith("quote:")
+                and fact.get("part") in case.get("parts", [])
+                and fact.get("supplier") != sid
+                and fact.get("unit_price")
+            ):
+                out.insert(
+                    0,
+                    Evidence(
+                        f"The alternative quote is EUR {float(fact['unit_price']):.2f} per price unit ({ref}).",
+                        (ref,),
+                        "rival",
+                    ),
+                )
+        notice = self.fact(case, case.get("trigger_doc"))
+        if notice.get("days") is not None and notice.get("supplier") == sid:
+            for row in self.related("contracts", case, sid):
+                contract = self.fact(case, row["id"])
+                if contract.get("days") and float(notice["days"]) < float(contract["days"]):
+                    out.insert(
+                        0,
+                        Evidence(
+                            f"The letter gives {float(notice['days']):g} days of notice against the agreed "
+                            f"{float(contract['days']):g} days ({case['trigger_doc']}, {row['id']}).",
+                            (case["trigger_doc"], row["id"]),
+                            "notice",
+                        ),
+                    )
+                    break
         return out

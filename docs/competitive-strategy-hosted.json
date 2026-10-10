@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-10",
+  "sessions_opened": 2,
+  "quota_before": 495,
+  "quota_after_reported": 493,
+  "attempts": [
+    {
+      "set": "practice",
+      "case_ids": [
+        "case:P05"
+      ],
+      "seconds_per_case": 480,
+      "started_at": "2026-10-10T17:53:51.156390+00:00",
+      "agent": "buyer-llm",
+      "source_sha256": "de4660b4c3cd562a2bd6d8a88aa937d532c1d82e784b93f632d5cba272502959",
+      "mean_score": 0.35028304038477975,
+      "practice_remaining": 494,
+      "label": "initial_candidate",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "low",
+      "runs": [
+        {
+          "case_id": "case:P05",
+          "session_id": "1a8579dfab749578",
+          "seconds": 234.48,
+          "result": {
+            "ended": true,
+            "deal": true,
+            "supplier_id": "sup:70250",
+            "offer_id": "offer:70250-2",
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 35,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0.0,
+              "ppm_commitment": 600,
+              "chargeback_eur_per_complaint": 0.0,
+              "unit_price": 32.55
+            },
+            "c_open": 305544.96,
+            "c_deal": 276779.44,
+            "c_alt": null,
+            "c_best": 223424.17,
+            "score": 0.35028304038477975,
+            "must_haves_ok": true,
+            "cost_breakdown": {
+              "price": 273420.0,
+              "uncovered_need": 0.0,
+              "fallback_risk": 0.0,
+              "payment_terms": 2794.96,
+              "freight": 0.0,
+              "late_delivery": 0.0,
+              "quality": 564.48,
+              "tooling": 0.0,
+              "index_clause": 0.0,
+              "index_risk": 0.0,
+              "relationship": 0.0
+            }
+          },
+          "replay_url": "https://arena.tacto.ai/replay/1a8579dfab749578",
+          "claim_counts": {
+            "verified": 6
+          },
+          "final_challenges": 2,
+          "rule_fallbacks_observed": 0
+        }
+      ]
+    },
+    {
+      "set": "practice",
+      "case_ids": [
+        "case:P05"
+      ],
+      "seconds_per_case": 480,
+      "started_at": "2026-10-10T17:59:52.748555+00:00",
+      "agent": "buyer-llm",
+      "source_sha256": "cf0c3cf3ecff2ca6c76096fb8cb48686cc2fc9fd88e3416919ba453c1eeb09d0",
+      "mean_score": 0.45878370142323266,
+      "practice_remaining": 493,
+      "label": "protected_candidate",
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "low",
+      "runs": [
+        {
+          "case_id": "case:P05",
+          "session_id": "7722d97f5c8f6090",
+          "seconds": 222.2,
+          "result": {
+            "ended": true,
+            "deal": true,
+            "supplier_id": "sup:70250",
+            "offer_id": "offer:70250-3",
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 35,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0.0,
+              "ppm_commitment": 600,
+              "chargeback_eur_per_complaint": 0.0,
+              "unit_price": 31.5
+            },
+            "c_open": 305544.96,
+            "c_deal": 267869.28,
+            "c_alt": null,
+            "c_best": 223424.17,
+            "score": 0.45878370142323266,
+            "must_haves_ok": true,
+            "cost_breakdown": {
+              "price": 264600.0,
+              "uncovered_need": 0.0,
+              "fallback_risk": 0.0,
+              "payment_terms": 2704.8,
+              "freight": 0.0,
+              "late_delivery": 0.0,
+              "quality": 564.48,
+              "tooling": 0.0,
+              "index_clause": 0.0,
+              "index_risk": 0.0,
+              "relationship": 0.0
+            }
+          },
+          "replay_url": "https://arena.tacto.ai/replay/7722d97f5c8f6090",
+          "claim_counts": {
+            "verified": 7
+          },
+          "final_challenges": 0,
+          "rule_fallbacks_observed": 0
+        }
+      ]
+    }
+  ],
+  "mean_across_different_candidates": 0.4045333709040062,
+  "comparison": {
+    "previous_minimal_hosted_score": 0.4519099243930801,
+    "final_score": 0.45878370142323266,
+    "score_change": 0.0068737770301525725,
+    "total_cost_reduction": 564.48,
+    "previous_observed_best_P05": 0.503576865249348,
+    "target_score": 0.8,
+    "target_met": false,
+    "cost_required_for_0_8": 239848.33,
+    "remaining_cost_gap": 28020.95
+  },
+  "limitation": "One observation per code revision. The corrected run issued no final challenges, so the protected-challenge branch is covered locally, not demonstrated by this hosted run. Supplier randomness prevents causal attribution. Both attempts are retained."
+}

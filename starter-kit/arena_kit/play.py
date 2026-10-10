@@ -78,6 +78,8 @@ class RemoteTable:
         if state.get("status") == "ended":
             return {"result": state.get("result") or {"deal": False, "end_reason": state.get("end_reason")}}
         t = self.client.thread(self.session_id, supplier_id)
+        if not t.get("timeouts") and t.get("messages"):
+            return latest(t["messages"])
         last = (t.get("timeouts") or [{}])[-1]
         sheet = [{"term_sheet_id": t["offer_id"], "terms": last.get("terms", {})}]
         return {
@@ -117,10 +119,21 @@ def moves_left(case, events):
 
 def fetch_documents(table, message):
     """Download every attachment of a supplier message and add its text."""
-    for att in message.get("attachments") or []:
-        if att.get("attachment_id") and "text" not in att:
-            att["text"] = read_document(att["name"], table.attachment(att["attachment_id"]))
+    attachments = [a for a in message.get("attachments") or [] if a.get("attachment_id") and "text" not in a]
+
+    def read(att):
+        att["text"] = read_document(att["name"], table.attachment(att["attachment_id"]))
+
+    if len(attachments) > 1:
+        with ThreadPoolExecutor(max_workers=min(3, len(attachments))) as pool:
+            list(pool.map(read, attachments))
+    elif attachments:
+        read(attachments[0])
     return message
+
+
+def expired_offer(error):
+    return error.status == 422 and "not a standing offer" in str(error.detail)
 
 
 def closing_move(case, threads):
@@ -139,18 +152,40 @@ def closing_move(case, threads):
     return {"supplier_id": best[1], "message": {"action": {"type": "accept", "term_sheet_id": best[2]}}}
 
 
+def open_with_capacity_retry(table, case_id, deadline=None):
+    """Wait for a session slot when other cases are still open on the same key.
+
+    The arena's open-session 429 has no Retry-After header, so the HTTP client's
+    ordinary rate-limit retry does not handle it. Stop before the wave's closing
+    reserve; practice runs without a deadline wait at most one minute.
+    """
+    started = time.monotonic()
+    while True:
+        try:
+            return table.open(case_id)
+        except ArenaError as exc:
+            if exc.status != 429 or "open sessions" not in str(exc.detail).lower():
+                raise
+            cap = deadline() if callable(deadline) else deadline
+            if (cap and time.time() >= cap - CLOSE_BEFORE_CAP_S) or (not cap and time.monotonic() - started >= 60):
+                raise
+            time.sleep(1)
+
+
 def play(table, case_id, agent, deadline=None):
     """Play one case to its end. `deadline` (time.time(), or a function returning it): a Live Final
     wave's cap - shortly before it, `closing_move` closes the case so it does not end without a deal."""
-    case, threads = table.open(case_id)
+    case, threads = open_with_capacity_retry(table, case_id, deadline)
     if getattr(table, "done", None):  # resumed a case that had already ended
         return table.done
-    for events in threads.values():
-        for m in events:
-            fetch_documents(table, m)
+    messages = [m for events in threads.values() for m in events if m.get("attachments")]
+    if messages:
+        with ThreadPoolExecutor(max_workers=min(3, len(messages))) as pool:
+            list(pool.map(functools.partial(fetch_documents, table), messages))
     if hasattr(agent, "decide_ready") and len(threads) > 1:
         return play_threads(table, case, threads, agent, deadline)
     slowest = 0.0  # the longest round so far: decision + the supplier's reply
+    rejected = set()
     while live_threads(threads):
         t0 = time.monotonic()
         cap = deadline() if callable(deadline) else deadline
@@ -168,10 +203,19 @@ def play(table, case_id, agent, deadline=None):
                 return table.close(sid, msg)
             reply = table.send(sid, msg)
         except ArenaError as e:
-            if e.status != 409:
+            if expired_offer(e):
+                ref = (sid, (msg.get("action") or {}).get("term_sheet_id"))
+                if ref in rejected:
+                    raise  # no infinite retry if the service keeps rejecting the same offer
+                rejected.add(ref)
+            elif e.status != 409:
                 raise
             log.info("%s: %s", sid, e.detail)
             reply = table.missed(sid, e)  # e.g. late, or the thread or the case has ended
+            if expired_offer(e) and "result" not in reply:
+                reply["term_sheets"] = [
+                    s for s in reply.get("term_sheets", []) if (sid, s["term_sheet_id"]) not in rejected
+                ]
             if msg.get("action") and "result" not in reply:  # the case goes on: decide again
                 threads[sid].append(fetch_documents(table, reply))
                 continue
@@ -189,7 +233,8 @@ def play_threads(table, case, threads, agent, deadline=None):
     Only this coordinator mutates transcripts or calls the agent. Worker threads perform
     transport and attachment reads; at most one request per supplier is outstanding.
     """
-    pending, slowest = {}, 0.0
+    pending, slowest, rejected = {}, 0.0, set()
+    closing_checked = None
 
     def send(sid, message):
         try:
@@ -198,6 +243,7 @@ def play_threads(table, case, threads, agent, deadline=None):
             if exc.status != 409:
                 raise
             reply = table.missed(sid, exc)
+        reply["_received_at"] = time.monotonic()
         return fetch_documents(table, reply)
 
     with ThreadPoolExecutor(max_workers=len(threads)) as pool:
@@ -207,6 +253,7 @@ def play_threads(table, case, threads, agent, deadline=None):
                     continue
                 reply = future.result()
                 del pending[sid]
+                closing_checked = None
                 if "result" in reply:
                     return reply["result"]
                 threads[sid] += [{**message, "from": "buyer"}, reply]
@@ -215,12 +262,23 @@ def play_threads(table, case, threads, agent, deadline=None):
                 break
             cap = deadline() if callable(deadline) else deadline
             closing = cap and time.time() > cap - max(CLOSE_BEFORE_CAP_S, slowest + ROUND_MARGIN_S)
-            if closing and pending:
-                wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
-                continue
             ready = [sid for sid in live_threads(threads) if sid not in pending]
             started = time.monotonic()
-            decision = agent.close(case, threads) if closing else agent.decide_ready(case, threads, ready)
+            if closing and pending:
+                # Pending replies may outlast the wave. Settle a valid ready offer
+                # now; otherwise give the pending bidders time until the final
+                # 30 seconds, while keeping a chance to walk away cleanly.
+                if not ready:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+                if closing_checked is None or closing_checked[0] != tuple(ready):
+                    closing_checked = (tuple(ready), agent.close(case, {s: threads[s] for s in ready}))
+                decision = closing_checked[1]
+                if decision["message"].get("action", {}).get("type") != "accept" and time.time() < cap - 30:
+                    wait([item[0] for item in pending.values()], timeout=0.25, return_when=FIRST_COMPLETED)
+                    continue
+            else:
+                decision = agent.close(case, threads) if closing else agent.decide_ready(case, threads, ready)
             if decision is None:
                 if not pending:
                     decision = agent.close(case, threads)
@@ -232,11 +290,20 @@ def play_threads(table, case, threads, agent, deadline=None):
                 try:
                     return table.close(sid, message)
                 except ArenaError as exc:
-                    if exc.status != 409:
+                    if expired_offer(exc):
+                        ref = (sid, (message.get("action") or {}).get("term_sheet_id"))
+                        if ref in rejected:
+                            raise
+                        rejected.add(ref)
+                    elif exc.status != 409:
                         raise
                     reply = table.missed(sid, exc)
                     if "result" in reply:
                         return reply["result"]
+                    if expired_offer(exc):
+                        reply["term_sheets"] = [
+                            s for s in reply.get("term_sheets", []) if (sid, s["term_sheet_id"]) not in rejected
+                        ]
                     threads[sid].append(fetch_documents(table, reply))
                     continue
             if sid not in ready:

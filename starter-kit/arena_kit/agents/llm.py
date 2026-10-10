@@ -51,7 +51,7 @@ Reply with ONE JSON object and nothing else:
   120 words, no placeholders."""
 
 
-def llm_from_env(timeout=45.0, max_tokens=16000):
+def llm_from_env(timeout=45.0, max_tokens=16000, reasoning_effort=None):
     """LLM_PROVIDER=anthropic (Anthropic SDK) or openai (any OpenAI-compatible endpoint)."""
     provider, model = os.environ.get("LLM_PROVIDER", "openai"), os.environ["LLM_MODEL"]
     if provider == "anthropic":
@@ -79,6 +79,9 @@ def llm_from_env(timeout=45.0, max_tokens=16000):
             "model": model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         }
+        effort = os.environ.get("LLM_REASONING_EFFORT", reasoning_effort)
+        if effort:
+            body["reasoning_effort"] = effort
         r = httpx.post(f"{base}/chat/completions", json=body, headers=headers, timeout=timeout)
         r.raise_for_status()
         return r.json()["choices"][0]["message"]["content"]

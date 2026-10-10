@@ -1,0 +1,1123 @@
+{
+  "recorded_on": "2026-10-10",
+  "scope": "Hosted practice only; several code revisions and case subsets, not one controlled trial.",
+  "experiments": [
+    {
+      "case_ids": [
+        "case:P03",
+        "case:P04",
+        "case:P05",
+        "case:P10",
+        "case:P11"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.582543243931919,
+      "id": "baseline",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P10",
+          "session_id": "d46cbeadc7035a60",
+          "seconds": 76.53,
+          "replay_url": "https://arena.tacto.ai/replay/d46cbeadc7035a60",
+          "result": {
+            "score": 0.4766002697073582,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1932492.18,
+            "c_deal": 1644832.8,
+            "c_best": 1328926.89,
+            "terms": {
+              "payment_days": 30,
+              "lead_time_days": 35,
+              "volume_per_year": 23400,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 34.8
+            },
+            "supplier_id": "sup:70410"
+          }
+        },
+        {
+          "case_id": "case:P04",
+          "session_id": "2e594cf6239d8636",
+          "seconds": 114.34,
+          "replay_url": "https://arena.tacto.ai/replay/2e594cf6239d8636",
+          "result": {
+            "score": 0.8153309653389462,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 198846.33,
+            "c_deal": 196957.2,
+            "c_best": 196529.32,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 7,
+              "volume_per_year": 20000,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 150,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 4.86
+            },
+            "supplier_id": "sup:70620"
+          }
+        },
+        {
+          "case_id": "case:P03",
+          "session_id": "b5303010b4cab659",
+          "seconds": 138.36,
+          "replay_url": "https://arena.tacto.ai/replay/b5303010b4cab659",
+          "result": {
+            "score": 0.90614743779274,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 4246314.02,
+            "c_deal": 3940696.84,
+            "c_best": 3909043.1,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 49,
+              "volume_per_year": 4580,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 350,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 432.83
+            },
+            "supplier_id": "sup:70530"
+          }
+        },
+        {
+          "case_id": "case:P11",
+          "session_id": "83c2d3a360ea99c3",
+          "seconds": 208.83,
+          "replay_url": "https://arena.tacto.ai/replay/83c2d3a360ea99c3",
+          "result": {
+            "score": 0.3143945632837383,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 817578,
+            "c_deal": 787686,
+            "c_best": 722500.02,
+            "terms": {
+              "payment_days": 60,
+              "lead_time_days": 56,
+              "volume_per_year": 15900,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 500,
+              "unit_price": 48
+            },
+            "supplier_id": "sup:70140"
+          }
+        },
+        {
+          "case_id": "case:P05",
+          "session_id": "8c9bb6bb3b296980",
+          "seconds": 240.09,
+          "replay_url": "https://arena.tacto.ai/replay/8c9bb6bb3b296980",
+          "result": {
+            "score": 0.40024298353681226,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 305544.96,
+            "c_deal": 272676.69,
+            "c_best": 223424.17,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 28,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 1200,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 32
+            },
+            "supplier_id": "sup:70210"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P03",
+        "case:P04",
+        "case:P05",
+        "case:P10",
+        "case:P11"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.45658537455300774,
+      "id": "candidate",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P04",
+          "session_id": "a77217c543385d1d",
+          "seconds": 70.79,
+          "replay_url": "https://arena.tacto.ai/replay/a77217c543385d1d",
+          "result": {
+            "score": 0.05639164267740558,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 198846.33,
+            "c_deal": 198715.67,
+            "c_best": 196529.32,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 7,
+              "volume_per_year": 20000,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 150,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.02
+            },
+            "supplier_id": "sup:70620"
+          }
+        },
+        {
+          "case_id": "case:P10",
+          "session_id": "e32f55effa6fedc0",
+          "seconds": 78.44,
+          "replay_url": "https://arena.tacto.ai/replay/e32f55effa6fedc0",
+          "result": {
+            "score": 0.5702676838822193,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1932492.18,
+            "c_deal": 1588298.4,
+            "c_best": 1328926.89,
+            "terms": {
+              "payment_days": 30,
+              "lead_time_days": 42,
+              "volume_per_year": 23400,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 33.6
+            },
+            "supplier_id": "sup:70410"
+          }
+        },
+        {
+          "case_id": "case:P03",
+          "session_id": "dd0ec043d96f4f8b",
+          "seconds": 80.23,
+          "replay_url": "https://arena.tacto.ai/replay/dd0ec043d96f4f8b",
+          "result": {
+            "score": 0.7622059441116354,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 4246314.02,
+            "c_deal": 3989244.12,
+            "c_best": 3909043.1,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 49,
+              "volume_per_year": 4580,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 350,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 438.21
+            },
+            "supplier_id": "sup:70530"
+          }
+        },
+        {
+          "case_id": "case:P05",
+          "session_id": "ca501b483963826e",
+          "seconds": 223.27,
+          "replay_url": "https://arena.tacto.ai/replay/ca501b483963826e",
+          "result": {
+            "score": 0.503576865249348,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 305544.96,
+            "c_deal": 264190.83,
+            "c_best": 223424.17,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 35,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 1200,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 31
+            },
+            "supplier_id": "sup:70210"
+          }
+        },
+        {
+          "case_id": "case:P11",
+          "session_id": "8b24c168705d0d1a",
+          "seconds": 247.95,
+          "replay_url": "https://arena.tacto.ai/replay/8b24c168705d0d1a",
+          "result": {
+            "score": 0.3904847368444303,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 817578,
+            "c_deal": 780451.5,
+            "c_best": 722500.02,
+            "terms": {
+              "payment_days": 60,
+              "lead_time_days": 56,
+              "volume_per_year": 15900,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 300,
+              "unit_price": 47.5
+            },
+            "supplier_id": "sup:70140"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P01",
+        "case:P02",
+        "case:P07",
+        "case:P08",
+        "case:P18"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.6502123472592253,
+      "id": "broad",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P02",
+          "session_id": "b32b3b965cc8c664",
+          "seconds": 53.71,
+          "replay_url": "https://arena.tacto.ai/replay/b32b3b965cc8c664",
+          "result": {
+            "score": 0.5026557732658966,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 2282867.49,
+            "c_deal": 2259065.01,
+            "c_best": 2235514.05,
+            "terms": {
+              "payment_days": 45,
+              "lead_time_days": 35,
+              "volume_per_year": 6110,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "CU-NOTATION",
+                "material_share": 0.2,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 250,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 363.54
+            },
+            "supplier_id": "sup:70510"
+          }
+        },
+        {
+          "case_id": "case:P07",
+          "session_id": "aad185fe99b70a1e",
+          "seconds": 118.56,
+          "replay_url": "https://arena.tacto.ai/replay/aad185fe99b70a1e",
+          "result": {
+            "score": 0.733482949616123,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 391027.4,
+            "c_deal": 323704,
+            "c_best": 299241.49,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 5,
+              "volume_per_year": 30000,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 80,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.34
+            },
+            "supplier_id": "sup:70610"
+          }
+        },
+        {
+          "case_id": "case:P01",
+          "session_id": "2d9ea5cf51f161bb",
+          "seconds": 159.05,
+          "replay_url": "https://arena.tacto.ai/replay/2d9ea5cf51f161bb",
+          "result": {
+            "score": 0.8037745269114009,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1153779.74,
+            "c_deal": 1107993.56,
+            "c_best": 1096815.78,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 42,
+              "volume_per_year": 8150,
+              "contract_months": 12,
+              "effective_date": "2027-04-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 900,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 136.5
+            },
+            "supplier_id": "sup:70110"
+          }
+        },
+        {
+          "case_id": "case:P18",
+          "session_id": "0adab516c5fb41cb",
+          "seconds": 175.84,
+          "replay_url": "https://arena.tacto.ai/replay/0adab516c5fb41cb",
+          "result": {
+            "score": 0.5324730605736524,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 295173.23,
+            "c_deal": 256557.24,
+            "c_best": 222651.27,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 14,
+              "volume_per_year": 23700,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "AS-14404",
+                "material_share": 0.45,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 70,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.4
+            },
+            "supplier_id": "sup:70740"
+          }
+        },
+        {
+          "case_id": "case:P08",
+          "session_id": "ba3d14d67ec0e3e3",
+          "seconds": 192.56,
+          "replay_url": "https://arena.tacto.ai/replay/ba3d14d67ec0e3e3",
+          "result": {
+            "score": 0.6786754259290533,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1135887.28,
+            "c_deal": 1016726.84,
+            "c_best": 960309.33,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 10,
+              "volume_per_year": 94800,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "AS-14404",
+                "material_share": 0.45,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 50,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.35
+            },
+            "supplier_id": "sup:70710"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P03",
+        "case:P04",
+        "case:P10",
+        "case:P05",
+        "case:P11"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.5686296830207114,
+      "id": "revised",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P10",
+          "session_id": "a532ba1265917ebf",
+          "seconds": 70.59,
+          "replay_url": "https://arena.tacto.ai/replay/a532ba1265917ebf",
+          "result": {
+            "score": 0.5702676838822193,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1932492.18,
+            "c_deal": 1588298.4,
+            "c_best": 1328926.89,
+            "terms": {
+              "payment_days": 30,
+              "lead_time_days": 42,
+              "volume_per_year": 23400,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 33.6
+            },
+            "supplier_id": "sup:70410"
+          }
+        },
+        {
+          "case_id": "case:P04",
+          "session_id": "6bea95c3ddd35c9f",
+          "seconds": 105,
+          "replay_url": "https://arena.tacto.ai/replay/6bea95c3ddd35c9f",
+          "result": {
+            "score": 0.8153309653389462,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 198846.33,
+            "c_deal": 196957.2,
+            "c_best": 196529.32,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 7,
+              "volume_per_year": 20000,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 150,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 4.86
+            },
+            "supplier_id": "sup:70620"
+          }
+        },
+        {
+          "case_id": "case:P03",
+          "session_id": "f208ec496302cd0c",
+          "seconds": 175.74,
+          "replay_url": "https://arena.tacto.ai/replay/f208ec496302cd0c",
+          "result": {
+            "score": 0.8998338783551213,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 4246314.02,
+            "c_deal": 3942826.22,
+            "c_best": 3909043.1,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 49,
+              "volume_per_year": 4580,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 350,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 433.08
+            },
+            "supplier_id": "sup:70530"
+          }
+        },
+        {
+          "case_id": "case:P05",
+          "session_id": "f516c89d0ec998b8",
+          "seconds": 227.59,
+          "error": "ArenaError: HTTP 422: not a standing offer in this session",
+          "replay_url": "https://arena.tacto.ai/replay/f516c89d0ec998b8"
+        },
+        {
+          "case_id": "case:P11",
+          "session_id": "72ba86c907741e7e",
+          "seconds": 306.56,
+          "replay_url": "https://arena.tacto.ai/replay/72ba86c907741e7e",
+          "result": {
+            "score": 0.5577158875272699,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 817578,
+            "c_deal": 764551.5,
+            "c_best": 722500.02,
+            "terms": {
+              "payment_days": 60,
+              "lead_time_days": 56,
+              "volume_per_year": 15900,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 300,
+              "unit_price": 46.5
+            },
+            "supplier_id": "sup:70140"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P10",
+        "case:P11",
+        "case:P03",
+        "case:P04",
+        "case:P05",
+        "case:P01",
+        "case:P02",
+        "case:P07",
+        "case:P08",
+        "case:P18"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.5590027535462472,
+      "source_sha256": "3a726626460e410d815e162b0870a60e76ed3a5f102c4fce68e317515966e7cd",
+      "started_at": "2026-10-10T15:32:51.102810+00:00",
+      "agent": "buyer-llm",
+      "id": "full-practice",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P10",
+          "session_id": "aac83f7379af15b2",
+          "seconds": 65.2,
+          "claim_counts": {},
+          "replay_url": "https://arena.tacto.ai/replay/aac83f7379af15b2",
+          "result": {
+            "score": 0.5546564481864089,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1932492.18,
+            "c_deal": 1597720.8,
+            "c_best": 1328926.89,
+            "terms": {
+              "payment_days": 30,
+              "lead_time_days": 42,
+              "volume_per_year": 23400,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 33.8
+            },
+            "supplier_id": "sup:70410"
+          }
+        },
+        {
+          "case_id": "case:P04",
+          "session_id": "f30235fe1dccdf67",
+          "seconds": 100.58,
+          "claim_counts": {},
+          "replay_url": "https://arena.tacto.ai/replay/f30235fe1dccdf67",
+          "result": {
+            "score": 0.8153309653389462,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 198846.33,
+            "c_deal": 196957.2,
+            "c_best": 196529.32,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 7,
+              "volume_per_year": 20000,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 150,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 4.86
+            },
+            "supplier_id": "sup:70620"
+          }
+        },
+        {
+          "case_id": "case:P03",
+          "session_id": "5585ad0a54073811",
+          "seconds": 196.61,
+          "claim_counts": {
+            "verified": 2
+          },
+          "replay_url": "https://arena.tacto.ai/replay/5585ad0a54073811",
+          "result": {
+            "score": 0.9194563231244482,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 4246314.02,
+            "c_deal": 3936208.14,
+            "c_best": 3909043.1,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 49,
+              "volume_per_year": 4580,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 350,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 432.29
+            },
+            "supplier_id": "sup:70530"
+          }
+        },
+        {
+          "case_id": "case:P02",
+          "session_id": "9d570147583757fb",
+          "seconds": 47.6,
+          "claim_counts": {},
+          "replay_url": "https://arena.tacto.ai/replay/9d570147583757fb",
+          "result": {
+            "score": 0.5026557732658966,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 2282867.49,
+            "c_deal": 2259065.01,
+            "c_best": 2235514.05,
+            "terms": {
+              "payment_days": 45,
+              "lead_time_days": 35,
+              "volume_per_year": 6110,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "CU-NOTATION",
+                "material_share": 0.2,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 250,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 363.54
+            },
+            "supplier_id": "sup:70510"
+          }
+        },
+        {
+          "case_id": "case:P01",
+          "session_id": "6962fd3666d5c5b1",
+          "seconds": 176.33,
+          "claim_counts": {
+            "verified": 1
+          },
+          "replay_url": "https://arena.tacto.ai/replay/6962fd3666d5c5b1",
+          "result": {
+            "score": 0.6270589334028047,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1153779.74,
+            "c_deal": 1118059.98,
+            "c_best": 1096815.78,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 42,
+              "volume_per_year": 8150,
+              "contract_months": 12,
+              "effective_date": "2027-04-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 900,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 138.8
+            },
+            "supplier_id": "sup:70110"
+          }
+        },
+        {
+          "case_id": "case:P05",
+          "session_id": "66b92d14b2100d4c",
+          "seconds": 232.95,
+          "claim_counts": {
+            "verified": 5
+          },
+          "replay_url": "https://arena.tacto.ai/replay/66b92d14b2100d4c",
+          "result": {
+            "score": 0.503576865249348,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 305544.96,
+            "c_deal": 264190.83,
+            "c_best": 223424.17,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 35,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 1200,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 31
+            },
+            "supplier_id": "sup:70210"
+          }
+        },
+        {
+          "case_id": "case:P11",
+          "session_id": "fc979b4903be57cd",
+          "seconds": 304.78,
+          "claim_counts": {
+            "verified": 3
+          },
+          "replay_url": "https://arena.tacto.ai/replay/fc979b4903be57cd",
+          "result": {
+            "score": 0.3068691615030105,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 817578,
+            "c_deal": 788401.5,
+            "c_best": 722500.02,
+            "terms": {
+              "payment_days": 60,
+              "lead_time_days": 56,
+              "volume_per_year": 15900,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 300,
+              "chargeback_eur_per_complaint": 300,
+              "unit_price": 48
+            },
+            "supplier_id": "sup:70140"
+          }
+        },
+        {
+          "case_id": "case:P07",
+          "session_id": "d601bf8f79c41816",
+          "seconds": 132.24,
+          "claim_counts": {
+            "verified": 2
+          },
+          "replay_url": "https://arena.tacto.ai/replay/d601bf8f79c41816",
+          "result": {
+            "score": 0.7466905323485927,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 391027.4,
+            "c_deal": 322491.73,
+            "c_best": 299241.49,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 5,
+              "volume_per_year": 30000,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 80,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.32
+            },
+            "supplier_id": "sup:70610"
+          }
+        },
+        {
+          "case_id": "case:P08",
+          "session_id": "a169056c222e5880",
+          "seconds": 178.87,
+          "claim_counts": {
+            "verified": 2
+          },
+          "replay_url": "https://arena.tacto.ai/replay/a169056c222e5880",
+          "result": {
+            "score": 0.6137325330430158,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 1135887.28,
+            "c_deal": 1028129.38,
+            "c_best": 960309.33,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 10,
+              "volume_per_year": 94800,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "AS-14404",
+                "material_share": 0.45,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 50,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.41
+            },
+            "supplier_id": "sup:70710"
+          }
+        },
+        {
+          "case_id": "case:P18",
+          "session_id": "5c9667043911610f",
+          "seconds": 183.6,
+          "error": "ArenaError: HTTP 422: not a standing offer in this session",
+          "replay_url": "https://arena.tacto.ai/replay/5c9667043911610f"
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P05"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.30378275708258534,
+      "source_sha256": "aca291949cc3d0a095ae111af1f2d2551f58ebb3ddb091763469553b31fccba8",
+      "started_at": "2026-10-10T15:38:15.428935+00:00",
+      "agent": "buyer-llm",
+      "id": "rfq-recovery",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P05",
+          "session_id": "7e00f8a6c7bf39a9",
+          "seconds": 181.9,
+          "claim_counts": {
+            "verified": 3
+          },
+          "replay_url": "https://arena.tacto.ai/replay/7e00f8a6c7bf39a9",
+          "result": {
+            "score": 0.30378275708258534,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 305544.96,
+            "c_deal": 280598.08,
+            "c_best": 223424.17,
+            "terms": {
+              "payment_days": 14,
+              "lead_time_days": 35,
+              "volume_per_year": 4200,
+              "contract_months": 24,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 600,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 33
+            },
+            "supplier_id": "sup:70250"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P11"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.5359758379385007,
+      "source_sha256": "5bac506d3fb8102be8ae9cdc48b3b9054a70978647248b173129bf7e3e43a369",
+      "started_at": "2026-10-10T15:38:49.469304+00:00",
+      "agent": "buyer-llm",
+      "id": "quality-options",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P11",
+          "session_id": "278ce5b59cde9081",
+          "seconds": 269.41,
+          "claim_counts": {
+            "verified": 1
+          },
+          "replay_url": "https://arena.tacto.ai/replay/278ce5b59cde9081",
+          "result": {
+            "score": 0.5359758379385007,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 817578,
+            "c_deal": 766618.5,
+            "c_best": 722500.02,
+            "terms": {
+              "payment_days": 60,
+              "lead_time_days": 56,
+              "volume_per_year": 15900,
+              "contract_months": 12,
+              "effective_date": "2027-01-01",
+              "index_clause": null,
+              "incoterm": "FCA",
+              "tooling_eur": 0,
+              "ppm_commitment": 1500,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 46
+            },
+            "supplier_id": "sup:70140"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P18"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.4669610418692489,
+      "source_sha256": "5bac506d3fb8102be8ae9cdc48b3b9054a70978647248b173129bf7e3e43a369",
+      "started_at": "2026-10-10T15:41:32.578847+00:00",
+      "agent": "buyer-llm",
+      "id": "index-recovery",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P18",
+          "session_id": "7f0c2616f35650c1",
+          "seconds": 161.22,
+          "claim_counts": {
+            "verified": 3
+          },
+          "replay_url": "https://arena.tacto.ai/replay/7f0c2616f35650c1",
+          "result": {
+            "score": 0.4669610418692489,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 295173.23,
+            "c_deal": 261308.3,
+            "c_best": 222651.27,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 14,
+              "volume_per_year": 23700,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "AS-14404",
+                "material_share": 0.45,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 70,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.5
+            },
+            "supplier_id": "sup:70740"
+          }
+        }
+      ]
+    },
+    {
+      "case_ids": [
+        "case:P18"
+      ],
+      "seconds_per_case": 390,
+      "mean_score": 0.4669610418692489,
+      "source_sha256": "cf77f9932ed5581cf75035efba1a40db62dc1487ed319f887d2d726619675cf5",
+      "started_at": "2026-10-10T15:42:40.094432+00:00",
+      "agent": "buyer-llm",
+      "id": "settlement",
+      "complete": true,
+      "runs": [
+        {
+          "case_id": "case:P18",
+          "session_id": "360a5a28e3864784",
+          "seconds": 152.92,
+          "claim_counts": {
+            "verified": 2
+          },
+          "replay_url": "https://arena.tacto.ai/replay/360a5a28e3864784",
+          "result": {
+            "score": 0.4669610418692489,
+            "deal": true,
+            "must_haves_ok": true,
+            "c_open": 295173.23,
+            "c_deal": 261308.3,
+            "c_best": 222651.27,
+            "terms": {
+              "payment_days": 90,
+              "lead_time_days": 14,
+              "volume_per_year": 23700,
+              "contract_months": 36,
+              "effective_date": "2027-01-01",
+              "index_clause": {
+                "series": "AS-14404",
+                "material_share": 0.45,
+                "deadband_pct": 5,
+                "base_month": "2026-08"
+              },
+              "incoterm": "DAP",
+              "tooling_eur": 0,
+              "ppm_commitment": 70,
+              "chargeback_eur_per_complaint": 0,
+              "unit_price": 5.5
+            },
+            "supplier_id": "sup:70740"
+          }
+        }
+      ]
+    }
+  ]
+}

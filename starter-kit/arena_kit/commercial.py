@@ -1,0 +1,84 @@
+"""Commercial commitments and objections derived only from the buyer's live case."""
+
+import re
+
+from .cost import closing_terms
+
+
+def objections(events):
+    """Use the latest reply, not an old objection that the supplier already resolved."""
+    reply = next((m.get("body", "") for m in reversed(events) if m.get("from") != "buyer"), "")
+    return {
+        "volume": bool(re.search(
+            r"(?:which|what|binding|commit\w*|higher).{0,35}volume|volume.{0,35}commit", reply, re.I,
+        )),
+        "breakdown_refused": bool(re.search(
+            r"(?:do not|don't|not).{0,25}share.{0,30}(?:breakdown|detail|calculation)|calculation is our property",
+            reply, re.I,
+        )),
+        "stalled": bool(re.search(
+            r"unchanged|no movement|few cents|one cent|1 cent|not a real step|no genuine", reply, re.I,
+        )),
+    }
+
+
+def commercial_brief(case, packages, dossier, events, standard=None):
+    """Make the permitted commitment explicit; do not imply extra unpriced business.
+
+    The model may explain the exchange but code owns the numeric terms, including
+    fixed volume/duration omitted from the negotiable term sheets.
+    """
+    if not packages:
+        return ""
+    terms = [closing_terms(case, p, standard) for p in packages]
+    first = terms[0]
+    parts = dossier.get("tables", {}).get("parts", [])
+    unit = parts[0].get("uom", "units") if len(parts) == 1 else "units"
+    unit = unit if unit in {"pc", "kg", "t", "m", "units", "set"} else "units"
+    quantity = first["volume_per_year"]
+    duration = first["contract_months"]
+    commitment = f"Our lead package commits {quantity:g} {unit} per year"
+    commitment += f" for {duration:g} months" if duration else " as the stated order"
+    commitment += "; the alternatives are separate complete offers, not cumulative commitments."
+    if objections(events)["volume"] and "volume_per_year" not in case["negotiable"]:
+        commitment += " This is the firm quantity available; please price it without assuming additional volume."
+    details = (
+        f"For that commitment we offer EUR {first['unit_price']:.2f} per price unit, "
+        f"payment in {first['payment_days']:g} days and delivery in {first['lead_time_days']:g} days."
+    )
+    if clause := first.get("index_clause"):
+        details += (
+            f" The proposed {clause['series']} clause covers {clause['material_share'] * 100:g}% "
+            f"with a {clause['deadband_pct']:g}% deadband."
+        )
+    return commitment + " " + details
+
+
+def relevant_evidence(evidence, case, events, dossier, fact):
+    """Do not argue against ourselves or repeat an explicitly inapplicable hedge claim."""
+    messages = [m for m in events if m.get("from") != "buyer"]
+    reply = messages[-1].get("body", "") if messages else ""
+    source_text = "\n".join(dossier.get("documents", {}).values()) + "\n" + reply
+    # Restrict a hedge exclusion to its named series, so unrelated conversion/energy
+    # evidence remains available. A generic hedge statement cannot identify a series.
+    sentences = re.split(r"[.!?\n]", source_text)
+    offers = messages[-1].get("term_sheets", []) if messages else []
+    prices = [s['terms']['unit_price'] for s in offers if s.get('terms', {}).get('unit_price')]
+    asking = min(prices, default=float('inf'))
+    out = []
+    for e in evidence:
+        if e.kind == 'cost' and any(float(fact(ref).get('unit_cost') or 0) >= asking for ref in e.refs):
+            continue
+        if e.kind == 'index':
+            series = {fact(ref).get('series') for ref in e.refs} - {None}
+            if any(
+                name.lower() in sentence.lower()
+                and re.search(r'hedg|covered at fixed|fixed.price.{0,20}cover|secured at fixed', sentence, re.I)
+                for name in series for sentence in sentences
+            ):
+                continue
+        out.append(e)
+    # Volume makes a useful opening exchange; delivery evidence alone does not
+    # rebut a material-price increase. Model selection may still choose other facts.
+    priority = {'notice': 0, 'rival': 1, 'quality': 2, 'index': 3, 'volume': 4, 'cost': 5, 'delivery': 6}
+    return sorted(out, key=lambda e: priority.get(e.kind, 7))

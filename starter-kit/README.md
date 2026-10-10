@@ -1,7 +1,8 @@
 # Tacto Negotiation Arena - starter kit
 
 This team's implementation adds `buyer` (the default) and `buyer-llm`, plus an offline
-`benchmark` command. See the [solution guide](../docs/solution.md) for the problem, design,
+`benchmark` command and a hosted `evaluate` command that saves scores and replay links.
+See the [solution guide](../docs/solution.md) for the problem, design,
 configuration and validation, and the [root README](../README.md#our-solution-hello-world-buyer)
 for commands. The original starter examples remain below.
 

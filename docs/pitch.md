@@ -4,9 +4,9 @@ title: Hello World Buyer
 paginate: true
 ---
 
-# Hello World Buyer
+# Hello World Buyer: buy the whole deal
 
-Autonomous procurement with grounded arguments and explicit deal checks.
+An autonomous buyer that negotiates the cost of supply, not just the number on the quote.
 
 Research the supplier → propose complete packages → compare total cost → close or walk away.
 
@@ -40,42 +40,53 @@ Every outgoing numerical claim is computed and attached to its source IDs.
 
 ---
 
-# Give the model a bounded job
+# Let the model negotiate; let code price the deal
 
-The model selects relevant evidence and a negotiation tactic.
+| Model | Deterministic planner |
+|---|---|
+| Read the supplier's priorities | Search allowed commercial terms |
+| Answer objections and request approval | Compute total cost and check requirements |
+| Choose verified supporting evidence | Control binding offers and acceptance |
 
-Python searches the allowed terms, computes total cost, enforces requirements and writes the
-grounded message. A slow or invalid model response uses the computed strategy.
+A slow or invalid model response uses a computed strategy. Numerical claims come from code.
 
-The planner can trade price against early payment or a longer commitment.
+Trade early payment, duration, indexation and complaint liability at the same buyer total cost.
+Test extra permitted delivery time when a price reduction can cover its cost.
 
 <!-- 60 seconds: explain why this division makes decisions inspectable. -->
 
 ---
 
-# Keep every supplier thread moving
+# A replay we can explain
 
-Independent requests run concurrently. Each supplier has at most one message in flight.
+In the capacity case, the buyer needs the full allocation within the required delivery window.
+Asking for an even shorter lead time adds supplier effort without reducing the buyer's cost.
 
-Before accepting, compare complete standing offers against the alternative. Apply the same
-checks when the final wave's deadline forces closure.
+Our planner offers a longer firm commitment and the delivery time the buyer actually needs.
+It compares the resulting agreement on total cost and verifies the allocation before accepting.
 
-Private traces retain the evidence, tactic, estimated costs and closing reason.
+Each decision retains its evidence, estimated costs and closing reason. Concurrent RFQs reserve
+citations before replies arrive, so parallel messages do not spend the same evidence twice.
 
-<!-- 45 seconds: walk through a local benchmark decision or a future hosted replay. -->
+<!-- 45 seconds: open the capacity replay linked in evaluation.md and explain the actual terms. -->
 
 ---
 
-# Local evidence, clear limits
+# Hosted evidence and the next priority
 
-| Scripted case | Starter | Buyer |
+| Practice case | Baseline | Later observation |
 |---|---:|---:|
-| Price negotiation | 0.521 | 0.888 |
-| Competing quotes | 0.513 | 0.886 |
-| Framework renewal | 0.678 | 0.927 |
+| Renewal P03 | 0.906 | 0.919 |
+| Capacity P10 | 0.477 | 0.555 |
+| Quality P11 | 0.314 | 0.536 |
+| RFQ P05 | 0.400 | 0.304 |
 
-The hosted P01 practice run closed at **0.755** with the configured model and verified claims.
-The final small concession adjustment was tested locally afterward. Simulator scores demonstrate
-working mechanics; this one hosted run is not a prediction of final competition results.
+RFQ timing remains the priority: protect settlement without giving up too much negotiation value.
+An earlier ten-case batch averaged **0.559**, including one acceptance failure. The later
+480-second rehearsal averaged **0.621** with ten valid deals. Later RFQ and concession changes
+have local tests and one hosted P05 follow-up scoring **0.452**. These observations span versions and supplier
+randomness, so they are not a controlled trial.
 
-<!-- 55 seconds: explain limits and replace or supplement this slide with actual hosted results when available. -->
+[Latest rehearsal and replays](hidden-case-validation.md) · [Earlier sessions](evaluation.md) · [Operating strategy](strategy.md)
+
+<!-- 55 seconds: explain the quality trade, disclose the RFQ regression and describe the next repeated comparison. -->

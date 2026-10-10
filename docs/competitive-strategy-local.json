@@ -1,0 +1,2195 @@
+{
+  "date": "2026-10-10",
+  "change": "Counter supplier-preferred compliant combinations, repair infeasible openings minimally, preserve total-cost concessions, prioritize verified rival evidence, and allow one bounded competitive final challenge.",
+  "limitations": "Local opponents are scripted; parameter holdout uses the same styles. RFQ scheduling varies. Several individual cases regress. Hosted result is recorded separately.",
+  "reference_buyer_sha256": "e109256482cf52af273e49667eb1b040f35a21e834393f9b0182170cbcd42080",
+  "candidate_file_sha256": {
+    "starter-kit/arena_kit/agents/buyer.py": "70e12f2c8b4d97e60ea163d1b96ac3105af5a0cf6fa40975d3f09186135517d7",
+    "starter-kit/arena_kit/exchanges.py": "54abbf726762f539b3d4a728189be5ff9aa5022cec186ca7e9aca35c61a11fb2",
+    "starter-kit/tests/test_competition.py": "655ca578d95f9de6920b3a68bd6dc3924c71e8c09e08c693d96ecc7faa1f7c7f"
+  },
+  "validation": {
+    "passed": 117,
+    "skipped": 2,
+    "ruff": "passed",
+    "original_scores": {
+      "S01": 0.888,
+      "S02": 0.886,
+      "S03": 0.927
+    }
+  },
+  "initial_candidate_file_sha256": {
+    "starter-kit/arena_kit/agents/buyer.py": "1c00a260c5bfa6c94663018ab1a9b9ae81e096f5c04b4331bea7c1171e4dc55d",
+    "starter-kit/arena_kit/exchanges.py": "54abbf726762f539b3d4a728189be5ff9aa5022cec186ca7e9aca35c61a11fb2",
+    "starter-kit/tests/test_competition.py": "25f53d3a4855e709f18ea4ea5f6184ba67dad8c07aa2dd64c255e2d4465f2844"
+  },
+  "initial_local_comparison": {
+    "dev": {
+      "reference": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "dev",
+        "suite_sha256": "3bd735d2c2561b3d60dbeb9125308b8ba586a2bff4be124eeba370984faa92fb",
+        "buyer_sha256": "e109256482cf52af273e49667eb1b040f35a21e834393f9b0182170cbcd42080",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8379620066228004,
+        "worst_score": 0.47238542124646565,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7989152507877473,
+          "index": 0.8166189824171125,
+          "price": 0.9261830612582665,
+          "quality": 0.9090550422512135,
+          "renewal": 0.8875015717211685,
+          "rfq": 0.689498131301294
+        },
+        "by_style": {
+          "impatient": 0.8352426192576946,
+          "late": 0.7955607152577235,
+          "reciprocal": 0.8491618637938135,
+          "steady": 0.8718828281819699
+        }
+      },
+      "candidate": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "dev",
+        "suite_sha256": "3bd735d2c2561b3d60dbeb9125308b8ba586a2bff4be124eeba370984faa92fb",
+        "buyer_sha256": "1c00a260c5bfa6c94663018ab1a9b9ae81e096f5c04b4331bea7c1171e4dc55d",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8460596513746703,
+        "worst_score": 0.5499412366749896,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7972671257656314,
+          "index": 0.8183122277775284,
+          "price": 0.9223569445814802,
+          "quality": 0.9090550422512135,
+          "renewal": 0.8877083804946619,
+          "rfq": 0.7416581873775066
+        },
+        "by_style": {
+          "impatient": 0.8471634950812196,
+          "late": 0.8030845084442207,
+          "reciprocal": 0.858940617654394,
+          "steady": 0.8750499843188472
+        }
+      },
+      "improved": 20,
+      "tied": 22,
+      "regressed": 6,
+      "cases": [
+        {
+          "case_id": "case:L1b5469d998",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4175926.64,
+          "candidate_cost": 4175926.64,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6581c50bec",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 0.9970361873612795,
+          "candidate_score": 0.9703313615656317,
+          "reference_cost": 1980617.88,
+          "candidate_cost": 1987899.73,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb1715f36b8",
+          "family": "price",
+          "style": "late",
+          "reference_score": 0.7711447163653796,
+          "candidate_score": 0.7601020414863653,
+          "reference_cost": 93841.58,
+          "candidate_cost": 94009.75,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lfd4fb41732",
+          "family": "price",
+          "style": "late",
+          "reference_score": 0.9527722558718426,
+          "candidate_score": 0.958932371064306,
+          "reference_cost": 130922.39,
+          "candidate_cost": 130816.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L612d932bac",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 0.7139515685195377,
+          "candidate_score": 0.7139515685195377,
+          "reference_cost": 385739.55,
+          "candidate_cost": 385739.55,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3039633960",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 3251211.23,
+          "candidate_cost": 3251211.23,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8add86613d",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.9745597619480934,
+          "candidate_score": 0.9755382140160009,
+          "reference_cost": 603284.64,
+          "candidate_cost": 603183.62,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Leeb1dfadbf",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 318752.78,
+          "candidate_cost": 318752.78,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb6811e66d0",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.901380716655277,
+          "candidate_score": 0.9018854647721521,
+          "reference_cost": 8811514.8,
+          "candidate_cost": 8810168.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld67da6d7e8",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.8524664618562099,
+          "candidate_score": 0.8532551029390769,
+          "reference_cost": 4175202.97,
+          "candidate_cost": 4174136.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L182d79e7f2",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.7983629027374864,
+          "candidate_score": 0.7983629027374864,
+          "reference_cost": 914265.0,
+          "candidate_cost": 914265.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L87f1480cd3",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.7956026109866534,
+          "candidate_score": 0.7959636919748581,
+          "reference_cost": 9316026.88,
+          "candidate_cost": 9315122.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb11d01307c",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9987801474600998,
+          "candidate_score": 0.9987801474600998,
+          "reference_cost": 2876274.4,
+          "candidate_cost": 2876274.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L50a18f501a",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9985672183331683,
+          "candidate_score": 0.9985672183331683,
+          "reference_cost": 1285309.57,
+          "candidate_cost": 1285309.57,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbfb6b45da0",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.7574698778794379,
+          "candidate_score": 0.7574698778794379,
+          "reference_cost": 706549.42,
+          "candidate_cost": 706549.42,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb97023d50d",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.9973826378610158,
+          "candidate_score": 0.9973826378610158,
+          "reference_cost": 4144996.8,
+          "candidate_cost": 4144996.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L03b63a2db0",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.6968239915383078,
+          "candidate_score": 0.6968239915383078,
+          "reference_cost": 4137823.8,
+          "candidate_cost": 4137823.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L18c298048b",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.6900167272327822,
+          "candidate_score": 0.7652645520711123,
+          "reference_cost": 367191.0,
+          "candidate_cost": 361560.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Laa9f9517ce",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.47238542124646565,
+          "candidate_score": 0.5499412366749896,
+          "reference_cost": 899228.6,
+          "candidate_cost": 883287.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc9d4fc92f5",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.9301471368715846,
+          "candidate_score": 0.9375000379090553,
+          "reference_cost": 548399.13,
+          "candidate_cost": 547793.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La8c6529809",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.645914349882244,
+          "candidate_score": 0.6692607719183252,
+          "reference_cost": 268698.91,
+          "candidate_cost": 267365.41,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L154a76c307",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.6031073471805694,
+          "candidate_score": 0.6950865581662293,
+          "reference_cost": 7051347.85,
+          "candidate_cost": 6931009.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5ed8345d97",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.8749482401656311,
+          "candidate_score": 0.8757763975155279,
+          "reference_cost": 3190167.18,
+          "candidate_cost": 3189618.9,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2363b330fd",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.6026418362927677,
+          "candidate_score": 0.743611953226505,
+          "reference_cost": 6559134.56,
+          "candidate_cost": 6400498.88,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L359ff2b080",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 422097.5,
+          "candidate_cost": 422097.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L785b3281f4",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4991700.0,
+          "candidate_cost": 4991700.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb928d60e06",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.8685831622176592,
+          "candidate_score": 0.8685831622176592,
+          "reference_cost": 141762.5,
+          "candidate_cost": 141762.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lea85ce0ac6",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.8607208307880269,
+          "candidate_score": 0.8607208307880269,
+          "reference_cost": 114937.5,
+          "candidate_cost": 114937.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0a8217b5a3",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 307540.0,
+          "candidate_cost": 307540.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5aaec1cb78",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 0.7997454391175223,
+          "candidate_score": 0.7997454391175223,
+          "reference_cost": 464031.25,
+          "candidate_cost": 464031.25,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7382e58f25",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.7433909058864998,
+          "candidate_score": 0.7433909058864998,
+          "reference_cost": 292500.0,
+          "candidate_cost": 292500.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L402de3c116",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 1949080.0,
+          "candidate_cost": 1949080.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L73e4b5fcd9",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.883947869735447,
+          "candidate_score": 0.8868983723745664,
+          "reference_cost": 486310.88,
+          "candidate_cost": 485916.89,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8703498f5d",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.9422383600539063,
+          "candidate_score": 0.9270379394122908,
+          "reference_cost": 360639.23,
+          "candidate_cost": 362104.05,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc9814fb138",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.658002179461865,
+          "candidate_score": 0.6584178559377544,
+          "reference_cost": 4886883.55,
+          "candidate_cost": 4886158.95,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbba05afc52",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.7934238512350763,
+          "candidate_score": 0.7940037240782614,
+          "reference_cost": 2180723.96,
+          "candidate_cost": 2180401.91,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5b2cdda419",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 570773.46,
+          "candidate_cost": 570773.46,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9830365573",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.7395792601702649,
+          "candidate_score": 0.7376486286767602,
+          "reference_cost": 6698661.67,
+          "candidate_cost": 6703230.67,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lf0b94cf1d9",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6672253300232254,
+          "candidate_score": 0.6672253300232254,
+          "reference_cost": 3959536.44,
+          "candidate_cost": 3959536.44,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L538930140d",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.7069051556221932,
+          "candidate_score": 0.7069051556221932,
+          "reference_cost": 625871.77,
+          "candidate_cost": 625871.77,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3dc0496a9f",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.6943591940937296,
+          "candidate_score": 0.688887310747878,
+          "reference_cost": 682633.58,
+          "candidate_cost": 683780.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L687b440e9c",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.8043244296567007,
+          "candidate_score": 0.8102157164051503,
+          "reference_cost": 366372.88,
+          "candidate_cost": 365517.9,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L50d472af6a",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.7289896266961372,
+          "candidate_score": 0.7370143987801646,
+          "reference_cost": 189712.18,
+          "candidate_cost": 189077.69,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld156c40b2b",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.9165938886145055,
+          "candidate_score": 0.9174718476817214,
+          "reference_cost": 1026496.76,
+          "candidate_cost": 1026151.08,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6883eda48c",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.8948786694972407,
+          "candidate_score": 0.9092275751445013,
+          "reference_cost": 2499412.86,
+          "candidate_cost": 2489749.64,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La1bf734293",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.7954183653651148,
+          "candidate_score": 0.7850195045165835,
+          "reference_cost": 3522189.0,
+          "candidate_cost": 3536716.55,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L24f02c6594",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.7812446451140417,
+          "candidate_score": 0.7815184286447988,
+          "reference_cost": 4307128.68,
+          "candidate_cost": 4306761.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L653b8dcf5b",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.9171430402994296,
+          "candidate_score": 0.9171430402994296,
+          "reference_cost": 347995.67,
+          "candidate_cost": 347995.67,
+          "must_haves_ok": true
+        }
+      ]
+    },
+    "holdout": {
+      "reference": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "holdout",
+        "suite_sha256": "1daf00621dfccfbc445c498f491d330a3d8b9f1f18c917b5feaabe566a12acf1",
+        "buyer_sha256": "e109256482cf52af273e49667eb1b040f35a21e834393f9b0182170cbcd42080",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.828591877198389,
+        "worst_score": 0.5113300492610837,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.6945262634563616,
+          "index": 0.847436380280625,
+          "price": 0.9508748663215312,
+          "quality": 0.8649992354820197,
+          "renewal": 0.8819698871611711,
+          "rfq": 0.7317446304886251
+        },
+        "by_style": {
+          "impatient": 0.811624032815971,
+          "late": 0.75514570716546,
+          "reciprocal": 0.8686490960835496,
+          "steady": 0.8789486727285752
+        }
+      },
+      "candidate": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "holdout",
+        "suite_sha256": "1daf00621dfccfbc445c498f491d330a3d8b9f1f18c917b5feaabe566a12acf1",
+        "buyer_sha256": "1c00a260c5bfa6c94663018ab1a9b9ae81e096f5c04b4331bea7c1171e4dc55d",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8375328901722559,
+        "worst_score": 0.5113300492610837,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7059366107632797,
+          "index": 0.8505113871112819,
+          "price": 0.9521289935060799,
+          "quality": 0.8649992354820197,
+          "renewal": 0.8786850058470653,
+          "rfq": 0.7729361083238083
+        },
+        "by_style": {
+          "impatient": 0.8205141739200515,
+          "late": 0.7715687697981433,
+          "reciprocal": 0.8797233296461984,
+          "steady": 0.8783252873246303
+        }
+      },
+      "improved": 23,
+      "tied": 21,
+      "regressed": 4,
+      "cases": [
+        {
+          "case_id": "case:La1b70861bf",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 2183921.09,
+          "candidate_cost": 2183921.09,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc4975dba7c",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 2327290.15,
+          "candidate_cost": 2327290.15,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lecf6dc533c",
+          "family": "price",
+          "style": "late",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 150163.91,
+          "candidate_cost": 150163.91,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lf35dcfefc6",
+          "family": "price",
+          "style": "late",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 660792.15,
+          "candidate_cost": 660792.15,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld448aaffbf",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 3567993.5,
+          "candidate_cost": 3567993.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc2640329b5",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 0.7479999999999999,
+          "candidate_score": 0.7560000000000003,
+          "reference_cost": 220493.88,
+          "candidate_cost": 220128.36,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L406ded7c4c",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.8991918470431511,
+          "candidate_score": 0.8996171930373198,
+          "reference_cost": 2483051.14,
+          "candidate_cost": 2482859.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9db46d12f5",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.9598070835290988,
+          "candidate_score": 0.9614147550113197,
+          "reference_cost": 561148.67,
+          "candidate_cost": 560992.09,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8cde0c9f4c",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.8644454538187317,
+          "candidate_score": 0.8463031175544062,
+          "reference_cost": 2152440.08,
+          "candidate_cost": 2164259.68,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La56eed09a5",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.997698658586964,
+          "candidate_score": 0.997698658586964,
+          "reference_cost": 1355799.04,
+          "candidate_cost": 1355799.04,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3a95c699dd",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.9985295855747753,
+          "candidate_score": 0.9985295855747753,
+          "reference_cost": 779911.76,
+          "candidate_cost": 779911.76,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld3968822ca",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.6941796683575615,
+          "candidate_score": 0.6975903229978285,
+          "reference_cost": 937152.67,
+          "candidate_cost": 936096.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L73744a87d9",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9998379052984383,
+          "candidate_score": 0.9998379052984383,
+          "reference_cost": 1176106.31,
+          "candidate_cost": 1176106.31,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La202060b89",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.7977777506047751,
+          "candidate_score": 0.7855269950980346,
+          "reference_cost": 4375019.89,
+          "candidate_cost": 4395628.42,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb34f531003",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.9220837459987304,
+          "candidate_score": 0.9226514627662251,
+          "reference_cost": 1785082.29,
+          "candidate_cost": 1784780.38,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8f6d7ea461",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.7812063290493925,
+          "candidate_score": 0.7813419988998507,
+          "reference_cost": 3891800.29,
+          "candidate_cost": 3891641.6,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L98732c8946",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.8217609720004673,
+          "candidate_score": 0.8217609720004673,
+          "reference_cost": 1014601.02,
+          "candidate_cost": 1014601.02,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le53d2e0d48",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.7032519955994548,
+          "candidate_score": 0.7129916913207647,
+          "reference_cost": 425000.49,
+          "candidate_cost": 424153.33,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6d3384f0ac",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.634770422314434,
+          "candidate_score": 0.6354714346206157,
+          "reference_cost": 4462585.95,
+          "candidate_cost": 4461838.39,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7266a73e69",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.8244575886941712,
+          "candidate_score": 1.0,
+          "reference_cost": 4174723.13,
+          "candidate_cost": 4117180.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2d64a67343",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.661016993838769,
+          "candidate_score": 0.661016993838769,
+          "reference_cost": 166888.71,
+          "candidate_cost": 166888.71,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L1462e9dc51",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.8218389655905238,
+          "candidate_score": 0.8620692186984387,
+          "reference_cost": 173581.96,
+          "candidate_cost": 172595.69,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L703cb15219",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.610712626563431,
+          "candidate_score": 0.7136548540798093,
+          "reference_cost": 292357.87,
+          "candidate_cost": 285444.27,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L28a1582c0f",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.7761474793077501,
+          "candidate_score": 0.7765237020316023,
+          "reference_cost": 1062582.04,
+          "candidate_cost": 1062491.12,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld86c516734",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 604840.0,
+          "candidate_cost": 604840.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9b79fd8bd8",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 663212.5,
+          "candidate_cost": 663212.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0b128043c6",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.5113300492610837,
+          "candidate_score": 0.5113300492610837,
+          "reference_cost": 436338.75,
+          "candidate_cost": 436338.75,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L85fbaa3a41",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.708464710162503,
+          "candidate_score": 0.708464710162503,
+          "reference_cost": 561802.5,
+          "candidate_cost": 561802.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L72110b2241",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4751835.0,
+          "candidate_cost": 4751835.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7711304f17",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 1126840.0,
+          "candidate_cost": 1126840.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L881f82ba18",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.998211091234347,
+          "candidate_score": 0.998211091234347,
+          "reference_cost": 66237.5,
+          "candidate_cost": 66237.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2dc2fbd593",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.7019880331982242,
+          "candidate_score": 0.7019880331982242,
+          "reference_cost": 485060.0,
+          "candidate_cost": 485060.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9c46b2a744",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.7053224952433712,
+          "candidate_score": 0.7030901008223687,
+          "reference_cost": 286256.57,
+          "candidate_cost": 286488.92,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L40d2b1669d",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.736049098988512,
+          "candidate_score": 0.7387916951374381,
+          "reference_cost": 1232814.59,
+          "candidate_cost": 1231872.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3bb6cd59b7",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.6562084750682934,
+          "candidate_score": 0.6673021355147489,
+          "reference_cost": 113195.4,
+          "candidate_cost": 112822.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc49081c778",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.6365810256110842,
+          "candidate_score": 0.6417358721353581,
+          "reference_cost": 325495.56,
+          "candidate_cost": 324967.59,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La4ec76b983",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.8440331122756108,
+          "candidate_score": 0.9184718938164852,
+          "reference_cost": 269367.93,
+          "candidate_cost": 266382.85,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La4eca7c44c",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.7012094421953285,
+          "candidate_score": 0.7012094421953285,
+          "reference_cost": 8559619.2,
+          "candidate_cost": 8559619.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0d90d60ccf",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6569245127197136,
+          "candidate_score": 0.6569245127197136,
+          "reference_cost": 406048.72,
+          "candidate_cost": 406048.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbe1905f388",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6198819455489788,
+          "candidate_score": 0.619967233764797,
+          "reference_cost": 383736.08,
+          "candidate_cost": 383724.46,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L820e03affd",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.7401445168813094,
+          "candidate_score": 0.7405563308490618,
+          "reference_cost": 9372246.52,
+          "candidate_cost": 9371024.53,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lde0c7a380f",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.9787108816240925,
+          "candidate_score": 0.9787108816240925,
+          "reference_cost": 2136741.23,
+          "candidate_cost": 2136741.23,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Laea501bafe",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.7224847446421743,
+          "candidate_score": 0.7230135488718461,
+          "reference_cost": 901235.2,
+          "candidate_cost": 901046.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb14ffdc277",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.6747422162994395,
+          "candidate_score": 0.6753875784389598,
+          "reference_cost": 3930471.6,
+          "candidate_cost": 3929726.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le016a86f49",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.9357440388979691,
+          "candidate_score": 0.9591183782890919,
+          "reference_cost": 273778.56,
+          "candidate_cost": 271906.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le46e228f82",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.9143309443011807,
+          "candidate_score": 0.9134291285197944,
+          "reference_cost": 500631.56,
+          "candidate_cost": 500770.36,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La8b2a7e717",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.8521361694432795,
+          "candidate_score": 0.8523697554365751,
+          "reference_cost": 2676674.27,
+          "candidate_cost": 2676463.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L4a65d7b936",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.9611975301555544,
+          "candidate_score": 0.9615054948608343,
+          "reference_cost": 1858915.88,
+          "candidate_cost": 1858756.64,
+          "must_haves_ok": true
+        }
+      ]
+    }
+  },
+  "splits": {
+    "dev": {
+      "reference": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "dev",
+        "suite_sha256": "3bd735d2c2561b3d60dbeb9125308b8ba586a2bff4be124eeba370984faa92fb",
+        "buyer_sha256": "e109256482cf52af273e49667eb1b040f35a21e834393f9b0182170cbcd42080",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8379620066228004,
+        "worst_score": 0.47238542124646565,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7989152507877473,
+          "index": 0.8166189824171125,
+          "price": 0.9261830612582665,
+          "quality": 0.9090550422512135,
+          "renewal": 0.8875015717211685,
+          "rfq": 0.689498131301294
+        },
+        "by_style": {
+          "impatient": 0.8352426192576946,
+          "late": 0.7955607152577235,
+          "reciprocal": 0.8491618637938135,
+          "steady": 0.8718828281819699
+        }
+      },
+      "candidate": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "dev",
+        "suite_sha256": "3bd735d2c2561b3d60dbeb9125308b8ba586a2bff4be124eeba370984faa92fb",
+        "buyer_sha256": "70e12f2c8b4d97e60ea163d1b96ac3105af5a0cf6fa40975d3f09186135517d7",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8504477999353185,
+        "worst_score": 0.5499412366749896,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7972671257656314,
+          "index": 0.8183122277775284,
+          "price": 0.9223569445814802,
+          "quality": 0.9090550422512135,
+          "renewal": 0.8877083804946619,
+          "rfq": 0.7679870787413956
+        },
+        "by_style": {
+          "impatient": 0.8471634950812196,
+          "late": 0.8030845084442207,
+          "reciprocal": 0.8732829619132754,
+          "steady": 0.8782602343025585
+        }
+      },
+      "improved": 21,
+      "tied": 21,
+      "regressed": 6,
+      "cases": [
+        {
+          "case_id": "case:L1b5469d998",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4175926.64,
+          "candidate_cost": 4175926.64,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6581c50bec",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 0.9970361873612795,
+          "candidate_score": 0.9703313615656317,
+          "reference_cost": 1980617.88,
+          "candidate_cost": 1987899.73,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb1715f36b8",
+          "family": "price",
+          "style": "late",
+          "reference_score": 0.7711447163653796,
+          "candidate_score": 0.7601020414863653,
+          "reference_cost": 93841.58,
+          "candidate_cost": 94009.75,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lfd4fb41732",
+          "family": "price",
+          "style": "late",
+          "reference_score": 0.9527722558718426,
+          "candidate_score": 0.958932371064306,
+          "reference_cost": 130922.39,
+          "candidate_cost": 130816.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L612d932bac",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 0.7139515685195377,
+          "candidate_score": 0.7139515685195377,
+          "reference_cost": 385739.55,
+          "candidate_cost": 385739.55,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3039633960",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 3251211.23,
+          "candidate_cost": 3251211.23,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8add86613d",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.9745597619480934,
+          "candidate_score": 0.9755382140160009,
+          "reference_cost": 603284.64,
+          "candidate_cost": 603183.62,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Leeb1dfadbf",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 318752.78,
+          "candidate_cost": 318752.78,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb6811e66d0",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.901380716655277,
+          "candidate_score": 0.9018854647721521,
+          "reference_cost": 8811514.8,
+          "candidate_cost": 8810168.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld67da6d7e8",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.8524664618562099,
+          "candidate_score": 0.8532551029390769,
+          "reference_cost": 4175202.97,
+          "candidate_cost": 4174136.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L182d79e7f2",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.7983629027374864,
+          "candidate_score": 0.7983629027374864,
+          "reference_cost": 914265.0,
+          "candidate_cost": 914265.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L87f1480cd3",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.7956026109866534,
+          "candidate_score": 0.7959636919748581,
+          "reference_cost": 9316026.88,
+          "candidate_cost": 9315122.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb11d01307c",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9987801474600998,
+          "candidate_score": 0.9987801474600998,
+          "reference_cost": 2876274.4,
+          "candidate_cost": 2876274.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L50a18f501a",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9985672183331683,
+          "candidate_score": 0.9985672183331683,
+          "reference_cost": 1285309.57,
+          "candidate_cost": 1285309.57,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbfb6b45da0",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.7574698778794379,
+          "candidate_score": 0.7574698778794379,
+          "reference_cost": 706549.42,
+          "candidate_cost": 706549.42,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb97023d50d",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.9973826378610158,
+          "candidate_score": 0.9973826378610158,
+          "reference_cost": 4144996.8,
+          "candidate_cost": 4144996.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L03b63a2db0",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.6968239915383078,
+          "candidate_score": 0.7353469913428431,
+          "reference_cost": 4137823.8,
+          "candidate_cost": 4104163.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L18c298048b",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.6900167272327822,
+          "candidate_score": 0.7652645520711123,
+          "reference_cost": 367191.0,
+          "candidate_cost": 361560.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Laa9f9517ce",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.47238542124646565,
+          "candidate_score": 0.5499412366749896,
+          "reference_cost": 899228.6,
+          "candidate_cost": 883287.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc9d4fc92f5",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.9301471368715846,
+          "candidate_score": 0.9375000379090553,
+          "reference_cost": 548399.13,
+          "candidate_cost": 547793.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La8c6529809",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.645914349882244,
+          "candidate_score": 0.762645934833807,
+          "reference_cost": 268698.91,
+          "candidate_cost": 262031.44,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L154a76c307",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.6031073471805694,
+          "candidate_score": 0.7738095263573247,
+          "reference_cost": 7051347.85,
+          "candidate_cost": 6828015.13,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5ed8345d97",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.8749482401656311,
+          "candidate_score": 0.8757763975155279,
+          "reference_cost": 3190167.18,
+          "candidate_cost": 3189618.9,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2363b330fd",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.6026418362927677,
+          "candidate_score": 0.743611953226505,
+          "reference_cost": 6559134.56,
+          "candidate_cost": 6400498.88,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L359ff2b080",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 422097.5,
+          "candidate_cost": 422097.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L785b3281f4",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4991700.0,
+          "candidate_cost": 4991700.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb928d60e06",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.8685831622176592,
+          "candidate_score": 0.8685831622176592,
+          "reference_cost": 141762.5,
+          "candidate_cost": 141762.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lea85ce0ac6",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.8607208307880269,
+          "candidate_score": 0.8607208307880269,
+          "reference_cost": 114937.5,
+          "candidate_cost": 114937.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0a8217b5a3",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 307540.0,
+          "candidate_cost": 307540.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5aaec1cb78",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 0.7997454391175223,
+          "candidate_score": 0.7997454391175223,
+          "reference_cost": 464031.25,
+          "candidate_cost": 464031.25,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7382e58f25",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.7433909058864998,
+          "candidate_score": 0.7433909058864998,
+          "reference_cost": 292500.0,
+          "candidate_cost": 292500.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L402de3c116",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 1949080.0,
+          "candidate_cost": 1949080.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L73e4b5fcd9",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.883947869735447,
+          "candidate_score": 0.8868983723745664,
+          "reference_cost": 486310.88,
+          "candidate_cost": 485916.89,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8703498f5d",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.9422383600539063,
+          "candidate_score": 0.9270379394122908,
+          "reference_cost": 360639.23,
+          "candidate_cost": 362104.05,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc9814fb138",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.658002179461865,
+          "candidate_score": 0.6584178559377544,
+          "reference_cost": 4886883.55,
+          "candidate_cost": 4886158.95,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbba05afc52",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.7934238512350763,
+          "candidate_score": 0.7940037240782614,
+          "reference_cost": 2180723.96,
+          "candidate_cost": 2180401.91,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L5b2cdda419",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 570773.46,
+          "candidate_cost": 570773.46,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9830365573",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.7395792601702649,
+          "candidate_score": 0.7376486286767602,
+          "reference_cost": 6698661.67,
+          "candidate_cost": 6703230.67,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lf0b94cf1d9",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6672253300232254,
+          "candidate_score": 0.6672253300232254,
+          "reference_cost": 3959536.44,
+          "candidate_cost": 3959536.44,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L538930140d",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.7069051556221932,
+          "candidate_score": 0.7069051556221932,
+          "reference_cost": 625871.77,
+          "candidate_cost": 625871.77,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3dc0496a9f",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.6943591940937296,
+          "candidate_score": 0.688887310747878,
+          "reference_cost": 682633.58,
+          "candidate_cost": 683780.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L687b440e9c",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.8043244296567007,
+          "candidate_score": 0.8102157164051503,
+          "reference_cost": 366372.88,
+          "candidate_cost": 365517.9,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L50d472af6a",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.7289896266961372,
+          "candidate_score": 0.7370143987801646,
+          "reference_cost": 189712.18,
+          "candidate_cost": 189077.69,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld156c40b2b",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.9165938886145055,
+          "candidate_score": 0.9174718476817214,
+          "reference_cost": 1026496.76,
+          "candidate_cost": 1026151.08,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6883eda48c",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.8948786694972407,
+          "candidate_score": 0.9092275751445013,
+          "reference_cost": 2499412.86,
+          "candidate_cost": 2489749.64,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La1bf734293",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.7954183653651148,
+          "candidate_score": 0.7850195045165835,
+          "reference_cost": 3522189.0,
+          "candidate_cost": 3536716.55,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L24f02c6594",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.7812446451140417,
+          "candidate_score": 0.7815184286447988,
+          "reference_cost": 4307128.68,
+          "candidate_cost": 4306761.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L653b8dcf5b",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.9171430402994296,
+          "candidate_score": 0.9171430402994296,
+          "reference_cost": 347995.67,
+          "candidate_cost": 347995.67,
+          "must_haves_ok": true
+        }
+      ]
+    },
+    "holdout": {
+      "reference": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "holdout",
+        "suite_sha256": "1daf00621dfccfbc445c498f491d330a3d8b9f1f18c917b5feaabe566a12acf1",
+        "buyer_sha256": "e109256482cf52af273e49667eb1b040f35a21e834393f9b0182170cbcd42080",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.828591877198389,
+        "worst_score": 0.5113300492610837,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.6945262634563616,
+          "index": 0.847436380280625,
+          "price": 0.9508748663215312,
+          "quality": 0.8649992354820197,
+          "renewal": 0.8819698871611711,
+          "rfq": 0.7317446304886251
+        },
+        "by_style": {
+          "impatient": 0.811624032815971,
+          "late": 0.75514570716546,
+          "reciprocal": 0.8686490960835496,
+          "steady": 0.8789486727285752
+        }
+      },
+      "candidate": {
+        "environment": "Synthetic local counterparties; no hosted or model calls.",
+        "limitation": "This score is specific to these scripts and does not predict a hosted score.",
+        "version": 1,
+        "split": "holdout",
+        "suite_sha256": "1daf00621dfccfbc445c498f491d330a3d8b9f1f18c917b5feaabe566a12acf1",
+        "buyer_sha256": "70e12f2c8b4d97e60ea163d1b96ac3105af5a0cf6fa40975d3f09186135517d7",
+        "evaluator_sha256": "5bb31de32b929335bc1870733c229a844005e68de4a00146b5f5985d6be75d20",
+        "mean_score": 0.8429558435606356,
+        "worst_score": 0.5113300492610837,
+        "errors": 0,
+        "breaches": 0,
+        "by_family": {
+          "capacity": 0.7059366107632797,
+          "index": 0.8505113871112819,
+          "price": 0.9521289935060799,
+          "quality": 0.8649992354820197,
+          "renewal": 0.8786850058470653,
+          "rfq": 0.8054738286540868
+        },
+        "by_style": {
+          "impatient": 0.8419934189944618,
+          "late": 0.771597979425679,
+          "reciprocal": 0.876653292195267,
+          "steady": 0.8815786836271344
+        }
+      },
+      "improved": 23,
+      "tied": 21,
+      "regressed": 4,
+      "cases": [
+        {
+          "case_id": "case:La1b70861bf",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 2183921.09,
+          "candidate_cost": 2183921.09,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc4975dba7c",
+          "family": "price",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 2327290.15,
+          "candidate_cost": 2327290.15,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lecf6dc533c",
+          "family": "price",
+          "style": "late",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 150163.91,
+          "candidate_cost": 150163.91,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lf35dcfefc6",
+          "family": "price",
+          "style": "late",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 660792.15,
+          "candidate_cost": 660792.15,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld448aaffbf",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 3567993.5,
+          "candidate_cost": 3567993.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc2640329b5",
+          "family": "price",
+          "style": "reciprocal",
+          "reference_score": 0.7479999999999999,
+          "candidate_score": 0.7560000000000003,
+          "reference_cost": 220493.88,
+          "candidate_cost": 220128.36,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L406ded7c4c",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.8991918470431511,
+          "candidate_score": 0.8996171930373198,
+          "reference_cost": 2483051.14,
+          "candidate_cost": 2482859.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9db46d12f5",
+          "family": "price",
+          "style": "impatient",
+          "reference_score": 0.9598070835290988,
+          "candidate_score": 0.9614147550113197,
+          "reference_cost": 561148.67,
+          "candidate_cost": 560992.09,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8cde0c9f4c",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.8644454538187317,
+          "candidate_score": 0.8463031175544062,
+          "reference_cost": 2152440.08,
+          "candidate_cost": 2164259.68,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La56eed09a5",
+          "family": "renewal",
+          "style": "steady",
+          "reference_score": 0.997698658586964,
+          "candidate_score": 0.997698658586964,
+          "reference_cost": 1355799.04,
+          "candidate_cost": 1355799.04,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3a95c699dd",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.9985295855747753,
+          "candidate_score": 0.9985295855747753,
+          "reference_cost": 779911.76,
+          "candidate_cost": 779911.76,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld3968822ca",
+          "family": "renewal",
+          "style": "late",
+          "reference_score": 0.6941796683575615,
+          "candidate_score": 0.6975903229978285,
+          "reference_cost": 937152.67,
+          "candidate_cost": 936096.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L73744a87d9",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.9998379052984383,
+          "candidate_score": 0.9998379052984383,
+          "reference_cost": 1176106.31,
+          "candidate_cost": 1176106.31,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La202060b89",
+          "family": "renewal",
+          "style": "reciprocal",
+          "reference_score": 0.7977777506047751,
+          "candidate_score": 0.7855269950980346,
+          "reference_cost": 4375019.89,
+          "candidate_cost": 4395628.42,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb34f531003",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.9220837459987304,
+          "candidate_score": 0.9226514627662251,
+          "reference_cost": 1785082.29,
+          "candidate_cost": 1784780.38,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L8f6d7ea461",
+          "family": "renewal",
+          "style": "impatient",
+          "reference_score": 0.7812063290493925,
+          "candidate_score": 0.7813419988998507,
+          "reference_cost": 3891800.29,
+          "candidate_cost": 3891641.6,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L98732c8946",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.8217609720004673,
+          "candidate_score": 0.8217609720004673,
+          "reference_cost": 1014601.02,
+          "candidate_cost": 1014601.02,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le53d2e0d48",
+          "family": "rfq",
+          "style": "steady",
+          "reference_score": 0.7032519955994548,
+          "candidate_score": 0.7520324469508151,
+          "reference_cost": 425000.49,
+          "candidate_cost": 420757.56,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L6d3384f0ac",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.634770422314434,
+          "candidate_score": 0.6358219501510447,
+          "reference_cost": 4462585.95,
+          "candidate_cost": 4461464.6,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7266a73e69",
+          "family": "rfq",
+          "style": "late",
+          "reference_score": 0.8244575886941712,
+          "candidate_score": 1.0,
+          "reference_cost": 4174723.13,
+          "candidate_cost": 4117180.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2d64a67343",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.661016993838769,
+          "candidate_score": 0.6644067975355076,
+          "reference_cost": 166888.71,
+          "candidate_cost": 166747.28,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L1462e9dc51",
+          "family": "rfq",
+          "style": "reciprocal",
+          "reference_score": 0.8218389655905238,
+          "candidate_score": 0.8218389655905238,
+          "reference_cost": 173581.96,
+          "candidate_cost": 173581.96,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L703cb15219",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.610712626563431,
+          "candidate_score": 0.8243027099463973,
+          "reference_cost": 292357.87,
+          "candidate_cost": 278013.16,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L28a1582c0f",
+          "family": "rfq",
+          "style": "impatient",
+          "reference_score": 0.7761474793077501,
+          "candidate_score": 0.9236267870579382,
+          "reference_cost": 1062582.04,
+          "candidate_cost": 1026941.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Ld86c516734",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 604840.0,
+          "candidate_cost": 604840.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9b79fd8bd8",
+          "family": "quality",
+          "style": "steady",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 663212.5,
+          "candidate_cost": 663212.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0b128043c6",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.5113300492610837,
+          "candidate_score": 0.5113300492610837,
+          "reference_cost": 436338.75,
+          "candidate_cost": 436338.75,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L85fbaa3a41",
+          "family": "quality",
+          "style": "late",
+          "reference_score": 0.708464710162503,
+          "candidate_score": 0.708464710162503,
+          "reference_cost": 561802.5,
+          "candidate_cost": 561802.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L72110b2241",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 4751835.0,
+          "candidate_cost": 4751835.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L7711304f17",
+          "family": "quality",
+          "style": "reciprocal",
+          "reference_score": 1.0,
+          "candidate_score": 1.0,
+          "reference_cost": 1126840.0,
+          "candidate_cost": 1126840.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L881f82ba18",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.998211091234347,
+          "candidate_score": 0.998211091234347,
+          "reference_cost": 66237.5,
+          "candidate_cost": 66237.5,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L2dc2fbd593",
+          "family": "quality",
+          "style": "impatient",
+          "reference_score": 0.7019880331982242,
+          "candidate_score": 0.7019880331982242,
+          "reference_cost": 485060.0,
+          "candidate_cost": 485060.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L9c46b2a744",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.7053224952433712,
+          "candidate_score": 0.7030901008223687,
+          "reference_cost": 286256.57,
+          "candidate_cost": 286488.92,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L40d2b1669d",
+          "family": "capacity",
+          "style": "steady",
+          "reference_score": 0.736049098988512,
+          "candidate_score": 0.7387916951374381,
+          "reference_cost": 1232814.59,
+          "candidate_cost": 1231872.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L3bb6cd59b7",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.6562084750682934,
+          "candidate_score": 0.6673021355147489,
+          "reference_cost": 113195.4,
+          "candidate_cost": 112822.8,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lc49081c778",
+          "family": "capacity",
+          "style": "late",
+          "reference_score": 0.6365810256110842,
+          "candidate_score": 0.6417358721353581,
+          "reference_cost": 325495.56,
+          "candidate_cost": 324967.59,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La4ec76b983",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.8440331122756108,
+          "candidate_score": 0.9184718938164852,
+          "reference_cost": 269367.93,
+          "candidate_cost": 266382.85,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La4eca7c44c",
+          "family": "capacity",
+          "style": "reciprocal",
+          "reference_score": 0.7012094421953285,
+          "candidate_score": 0.7012094421953285,
+          "reference_cost": 8559619.2,
+          "candidate_cost": 8559619.2,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L0d90d60ccf",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6569245127197136,
+          "candidate_score": 0.6569245127197136,
+          "reference_cost": 406048.72,
+          "candidate_cost": 406048.72,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lbe1905f388",
+          "family": "capacity",
+          "style": "impatient",
+          "reference_score": 0.6198819455489788,
+          "candidate_score": 0.619967233764797,
+          "reference_cost": 383736.08,
+          "candidate_cost": 383724.46,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L820e03affd",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.7401445168813094,
+          "candidate_score": 0.7405563308490618,
+          "reference_cost": 9372246.52,
+          "candidate_cost": 9371024.53,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lde0c7a380f",
+          "family": "index",
+          "style": "steady",
+          "reference_score": 0.9787108816240925,
+          "candidate_score": 0.9787108816240925,
+          "reference_cost": 2136741.23,
+          "candidate_cost": 2136741.23,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Laea501bafe",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.7224847446421743,
+          "candidate_score": 0.7230135488718461,
+          "reference_cost": 901235.2,
+          "candidate_cost": 901046.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Lb14ffdc277",
+          "family": "index",
+          "style": "late",
+          "reference_score": 0.6747422162994395,
+          "candidate_score": 0.6753875784389598,
+          "reference_cost": 3930471.6,
+          "candidate_cost": 3929726.0,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le016a86f49",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.9357440388979691,
+          "candidate_score": 0.9591183782890919,
+          "reference_cost": 273778.56,
+          "candidate_cost": 271906.4,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:Le46e228f82",
+          "family": "index",
+          "style": "reciprocal",
+          "reference_score": 0.9143309443011807,
+          "candidate_score": 0.9134291285197944,
+          "reference_cost": 500631.56,
+          "candidate_cost": 500770.36,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:La8b2a7e717",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.8521361694432795,
+          "candidate_score": 0.8523697554365751,
+          "reference_cost": 2676674.27,
+          "candidate_cost": 2676463.87,
+          "must_haves_ok": true
+        },
+        {
+          "case_id": "case:L4a65d7b936",
+          "family": "index",
+          "style": "impatient",
+          "reference_score": 0.9611975301555544,
+          "candidate_score": 0.9615054948608343,
+          "reference_cost": 1858915.88,
+          "candidate_cost": 1858756.64,
+          "must_haves_ok": true
+        }
+      ]
+    }
+  },
+  "correction": "Keep the cheapest ready quote out of flight during final challenges; respect its expiry too. Use compliant rival full cost to set first-turn RFQ anchors."
+}

@@ -44,7 +44,7 @@ def agent_factory(name, data):
         from .research import Research
 
         research = Research(package)
-        complete = llm_from_env(timeout=12.0, max_tokens=600) if name == "buyer-llm" else None
+        complete = llm_from_env(timeout=12.0, max_tokens=600, reasoning_effort="low") if name == "buyer-llm" else None
         return lambda: BuyerAgent(research, complete)
     complete = llm_from_env()
     return lambda: LLMAgent(complete, package)
@@ -92,6 +92,13 @@ def main(argv=None):
     bench = sub.add_parser("benchmark", help="compare buyer and naive locally, with no keys or network")
     bench.add_argument("--data", **data)
     bench.add_argument("--out", help="optional JSON report including decision explanations")
+    experiment = sub.add_parser("evaluate", help="run a bounded hosted practice experiment and save results")
+    experiment.add_argument("--cases", nargs="+", help="explicit case IDs; default: all hosted practice cases")
+    experiment.add_argument("--agent", choices=["buyer", "buyer-llm", "naive", "llm"], default="buyer-llm")
+    experiment.add_argument("--data", **data)
+    experiment.add_argument("--parallel", type=int, choices=range(1, 11), default=5)
+    experiment.add_argument("--seconds", type=int, default=390)
+    experiment.add_argument("--out", required=True, help="JSON report; updated as each case completes")
     args = ap.parse_args(argv)
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
@@ -119,6 +126,20 @@ def main(argv=None):
             print(f"report: {args.out}")
         return
     client = ArenaClient()
+    if args.cmd == "evaluate":
+        from .evaluation import evaluate
+
+        report = evaluate(
+            client,
+            agent_factory(args.agent, args.data),
+            args.cases,
+            args.parallel,
+            args.seconds,
+            args.out,
+            agent_name=args.agent,
+        )
+        print(f"mean score: {report['mean_score']:.3f}; report: {args.out}")
+        return
     if args.cmd == "register":
         out = client.register(args.team_name, args.event_code)
         print(json.dumps(out, indent=2))
