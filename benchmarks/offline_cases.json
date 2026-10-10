@@ -2,6 +2,9 @@
   {
     "case_id": "case:P01",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2427
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 937419.52,
@@ -11,6 +14,9 @@
   {
     "case_id": "case:P02",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2313
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 1902654.41,
@@ -20,6 +26,9 @@
   {
     "case_id": "case:P03",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2232
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 3379980.77,
@@ -29,6 +38,9 @@
   {
     "case_id": "case:P04",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      1950
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 156946.67,
@@ -38,6 +50,9 @@
   {
     "case_id": "case:P05",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      1966
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 9,
     "fixture_min_cost_excluding_relationship": 273266.0,
@@ -47,6 +62,9 @@
   {
     "case_id": "case:P06",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2223
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 6,
     "fixture_min_cost_excluding_relationship": 1901347.28,
@@ -56,6 +74,9 @@
   {
     "case_id": "case:P07",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2539
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 337336.0,
@@ -65,6 +86,9 @@
   {
     "case_id": "case:P08",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2042
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 924729.76,
@@ -74,6 +98,9 @@
   {
     "case_id": "case:P09",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2289
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 226260.32,
@@ -83,6 +110,9 @@
   {
     "case_id": "case:P10",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2224
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 1267312.8,
@@ -92,6 +122,9 @@
   {
     "case_id": "case:P11",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      2229
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 670503.0,
@@ -101,6 +134,9 @@
   {
     "case_id": "case:P12",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2357
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 812065.29,
@@ -110,6 +146,9 @@
   {
     "case_id": "case:P13",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2210
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 262632.38,
@@ -119,6 +158,9 @@
   {
     "case_id": "case:P14",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      1957
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 1934501.57,
@@ -128,6 +170,9 @@
   {
     "case_id": "case:P15",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2171
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 252803.33,
@@ -137,6 +182,9 @@
   {
     "case_id": "case:P16",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2019
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 830951.35,
@@ -146,6 +194,9 @@
   {
     "case_id": "case:P17",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      2299
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 611205.95,
@@ -155,6 +206,9 @@
   {
     "case_id": "case:P18",
     "hosted_available": true,
+    "mock_model_context_bytes": [
+      1977
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 247661.84,
@@ -164,6 +218,9 @@
   {
     "case_id": "case:P19",
     "hosted_available": false,
+    "mock_model_context_bytes": [
+      1985
+    ],
     "status": "offline economic fixture only",
     "valid_candidates": 3,
     "fixture_min_cost_excluding_relationship": 64432.37,

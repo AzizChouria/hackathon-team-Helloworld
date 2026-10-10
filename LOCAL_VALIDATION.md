@@ -76,3 +76,11 @@ separately authorized hosted comparisons. There is no honest local-only stopping
 proves the revised agent beats unseen hosted suppliers. Before the final, refresh the data, run
 these checks, verify actual account/network limits and jury access, and review the final-run
 procedure in HYBRID_README.md. No final execution is authorized by this document.
+
+## Subsequent benchmark preparation
+
+The next preparation revision passes **87 tests with one optional skip** and Ruff. It adds a
+separately gated benchmark runner, stronger model identity checks, model history/cost context,
+and all-19-case mocked context checks. Deterministic local results remain unchanged.
+See REVISED_BENCHMARK_READY.md for the selected configuration, fresh API probe and budget.
+No revised hosted supplier results exist yet.

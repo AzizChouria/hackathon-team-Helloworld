@@ -123,13 +123,18 @@ class HybridAgent:
                 model_called = True
                 self.calls += 1
                 context = {"scenario": case.get("type"), "supplier": sid,
-                           "notes": intel["notes"][:4], "hypotheses": intel["hypotheses"],
+                           "notes": [n[:600] for n in intel["notes"][:4]], "hypotheses": intel["hypotheses"],
+                           "buyer_round": turn, "moves_remaining": moves_left(case, events),
+                           "recent_exchange": [{"from": e.get("from"), "body": e.get("body", "")[:350]}
+                                               for e in events[-4:]],
+                           "package_costs_eur": [total_cost(case, p, standard_terms(events), estimates.get(sid))
+                                                 for p in packages],
                            "reply": latest(events).get("body", "")[:1800],
                            "attachments": [a.get("text", "")[:700] for a in latest(events).get("attachments", [])][:2],
                            "packages": packages, "evidence": evidence[:6],
                            "instruction": "Select packages and a grounded negotiating approach."}
                 try:
-                    strategy = validate(self.complete(SYSTEM, json.dumps(context, default=str)),
+                    strategy = validate(self.complete(SYSTEM, json.dumps(context, default=str, ensure_ascii=False)),
                                         len(packages), min(len(evidence), 6))
                 except Exception as exc:
                     fallback = True

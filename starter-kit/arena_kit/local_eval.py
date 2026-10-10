@@ -114,7 +114,8 @@ def compare(revision="08002e0"):
                     table = LocalTable(case, trajectory)
                     result = runner(table, case["case_id"], agent_type())
                     session = table.state.sessions[table.session_id]
-                    row[label] = {k: result[k] for k in ("deal", "must_haves_ok", "c_deal", "c_alt")}
+                    fields = ("deal", "must_haves_ok", "c_deal", "c_alt", "score", "c_open", "c_best")
+                    row[label] = {k: result[k] for k in fields}
                     row[label]["rounds"] = sum(t["round"] for t in session["threads"].values())
                     row[label]["timeouts"] = sum(len(t["late"]) for t in session["threads"].values())
                 for label in ("before", "after"):
@@ -124,9 +125,19 @@ def compare(revision="08002e0"):
                     row[k]["realized_cost"] is not None for k in ("before", "after")) else None
                 rows.append(row)
     savings = [r["cost_saved"] for r in rows if r["cost_saved"] is not None]
+    standard = [r for r in rows if r["script"] == "standard_simulator" and r["buyer_interest"] == 0.08]
+    score_means = {
+        label: {
+            "standard_cases_at_8pct_out_of_100": 100 * sum(r[label]["score"] for r in standard) / len(standard),
+            "all_36_reference_scores_out_of_100": 100 * sum(r[label]["score"] for r in rows) / len(rows),
+        } for label in ("before", "after")
+    }
     return {"timestamp": datetime.now(UTC).isoformat(), "baseline_commit": revision,
             "scope": "36 synthetic local fixtures, deterministic agent; NOT hosted supplier performance",
             "hosted_sessions": 0, "model_calls": 0, "rows": rows,
+            "score_means": score_means,
+            "score_caveat": "Custom scripts retain the standard simulator c_best reference; "
+                            "their aggregate is a reference score, not a true custom-script optimum or hosted score.",
             "summary": {"fixtures": len(rows), "lower_cost": sum(v > 0.01 for v in savings),
                         "equal_cost": sum(abs(v) <= 0.01 for v in savings),
                         "higher_cost": sum(v < -0.01 for v in savings),
@@ -143,7 +154,7 @@ def main():
     result = compare(args.baseline)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps(result["summary"]))
+    print(json.dumps({"summary": result["summary"], "score_means": result["score_means"]}))
 
 
 if __name__ == "__main__":

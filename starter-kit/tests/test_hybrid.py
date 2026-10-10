@@ -315,3 +315,14 @@ def test_missing_supplier_default_cannot_prove_constraint(case):
     case["buyer"]["must_haves"] = [{"field": "payment_days", "op": ">=", "value": 45}]
     assert not valid(case, {"unit_price": 20})
     assert valid(case, {"unit_price": 20}, {"payment_days": 60})
+
+
+def test_unexpected_returned_model_is_not_silently_accepted(tmp_path, model_env):
+    api = OpenAI(transport=httpx.MockTransport(lambda _: httpx.Response(
+        200, json=response_data(model="unexpected-model"))), ledger=tmp_path / "usage.jsonl")
+    with pytest.raises(ValueError, match="Returned model"):
+        api("s", "u")
+    assert api.metrics[-1]["fallback"]
+    assert api.metrics[-1]["model_returned"] == "unexpected-model"
+    assert api.metrics[-1]["estimated_cost_usd"] is None
+    assert api.spent() > 0  # uncertain billing retains the reservation

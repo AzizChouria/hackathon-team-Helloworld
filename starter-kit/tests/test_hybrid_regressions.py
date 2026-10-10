@@ -173,3 +173,26 @@ def test_repeated_opening_does_not_trigger_premature_close(case):
         move = agent.decide(case, threads)
         assert not move["message"].get("action")
         threads["A"].extend([{**move["message"], "from": "buyer"}, mail(20)])
+
+
+def test_model_receives_history_and_python_costs(case):
+    import json
+
+    from arena_kit.agents.strategy import BODIES
+    captured = []
+
+    def model(system, user):
+        context = json.loads(user)
+        captured.append(context)
+        assert context["package_costs_eur"] == [total_cost(case, p) for p in context["packages"]]
+        assert len(user.encode()) <= 12000
+        return {"package_order": [0], "evidence": [], "question": "priorities", "body": BODIES[0]}
+
+    agent = HybridAgent(model)
+    threads = {"A": [mail(body="Payment timing matters to us.")]}
+    action = agent.decide(case, threads)
+    threads["A"].extend([{**action["message"], "from": "buyer"}, mail(19, body="Please trade payment for price.")])
+    agent.decide(case, threads)
+    assert captured[1]["buyer_round"] == 1
+    assert captured[1]["recent_exchange"][0]["body"] == "Payment timing matters to us."
+    assert captured[1]["moves_remaining"] == case["round_limit"] - 1

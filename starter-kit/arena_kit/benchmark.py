@@ -10,7 +10,7 @@ from pathlib import Path
 
 from .agents.hybrid import HybridAgent
 from .agents.optimizer import candidates, valid
-from .agents.strategy import SCHEMA, SYSTEM, OpenAI
+from .agents.strategy import BODIES, SCHEMA, SYSTEM, OpenAI
 from .cli import load_env
 from .client import ArenaClient
 from .cost import closing_terms, total_cost
@@ -69,7 +69,16 @@ def offline():
     cases = json.loads((PRIVATE / "practice_cases.json").read_text())
     results = []
     for case in cases:
-        agent = HybridAgent(package=package())
+        context_sizes = []
+
+        def choose(system, user, context_sizes=context_sizes):
+            context_sizes.append(len(user.encode()))
+            assert context_sizes[-1] <= 12000
+            context = json.loads(user)
+            return {"package_order": list(range(len(context["packages"]))), "evidence": [],
+                    "question": "priorities", "body": BODIES[0]}
+
+        agent = HybridAgent(choose, package=package())
         agent.prepare(case)
         count = 0
         minimum = None
@@ -84,7 +93,15 @@ def offline():
             intel = agent.intelligence.prepare(case, sid)
             facts = {**agent.intelligence.package.facts, **case.get("facts", {})}
             assert all(ref in facts for e in intel["evidence"] for ref in e["refs"])
+        synthetic = {sid: [{"from": "supplier", "status": "open", "body": "Local economic fixture.",
+                            "term_sheets": [{"term_sheet_id": f"fixture:{sid}", "terms": seed}]}]
+                     for sid in case["suppliers"]}
+        actions = agent.decide_many(case, synthetic)
+        assert actions and all(valid(case, s["terms"], complete=True)
+                               for a in actions for s in a["message"].get("term_sheets", []))
+        assert not any(d.get("model_called") and d.get("fallback") for d in agent.diagnostics)
         results.append({"case_id": case["case_id"], "hosted_available": case.get("hosted"),
+                        "mock_model_context_bytes": context_sizes,
                         "status": "offline economic fixture only", "valid_candidates": count,
                         "fixture_min_cost_excluding_relationship": minimum,
                         "supplier_behavior_tested": False, "score": None})
@@ -111,11 +128,20 @@ def probe():
     print(json.dumps(row, ensure_ascii=True))
 
 
-def forecast():
+def batch_paths(batch="original"):
+    if batch == "original":
+        return PRIVATE / "sessions.jsonl", REPORTS, PRIVATE
+    if batch == "revised_01":
+        return PRIVATE / "revised_01_sessions.jsonl", REPORTS / batch, PRIVATE / batch
+    raise ValueError("Unknown benchmark batch; additional batches need explicit authorization")
+
+
+def forecast(batch="original"):
+    journal, _, _ = batch_paths(batch)
     model = OpenAI()
     input_bound = 12000 + len((SYSTEM + json.dumps(SCHEMA)).encode()) + 512
     per_call = (input_bound * model.input_rate + model.max_tokens * model.output_rate) / 1e6
-    remaining = 10 - len(records(PRIVATE / "sessions.jsonl"))
+    remaining = max(0, 10 - len(records(journal)))
     expected_calls = remaining * int(os.environ.get("HYBRID_LLM_CALLS_PER_CASE", "2"))
     return {"remaining_sessions": remaining, "maximum_remaining_model_calls": expected_calls,
             "per_call_upper_usd": per_call, "remaining_upper_usd": per_call * expected_calls,
@@ -123,10 +149,12 @@ def forecast():
             "forecast_total_upper_usd": model.spent() + per_call * expected_calls}
 
 
-def run(case_id):
+def run(case_id, *, batch="original", approved=False, expected_case=None):
+    journal, report_dir, trace_dir = batch_paths(batch)
+    if batch != "original" and not approved:
+        raise ValueError("Revised hosted sessions need fresh explicit approval; preparation is not execution")
     if case_id not in AUTHORIZED:
         raise ValueError("Only the ten authorized practice IDs may be benchmarked")
-    journal = PRIVATE / "sessions.jsonl"
     uses = records(journal)
     if len(uses) >= 10 or case_id in {r["case_id"] for r in uses}:
         raise ValueError("Session authorization exhausted or case already attempted; no retry")
@@ -136,7 +164,11 @@ def run(case_id):
     with lock_path.open("x") as lock:
         lock.write(str(os.getpid()))
     try:
-        forecast_ = forecast()
+        # Re-read under the shared lock; never reserve using a stale pre-lock snapshot.
+        uses = records(journal)
+        if len(uses) >= 10 or case_id in {r["case_id"] for r in uses}:
+            raise ValueError("Session authorization exhausted or case already attempted; no retry")
+        forecast_ = forecast(batch)
         if forecast_["forecast_total_upper_usd"] > 5:
             raise ValueError("Full-coverage forecast exceeds $5; approval required")
         client = ArenaClient(retries=0)
@@ -145,6 +177,8 @@ def run(case_id):
             raise ValueError("No team practice quota")
         cases = client.cases("practice")
         case = next(c for c in hosted(cases) if c["case_id"] == case_id)
+        if expected_case is not None and case != expected_case:
+            raise ValueError("Case changed since preparation; review and prepare again")
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
         status = subprocess.check_output(["git", "status", "--porcelain", "--", "starter-kit/arena_kit"],
                                          cwd=ROOT, text=True).strip()
@@ -172,20 +206,22 @@ def run(case_id):
                 if not result and state.get("status") == "ended":
                     result = state.get("result")
                 # Private trace for post-run review, excluded from Git.
-                write(PRIVATE / f"{case_id.replace(':', '_')}_state.json", state)
+                write(trace_dir / f"{case_id.replace(':', '_')}_state.json", state)
             except Exception as exc:
                 error = error or type(exc).__name__
         if replay and replay.startswith("/"):
             replay = os.environ["ARENA_URL"].rstrip("/") + replay
         result = {k: v for k, v in (result or {}).items() if k != "trace"}
-        row = {"case_id": case_id, "scenario": case["type"], "suppliers": case["suppliers"],
+        row = {"batch": batch, "case_id": case_id, "scenario": case["type"], "suppliers": case["suppliers"],
                "timestamp": started, "commit": commit, "model": model.model, "effort": model.effort,
                "status": "completed" if result.get("ended") else "failed", "result": result,
                "session_id": table.session_id, "replay_url": replay, "error": error,
+               "buyer_timeouts": sum(m.get("move", {}).get("type") == "timeout"
+                                     for m in state.get("moves", [])),
                "turns": state.get("rounds"), "wall_s": time.monotonic() - wall,
                "model_calls": model.metrics, "decisions": agent.diagnostics,
                "network_retries": 0, "session_attempt": len(uses) + 1}
-        append(REPORTS / "hosted_results.jsonl", row)
+        append(report_dir / "hosted_results.jsonl", row)
         print(json.dumps(row, ensure_ascii=True), flush=True)
         return row
     finally:

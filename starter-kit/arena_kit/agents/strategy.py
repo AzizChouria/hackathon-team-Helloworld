@@ -139,6 +139,8 @@ class OpenAI:
                 raise RuntimeError(f"OpenAI HTTP {response.status_code}")
             data = response.json()
             metric["model_returned"] = data.get("model")
+            if data.get("model") != self.model:
+                raise ValueError("Returned model differs from explicitly configured model")
             usage = data.get("usage") or {}
             incoming = usage.get("input_tokens", usage.get("prompt_tokens", 0))
             outgoing = usage.get("output_tokens", usage.get("completion_tokens", 0))

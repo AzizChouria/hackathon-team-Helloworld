@@ -180,3 +180,10 @@ must improve on the cheapest feasible standing offer, non-price package profiles
 evidence is reserved across pending RFQ moves. The second model call interprets the first reply;
 its numeric terms and acceptance decisions remain controlled by Python. Trigger documents lead
 the evidence brief, including Sunday-release documents absent from SQLite.
+
+## Prepared revised hosted benchmark
+
+See [REVISED_BENCHMARK_READY.md](REVISED_BENCHMARK_READY.md). The revised runner preserves
+original results, freezes code/data/configuration and separates read-only preparation from
+explicitly approved execution. Do not use an unrestricted full-set command to bypass the
+original session allowance. Readiness does not authorize new hosted sessions.
