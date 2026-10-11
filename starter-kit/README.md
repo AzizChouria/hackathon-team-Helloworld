@@ -142,6 +142,22 @@ limit of 10 calls per second and retries dropped connections with the same `X-Mo
 retry never sends a message twice. Rehearse with `arena run --set practice --parallel 10` (it counts against your quota) before
 Sunday, from the machine and network you will use: every case should end well inside 8 minutes.
 
+### Rehearse the final
+
+The final's case list answers `403` until wave 1, so rehearse its mechanics on the simulator - two
+short waves of its demo cases (it prints the timeline on start):
+
+```bash
+uv run arena-sim serve --final-rehearsal --data data/package
+# a second terminal:
+ARENA_URL=http://127.0.0.1:8000 uv run arena register "Rehearsal" sim
+ARENA_URL=http://127.0.0.1:8000 ARENA_API_KEY=<key> uv run arena run --set final --waves 2 --agent llm --parallel 10
+```
+
+Own client: point it at the same URL. It checks the `403` wait (60 s), the wave start, one session
+per case, `seconds_left` and the cap (4 minutes, a 30-second break, then wave 2); `--waves 2` stops
+the runner after the rehearsal's two waves (the final has five, the default).
+
 ## Your own agent
 
 An agent is any object with `decide(case, threads) -> {"supplier_id": …, "message": {…}}`.
