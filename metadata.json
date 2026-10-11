@@ -3,8 +3,9 @@
   "checkpoint_id": "01M4MZ9WRQ52PE7CGEWFSANBGE",
   "strategy": "manual-commit",
   "branch": "codex/main-preflight-eval-20261010",
-  "checkpoints_count": 2,
+  "checkpoints_count": 13,
   "files_touched": [
+    "docs/gap-analysis.md",
     "docs/replay-findings.md",
     "starter-kit/arena_kit/strategy.py"
   ],
@@ -15,13 +16,20 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 1557757,
-    "cache_creation_tokens": 0,
-    "cache_read_tokens": 121948372,
-    "output_tokens": 398856,
-    "api_call_count": 1101
+    "input_tokens": 1557851,
+    "cache_creation_tokens": 324000,
+    "cache_read_tokens": 133452337,
+    "output_tokens": 437851,
+    "api_call_count": 1148
   }
 }
