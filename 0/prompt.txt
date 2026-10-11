@@ -1,0 +1,132 @@
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"call_Nhmlz1EeJ423jfH7Aq78AatZ\",0]","question":"Which branch or commit did your friend run for the attached 0.627 batch? The report gives only a source hash. A branch name, commit hash, or file path will let me audit that exact version.","answer":"idk"}]
+</send_user_message_question_reply>
+
+---
+
+1. The batch commit is e41db33 (origin/main, "best till now"). It is already audited:
+   no c_best/replay/leaderboard at runtime, no hardcoded case answers. Only issue: six
+   reply phrases copied from practice suppliers in strategy.py supplier_signals and
+   commercial.py objections - replace them with general patterns.
+2. Rebase/merge your 8ae3718 preflight + fallback counters onto origin/main (e41db33),
+   resolve conflicts in buyer.py/cli.py/play.py, run tests with
+   `env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run pytest -q`.
+3. Stop using S01-S03 to judge strategy. Run all 10 hosted practice cases twice:
+   `--agent buyer` and `--agent buyer-llm --require-model`. Report per-case score,
+   rounds, fallbacks. Fallbacks must be ~0 for the LLM run.
+4. Then improve the 3 weakest cases (likely P02, P05, P18) using their replay reasons,
+   with general rules only, and re-run just those cases.
+
+---
+
+lets push
+
+---
+
+Goal is the hidden final, not practice scores. From now on:
+1. Treat sandbox D01 and D02 as a held-out test: run `buyer` on both before and after every
+   strategy change (free, no quota). Reject changes that help practice but hurt D01/D02.
+2. Smoke-test all 19 practice case files (incl. the 9 non-hosted ones) locally against
+   arena-sim with an 8-minute deadline: no crashes, no must-have breaks, no timeouts.
+3. Every rule must be justified by the cost formula or a general negotiation principle,
+   never by one supplier's wording. Flag any remaining rule that only exists for one case.
+4. After changes, run all 10 hosted cases once with --parallel 10 (final conditions).
+
+---
+
+Do these in order:
+
+**1. Push the safe version first**, so it's backed up before Codex changes anything. In your terminal:
+```bash
+cd ~/hackathon-team-Helloworld
+git push origin codex/main-preflight-eval-20261010
+
+```
+
+Also tag it so you can always get back to it:
+```bash
+git tag safe-final-a47ea0d a47ea0d && git push origin safe-final-a47ea0d
+
+```
+
+If Codex's next changes make things worse, the Sunday fallback is `git checkout safe-final-a47ea0d`.
+
+**2. Send Codex that prompt,** with one line added at the top:
+```sql
+Work on top of a47ea0d (already pushed and tagged safe-final-a47ea0d). Commit each change separately so we can revert one.
+
+```
+
+---
+
+Held-out D02 (RFQ) scored 0.428 and P05 (RFQ) ~0.51: RFQs are our weakest case type.
+1. Improve RFQ play generally: cite the cheaper bidder's current offer: ID to the other
+   bidder (allowed, counts once per supplier), keep all bidders engaged until the close,
+   accept the lowest total cost. Develop on P05's replay, validate on sandbox D02 (no
+   tuning on D02's replay). Keep D01 >= 0.80.
+2. Concession schedule (docs/replay-findings.md #1): fewer, larger steps; hold when the
+   supplier did not move. Validate on P02/P18 + D01.
+3. Then one full 10-case hosted batch, --parallel 10, 480 s deadline. Report mean vs 0.654.
+Keep a change only if the held-out D01/D02 don't get worse.
+
+---
+
+now what what is the plan we are still stuck at 72 %
+
+---
+
+Read docs/gap-analysis.md. Start from a6e1dcf, one commit per experiment.
+Experiment 1: lower the opening anchor for non-strategic goals (leverage, routine,
+quality_first: ~0.78 x quote instead of 0.86; secure_supply: ~0.82 instead of 0.90).
+Preferred: if a should_cost row exists for the part, anchor near should_cost x 1.03-1.05,
+clamped to [0.72, 0.90] x quote. Leave the stabilise logic unchanged.
+Gates: D01 >= 0.90, D02 >= 0.51 (held-out), then one 10-case batch, --parallel 10, 480 s.
+Keep it only if the 10-case mean beats 0.679 and no deal breaks a must-have.
+Then experiment 3 from the doc (P05: was sup:70240 cheaper or blocked by lead time?).
+
+---
+
+Don't drop the anchor idea on one D02 sample - D02 already ranged 0.43-0.51 on unchanged code.
+1. Noise check (sandbox is free): run D02 3x on a6e1dcf and 3x on the anchor candidate,
+   and D01 2x each. Compare means, not single runs.
+2. Variant B: apply the lower opening anchor ONLY to single-supplier cases; keep the RFQ
+   rival-cost anchor exactly as in a6e1dcf. D02 should then be unaffected by design.
+   Gates: D01 mean >= 0.90, D02 mean not below the a6e1dcf mean, then one 10-case batch
+   (--parallel 10, 480 s). Keep only if the mean beats 0.679 with no must-have breaks.
+One commit per variant; revert if gates fail.
+
+---
+
+now what ?? should we use astra ?
+
+The lower opening didn't work. Here's what it did to the cases it was meant to fix:
+
+| Case | `a6e1dcf` | Lower opening (variant B)                  |
+| ---- | --------- | ------------------------------------------ |
+| P18  | 0.532     | 0.532 (no change)                          |
+| P08  | 0.549     | 0.538                                      |
+| P10  | 0.663     | **0.555** (supplier closed after 2 rounds) |
+
+The suppliers end at about the same price no matter where we open, and starting lower can make them close sooner. So my hypothesis was wrong. These suppliers have a price floor plus their own concession logic, and a lower opening doesn't reach that floor. Codex was right to revert, and the code is back to exactly `a6e1dcf`.
+
+## What I'd do now
+
+Stop experimenting with strategy. Three experiments in a row came out neutral or negative, so you've hit the point where small tweaks are just noise. What still matters for the final is **robustness**. Hamza's P18 zero shows that a single failed case costs about 10 points of a wave, more than any tweak gains.
+
+**1. Last code change: robustness only.** Paste to Codex:
+```yaml
+Code stays at a6e1dcf strategy. Only two robustness items, one commit each:
+1. Port commit 5a12534 from origin/feat/tacto-hybrid-agent (RemoteTable.missed keeps
+   the current offer's real terms; never pair stale timeout terms with a newer offer_id)
+   + tests/test_offer_recovery.py.
+2. P05: Hamza reports sup:70250 had a compliant final offer at EUR 263,626 vs our accepted
+   sup:70210 at EUR 268,434. Check whether our RFQ close could skip a cheaper valid standing
+   offer (e.g. a reply still in flight). Fix only if it is a general bug, with a test.
+Gates: full tests, D01/D02, one 10-case batch: mean must not drop below ~0.67 and
+10/10 deals. Then push the branch.
+
+```
+
+---
+
+how can we improve the model 0.72 not enough
