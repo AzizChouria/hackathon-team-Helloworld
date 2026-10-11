@@ -225,11 +225,13 @@ class Research:
                     "Please compare our recent order history with you for this part ("
                     + ", ".join(ref for ref, _ in lines) + ").",
                     tuple(ref for ref, _ in lines), "history"))
-        # Supplier news that bears on a trade we can offer (capacity, cash, order book). No figure.
+        # Supplier news that weakens the seller's position (idle capacity, cash or credit
+        # pressure, easing supply). News of a full order book, a big order or volume allocation
+        # confirms a seller's market, so citing it argues for the supplier. No figure.
         for ref, f in sorted(facts.items() if os.environ.get("LAB_NEWS_HISTORY") != "0" else []):
             if (ref.startswith("news:") and f.get("supplier") == sid
-                    and f.get("topic") in {"free_capacity", "full_order_book", "credit_watch", "credit_downgrade",
-                                           "short_time_work", "restructuring", "big_order", "allocation"}):
+                    and f.get("topic") in {"free_capacity", "credit_watch", "credit_downgrade",
+                                           "short_time_work", "restructuring", "supply_normalises"}):
                 out.append(Evidence(
                     f"We noted the report \"{f.get('headline', 'press report')}\" ({ref}) and aim for a package "
                     "that suits your situation.", (ref,), "news"))

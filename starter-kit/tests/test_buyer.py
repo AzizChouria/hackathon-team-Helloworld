@@ -928,3 +928,14 @@ def test_required_terms_reads_noncompliant_rival_price_at_the_must_have_bound():
     ok = {"unit_price": 30.0, "lead_time_days": 35}
     assert required_terms(case, ok) == ok
     assert required_terms(case, {"lead_time_days": 35}) is None
+
+
+def test_news_evidence_never_argues_for_the_supplier():
+    import inspect
+
+    from arena_kit import research
+
+    source = inspect.getsource(research)
+    allowed = source.split("supply_normalises")[0].rsplit("in {", 1)[1]
+    for topic in ("full_order_book", "big_order", "allocation"):
+        assert f'"{topic}"' not in allowed
