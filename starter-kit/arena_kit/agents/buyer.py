@@ -4,6 +4,7 @@ import itertools
 import json
 import logging
 import math
+import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -29,6 +30,16 @@ TACTICS = {
     "delivery": "Please ask logistics to confirm a reliable delivery schedule against the attached lead times.",
     "partnership": "We value continuity. Please compare the longer commitment with the other attached packages.",
     "approval": "Please ask the authorised decision-maker to review these complete packages for approval.",
+}
+
+# Wording experiments for the sandbox lab (selected only through the LAB_PROSE variable).
+LAB_PROSE = {
+    "appreciate": "We value our cooperation and want a package that works well for both sides.",
+    "closest": "Which of the attached packages comes closest to something you can approve?",
+    "blocker": "Which single term, if any, keeps you from approving the lead package?",
+    "understand": "We understand your cost pressure and are prepared to commit to the stated terms if the price works.",
+    "decision": "Please tell us what you need from us to reach a decision in the next round.",
+    "both": "We value our cooperation. Which single change to the package would let you improve the price most?",
 }
 
 SYSTEM = """You advise Hollerau procurement on the current supplier turn. Choose a truthful tactic and
@@ -273,7 +284,10 @@ class BuyerAgent:
         # The threshold is over full-horizon C, so changes to financing, cover,
         # quality and delivery count alongside price.
         if quotes[-1] >= quotes[-2] * 0.999:
-            return 0.0
+            # Holding forever deadlocks suppliers that only move after we move: after two of
+            # our own messages concede a small step of the remaining gap.
+            nudge = float(os.environ.get("LAB_NUDGE", "0.08"))
+            return nudge if sum(m.get("from") == "buyer" for m in events) >= 2 else 0.0
         if not confirmed:
             # Respond to verified price movement with a conditional step while
             # still asking the supplier to confirm coverage, payment and warranty.
@@ -307,16 +321,17 @@ class BuyerAgent:
         quality = case["buyer"].get("category_goal") == "quality_first"
         # A quality requirement is not a reason to volunteer almost the asking
         # price. Price the compliant warranty/liability packages separately.
-        anchor = theirs * (0.90 if strategic else 0.86)
+        shift = float(os.environ.get("LAB_ANCHOR", "0"))  # sandbox experiments only; 0 keeps the tuned anchors
+        anchor = theirs * ((0.90 if strategic else 0.86) + shift)
         if supplier and case["buyer"].get("category_goal") == "secure_supply":
             # The cost estimate and sustainable margin below protect supplier health;
             # a bottleneck label alone should not anchor us at almost the asking price.
-            anchor = theirs * 0.90
+            anchor = theirs * (0.90 + shift)
         if supplier and strategic:
             margin = case["buyer"].get("sustainable_margin_pct", 5) / 100
             anchor = max(anchor, min(theirs, supplier["full_cost"] / max(0.5, 1 - margin)))
         # Incremental concessions; reconstruct state from the transcript after a restart.
-        step = self.concession_step(case, sid, events, signals)
+        step = min(1.0, self.concession_step(case, sid, events, signals) * float(os.environ.get("LAB_STEP", "1")))
         price = previous[-1] + max(0, theirs - previous[-1]) * step if previous else anchor
         prices = [round(max(0.01, price), 2)]
         if strategic and supplier:
@@ -572,8 +587,10 @@ class BuyerAgent:
                 and (signals["approval_needed"] or objection["stalled"])):
             tactic = "approval"
         narrative = None
+        # the arena checks at most 3 claims per message (LAB_* variables exist only for offline/sandbox experiments)
+        limit = int(os.environ.get("LAB_CLAIMS_LATER" if rounds else "LAB_CLAIMS_FIRST", "3" if rounds else "2"))
         chosen, reason = (
-            list(range(min(2, len(evidence)))),
+            list(range(min(limit, len(evidence)))),
             f"Rules selected {tactic} for the case and supplier context.",
         )
         if self.complete and (self.model_future is None or self.model_future.done()):
@@ -615,7 +632,7 @@ class BuyerAgent:
                 ):
                     raise ValueError("unknown evidence")
                 tactic = decision["tactic"]
-                chosen = list(dict.fromkeys(indices))[:2]
+                chosen = list(dict.fromkeys(indices))[:limit]
                 reason = str(decision.get("reason", "Model selected grounded tactic."))[:500]
                 narrative = safe_message(decision.get("message"), case)
                 self.model_successes += 1
@@ -639,12 +656,12 @@ class BuyerAgent:
         if case["buyer"].get("category_goal") in {"quality_first", "secure_supply"} or signals["price_locked"]:
             counterpoint = None
         if counterpoint and counterpoint not in selected:
-            selected = [counterpoint, *selected][:2]
+            selected = [counterpoint, *selected][:limit]
         # A current, compliant cheaper quote is stronger RFQ leverage than a
         # generic index. Do not let model prose selection discard the auction.
         rival = next((e for e in evidence if e.kind == "rival"), None)
         if rival and len(case["suppliers"]) > 1:
-            selected = [rival, *(e for e in selected if e != rival)][:2]
+            selected = [rival, *(e for e in selected if e != rival)][:limit]
         if tactic == "cash" and "payment_days" not in case["negotiable"]:
             tactic = "quality" if case["buyer"].get("category_goal") == "quality_first" else "approval"
         fallback = business_message(case, signals, tactic)
@@ -801,7 +818,13 @@ class BuyerAgent:
             evidence, case, events, self.dossiers[sid], lambda ref: self.research.fact(case, ref)
         )
         tactic, selected, reason, narrative = self.tactic(case, sid, events, evidence, sheets)
+        rounds_sent = sum(m.get("from") == "buyer" for m in events)
         intro = "Thank you for your proposal. Please consider the attached complete commercial packages."
+        if os.environ.get("LAB_QUESTION") == "1":
+            intro += " Which single change to the package would let you improve the price most?"
+        lab = LAB_PROSE.get(os.environ.get("LAB_PROSE", ""))
+        if lab and rounds_sent >= int(os.environ.get("LAB_PROSE_FROM", "0")):
+            intro += " " + lab
         body = "\n".join([
             intro, narrative, commercial_brief(case, sheets, self.dossiers[sid], events, standard_terms(events)),
             *(e.text for e in selected), "Best regards, Hollerau Purchasing",
