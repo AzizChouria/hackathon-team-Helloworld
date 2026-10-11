@@ -88,6 +88,26 @@ supplier-facing paragraph; reason is one brief private sentence.
 """
 
 
+def required_terms(case, terms, standard=None):
+    """The sheet's terms with each broken must-have set to its bound, or None if that fails.
+
+    Used only to read a rival's price as a market reference, never to accept anything.
+    """
+    if terms.get("unit_price") is None:
+        return None
+    if must_haves_ok(case, terms, standard):
+        return terms
+    patched = dict(terms)
+    for rule in case["buyer"].get("must_haves", []):
+        value = closing_terms(case, patched, standard).get(rule["field"])
+        if rule["op"] in OPS and value is not None and OPS[rule["op"]](value, rule["value"]):
+            continue
+        if rule["op"] not in {"<=", ">=", "=="}:
+            return None
+        patched[rule["field"]] = rule["value"]
+    return patched if must_haves_ok(case, patched, standard) else None
+
+
 def alternative_cost(case):
     alt = case["buyer"].get("alternative") or {}
     if alt.get("kind") in (None, "none") or not alt.get("terms", {}).get("unit_price"):
@@ -782,11 +802,17 @@ class BuyerAgent:
                 # above the market. Apply the existing anchor discount to a
                 # real compliant rival's full cost on the first priced turn.
                 if not any(m.get("from") == "buyer" and m.get("term_sheets") for m in events):
+                    # A rival's price is market evidence even when one of its terms misses
+                    # a must-have: value it at the required bound, as a reference only - and
+                    # only when its price is plausible for the same part (within 20% of this
+                    # bidder's quote); a far cheaper sheet is cheap because of that term.
+                    own = standing(events)[1].get("unit_price") or math.inf
                     rival_costs = [
-                        self.valuation(case, rival, threads[rival], sheet["terms"])[0]
+                        self.valuation(case, rival, threads[rival], terms)[0]
                         for rival in live_threads(threads) if rival != sid
                         for sheet in latest(threads[rival]).get("term_sheets") or []
-                        if must_haves_ok(case, sheet["terms"], standard_terms(threads[rival]))
+                        if (terms := required_terms(case, sheet["terms"], standard_terms(threads[rival])))
+                        and (terms is sheet["terms"] or sheet["terms"]["unit_price"] >= 0.8 * own)
                     ]
                     if rival_costs:
                         factor = 0.90 if case["buyer"].get("category_goal") in {"stabilise", "secure_supply"} else 0.86

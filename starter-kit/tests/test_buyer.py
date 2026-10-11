@@ -914,3 +914,17 @@ def test_supplier_signals_read_sunday_release_letter_wording():
     assert cash["cash_sensitive"]
     neutral = sig("Thank you for your enquiry. Please find our quotation for the 2027 volume attached.")
     assert not any(neutral[k] for k in ("price_locked", "hedged", "cash_sensitive"))
+
+
+def test_required_terms_reads_noncompliant_rival_price_at_the_must_have_bound():
+    from arena_kit.agents.buyer import required_terms
+
+    case = {"buyer": {"must_haves": [{"field": "lead_time_days", "op": "<=", "value": 42}],
+                      "need_per_year": 100, "horizon_years": 1, "reference_payment_days": 60,
+                      "need_lead_time_days": 35, "freight_eur_per_unit": {"DAP": 0.0}},
+            "fixed_terms": {}}
+    late = {"unit_price": 31.0, "lead_time_days": 52}
+    assert required_terms(case, late) == {"unit_price": 31.0, "lead_time_days": 42}
+    ok = {"unit_price": 30.0, "lead_time_days": 35}
+    assert required_terms(case, ok) == ok
+    assert required_terms(case, {"lead_time_days": 35}) is None
