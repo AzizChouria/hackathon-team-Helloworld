@@ -160,15 +160,7 @@ def optimise(case, price, standard, supplier=None, forced=None):
     # delivery and offer the longer commitment when its horizon cost is identical.
     def rank(terms):
         full = closing_terms(case, terms, standard)
-        duration = full["contract_months"]
-        contract_rank = -duration
-        if case.get("type") == "raw_material" and full.get("index_clause") is None:
-            # Price protection beyond the buying horizon adds supplier exposure
-            # without improving buyer C. On equal cost, ask only for full cover;
-            # the longer indexed commitment remains a separate exchange.
-            horizon = 12 * case["buyer"]["horizon_years"]
-            contract_rank = duration if (duration or 12) >= horizon else math.inf
-        return (cost(terms), -full["lead_time_days"], contract_rank, -(full.get("ppm_commitment") or 0))
+        return (cost(terms), -full["lead_time_days"], -full["contract_months"], -(full.get("ppm_commitment") or 0))
 
     return min(feasible, key=rank, default=None)
 
@@ -526,12 +518,7 @@ class BuyerAgent:
             cash_benefit = total_cost(case, indexed_late, std) <= total_cost(case, first, std)
             if indexed_cost <= standing_cost and (terms.get("index_clause") or cash_benefit):
                 packages = [*packages[:2], indexed_late]
-        fixed_material_lead = (
-            case.get("type") == "raw_material"
-            and "index_clause" in case["negotiable"]
-            and first.get("index_clause") is None
-        )
-        if preferred and not fixed_material_lead:
+        if preferred:
             packages.sort(key=lambda t: not same_exchange(t, preferred))
         return packages
 

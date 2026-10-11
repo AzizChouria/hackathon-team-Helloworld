@@ -56,11 +56,6 @@ def commercial_brief(case, packages, dossier, events, standard=None):
             f" The proposed {clause['series']} clause covers {clause['material_share'] * 100:g}% "
             f"with a {clause['deadband_pct']:g}% deadband."
         )
-    elif case.get("type") == "raw_material" and "index_clause" in case["negotiable"]:
-        details += (
-            " This package has a fixed unit price with no index adjustment. "
-            "Please quote any indexed alternative separately."
-        )
     return commitment + " " + details
 
 
