@@ -1,6 +1,7 @@
 """Buyer-side research and reproducible claims; no access to supplier internals or live feeds."""
 
 import csv
+import os
 from collections import defaultdict
 from dataclasses import dataclass
 
@@ -176,8 +177,10 @@ class Research:
                 )
         for part in case.get("parts", []):
             forecasts = [(r, f) for r, f in facts.items() if r.startswith("fc:") and f.get("part") == part]
-            if forecasts:
-                ref, fact = max(forecasts, key=lambda pair: pair[0].rsplit("@", 1)[-1])
+            # Newest forecast first; further positive revisions are separate checkable claims
+            # (each ID counts once per case). LAB_FC=1 keeps only the newest.
+            forecasts.sort(key=lambda pair: pair[0].rsplit("@", 1)[-1], reverse=True)
+            for ref, fact in forecasts[:int(os.environ.get("LAB_FC", "1"))]:
                 if fact.get("change_pct") is not None and float(fact["change_pct"]) > 0:
                     out.append(
                         Evidence(
@@ -207,6 +210,29 @@ class Research:
                         "rival",
                     ),
                 )
+        # Order history of this supplier for this part (a claim kind the arena checks: 2-8 'po' rows of
+        # one part). No figure is asserted; the data's own values are used. The buyer drops it when the
+        # history is not cheaper than the supplier's current ask.
+        parts_set = set(case.get("parts", [])) if os.environ.get("LAB_NEWS_HISTORY") != "0" else set()
+        for part in sorted(parts_set):
+            lines = sorted(
+                ((ref, f) for ref, f in facts.items()
+                 if ref.startswith("po:") and f.get("supplier") == sid and f.get("part") == part
+                 and f.get("unit_price")),
+                key=lambda r: r[1].get("date", ""), reverse=True)[:4]
+            if len(lines) >= 2:
+                out.append(Evidence(
+                    "Please compare our recent order history with you for this part ("
+                    + ", ".join(ref for ref, _ in lines) + ").",
+                    tuple(ref for ref, _ in lines), "history"))
+        # Supplier news that bears on a trade we can offer (capacity, cash, order book). No figure.
+        for ref, f in sorted(facts.items() if os.environ.get("LAB_NEWS_HISTORY") != "0" else []):
+            if (ref.startswith("news:") and f.get("supplier") == sid
+                    and f.get("topic") in {"free_capacity", "full_order_book", "credit_watch", "credit_downgrade",
+                                           "short_time_work", "restructuring", "big_order", "allocation"}):
+                out.append(Evidence(
+                    f"We noted the report \"{f.get('headline', 'press report')}\" ({ref}) and aim for a package "
+                    "that suits your situation.", (ref,), "news"))
         notice = self.fact(case, case.get("trigger_doc"))
         if notice.get("days") is not None and notice.get("supplier") == sid:
             for row in self.related("contracts", case, sid):

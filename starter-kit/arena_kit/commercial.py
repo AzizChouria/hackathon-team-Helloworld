@@ -1,5 +1,6 @@
 """Commercial commitments and objections derived only from the buyer's live case."""
 
+import os
 import re
 
 from .cost import closing_terms
@@ -73,6 +74,10 @@ def relevant_evidence(evidence, case, events, dossier, fact):
     for e in evidence:
         if e.kind == 'cost' and any(float(fact(ref).get('unit_cost') or 0) >= asking for ref in e.refs):
             continue
+        if e.kind == 'history':
+            paid = [float(fact(ref).get('unit_price') or 0) for ref in e.refs]
+            if not paid or sum(paid) / len(paid) >= asking:
+                continue  # history that is not cheaper than today's ask argues against us
         if e.kind == 'index':
             series = {fact(ref).get('series') for ref in e.refs} - {None}
             if any(
@@ -84,5 +89,44 @@ def relevant_evidence(evidence, case, events, dossier, fact):
         out.append(e)
     # Volume makes a useful opening exchange; delivery evidence alone does not
     # rebut a material-price increase. Model selection may still choose other facts.
-    priority = {'notice': 0, 'rival': 1, 'quality': 2, 'index': 3, 'volume': 4, 'cost': 5, 'delivery': 6}
-    return sorted(out, key=lambda e: priority.get(e.kind, 7))
+    priority = {'notice': 0, 'rival': 1, 'quality': 2, 'index': 3, 'volume': 4, 'cost': 5, 'delivery': 6,
+                'history': 7, 'news': 8}
+    return adaptive_order(sorted(out, key=lambda e: priority.get(e.kind, 9)), events)
+
+
+_KINDS = (  # first match wins; words the supplier uses for what it checked
+    ('index', r'index|indices|series'), ('delivery', r'deliver|on-time|punctual'),
+    ('volume', r'forecast|demand|volume'), ('cost', r'should-?cost|cost estimate|estimate'),
+    ('notice', r'notice|contract'), ('quality', r'quality|ppm|defect|complaint'),
+    ('rival', r'quote|offer|rival|alternative'), ('history', r'order history|orders|purchase'),
+    ('news', r'press|news|report'),
+)
+
+
+def claim_reactions(events):
+    """How this supplier treated each kind of claim we cited: +1 'took it into account', -1 'does not change
+    our calculation'. Read from its own sentences, so it adapts to any supplier without a hard-coded persona."""
+    score = {}
+    for m in events:
+        if m.get('from') == 'buyer':
+            continue
+        for sentence in re.split(r'(?<=[.!?])\s+|\n', m.get('body', '') or ''):
+            low = sentence.lower()
+            if 'holds' not in low and 'checked' not in low:
+                continue
+            kind = next((k for k, pat in _KINDS if re.search(pat, low)), None)
+            if kind is None:
+                continue
+            if re.search(r'does not change|doesn.t change|not change our', low):
+                score[kind] = score.get(kind, 0) - 1
+            elif re.search(r'took it into account|taken into account|fair point', low):
+                score[kind] = score.get(kind, 0) + 1
+    return score
+
+
+def adaptive_order(evidence, events):
+    """Keep notice/rival first (hard facts); then claim kinds this supplier accepted before kinds it ignored."""
+    if os.environ.get('LAB_ADAPTIVE') == '0':
+        return evidence
+    w = claim_reactions(events)
+    return sorted(evidence, key=lambda e: (0 if e.kind in ('notice', 'rival') else 1, -w.get(e.kind, 0)))
