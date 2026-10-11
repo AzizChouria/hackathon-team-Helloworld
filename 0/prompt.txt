@@ -1,0 +1,558 @@
+<environment_context>
+  <cwd>/home/chouria/hackathon-team-Helloworld</cwd>
+  <shell>bash</shell>
+  <current_date>2026-10-10</current_date>
+  <timezone>Europe/Berlin</timezone>
+  <filesystem><workspace_roots><root>/home/chouria/hackathon-team-Helloworld</root></workspace_roots><permission_profile type="managed"><file_system type="restricted"><entry access="read"><special>:root</special></entry><entry access="write"><path>/home/chouria/hackathon-team-Helloworld</path></entry><entry access="write"><special>:slash_tmp</special></entry><entry access="write"><special>:tmpdir</special></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.git</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.agents</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.codex</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.aws</path></entry></file_system></permission_profile></filesystem>
+</environment_context>
+
+---
+
+lets pull my friend s push
+
+---
+
+check Agents.md we need a plan currently we are number 4
+
+---
+
+lets strating executing the plan btw i was talking with my teammate he mentioned multi agents what do you think
+
+---
+
+continue the internet was gone
+
+---
+
+btw can i run locaally so we dont waste attempts we are currentely 103 /200
+
+---
+
+(base) chouria@chouria-Lenovo-Legion-5-15IMH05:~/hackathon-team-Helloworld$ cd starter-kit
+.venv/bin/arena benchmark --data ../data --out /tmp/arena-benchmark.json
+case:S01  naive  score=0.521  C=112451.5  rounds=3
+case:S01  buyer  score=0.888  C=107488.38  rounds=5
+case:S02  naive  score=0.513  C=614057.2  rounds=3
+case:S02  buyer  score=0.886  C=586072.63  rounds=7
+case:S03  naive  score=0.678  C=3864138.6  rounds=3
+case:S03  buyer  score=0.927  C=3688263.16  rounds=5
+Simulator scores validate mechanics, not performance against the hosted suppliers.
+report: /tmp/arena-benchmark.json
+(base) chouria@chouria-Lenovo-Legion-5-15IMH05:~/hackathon-team-Helloworld/starter-kit$
+
+---
+
+bro im lost , lets continue working and always test locally not on practise attempts
+
+---
+
+ask again i was in the toilette
+
+---
+
+yes
+
+---
+
+ask again
+
+---
+
+what do you mean ?
+
+---
+
+lets continue
+
+---
+
+start testing locally see if we can beat 0.68
+
+---
+
+so what we need to do
+
+---
+
+can we run with one attempt
+
+---
+
+bro you have my approval
+
+---
+
+how can i fix that
+
+---
+
+retry P11
+
+---
+
+let scontinue what next ?
+
+---
+
+lets run on the attempts
+
+---
+
+lets run
+
+---
+
+lets run all of the cases on the attmpts
+
+---
+
+# AGENTS.md instructions for /home/chouria/hackathon-team-Helloworld
+
+<INSTRUCTIONS>
+# AGENTS.md - handoff for coding agents (Team "Helllo World")
+
+Tacto Negotiation Arena hackathon. We build an AI **buyer agent** that negotiates by e-mail with
+the arena's supplier bots and closes the cheapest total deal (or walks away). State as of
+**Sat 2026-10-10, ~18:00**. Code freeze and Live Final: **Sun 2026-10-11 12:00**.
+
+## Read first (in this order)
+
+1. `brief/brief.md` - rules, scoring, timeline.
+2. `brief/api.md` - API, claim checking, the cost formula C, Live Final waves.
+3. `docs/solution.md` - **our** agent's design (written by a teammate). `docs/pitch.md` - slides draft.
+4. `starter-kit/README.md` - kit usage. Data docs: `data/README.md`, `data/company.md`,
+   `data/KNOWN_ISSUES.md`, `data/SCORECARD.md`.
+
+## How scoring works (the essentials)
+
+- Case score = `(C_open - C_deal) / (C_open - C_best)`, clipped 0..1. C = total cost over the
+  case's need and horizon: price, uncovered need, payment terms, freight, lead time, quality,
+  tooling, index clause, and (for `stabilise`/`secure_supply`) a supplier-margin penalty.
+  `starter-kit/arena_kit/cost.py` implements it exactly - **numbers come from code, never the LLM**.
+- A broken must-have scores 0. No deal scores the alternative (0 if none).
+- Only term sheets bind; omitted fields close on the supplier's standard terms (quote PDF).
+- Cited data is checked against `data/facts.json`: max 3 claims per message, each ID once per
+  case; a wrong figure / unknown ID (`contradicted`) costs trust.
+- **Timing:** 60 s per buyer message per thread (from the supplier's reply); 3 timeouts in a row
+  end a thread. Supplier replies take up to ~1 min. **Final waves have an 8-minute hard cap**,
+  so realistically only ~5-7 rounds per case in the final (practice has no cap).
+
+## Code map (what exists now)
+
+All code is in `starter-kit/arena_kit/`.
+
+| File | What |
+|---|---|
+| `agents/buyer.py` | **Our agent.** `BuyerAgent(research, complete=None, model_timeout=8.0)`. Package search over term options against C, tactic choice, closing guard. `decide`, `decide_ready` (RFQ), `close`. |
+| `research.py` | `Research`: per-supplier dossiers from CSVs/facts/documents (+ Sunday release), precomputed citable evidence. |
+| `play.py` | Kit runner + our `play_threads`: RFQ threads run concurrently (one request in flight per supplier) - fixes the RFQ timeout bug. |
+| `benchmark.py` | Offline benchmark vs naive on simulator cases S01-S03 (no network/keys). |
+| `cli.py` | `--agent naive | llm | buyer | buyer-llm` (default `buyer`), plus `benchmark` command. |
+| `agents/llm.py` | Kit's example LLM agent; `llm_from_env(timeout, max_tokens)`. |
+| `cost.py`, `docs.py`, `data.py`, `client.py`, `sim.py` | Kit: cost function, PDF/XLSX reading, data package, API client, local simulator. |
+| `tests/test_buyer.py` | Tests for our agent. |
+
+- `buyer`: rules only, no LLM calls.
+- `buyer-llm`: the model picks a tactic and up to 2 computed arguments; code writes the e-mail and
+  all numbers. Model failure or a slow model falls back to the rules.
+
+## Environment and gotchas
+
+- Python via `uv`. Run everything from `starter-kit/`.
+- `starter-kit/.env` holds `ARENA_URL`, `ARENA_API_KEY`, `ARENA_DATA`, `LLM_PROVIDER=openai`,
+  `LLM_BASE_URL=https://api.openai.com/v1`, `LLM_MODEL=gpt-6.1-sol`, `LLM_API_KEY`.
+  **Never print, log or commit keys.** `.env` is gitignored - keep it that way.
+- **pytest breaks on this machine** because of a system ROS install on `PYTHONPATH`. Use:
+  `env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run pytest -q`
+  (currently 57 passed, 1 skipped). Lint: `uv run ruff check .` (clean).
+- Data: committed base data is in `../data`; `uv run arena data` also downloaded
+  `starter-kit/data/package`. Sunday release becomes public **2026-10-11 08:00 local (06:00 UTC)**.
+
+## Commands
+
+```bash
+cd starter-kit
+uv run arena me                                                     # quota + our best scores
+uv run arena play case:D02 --agent buyer-llm --data ../data -v      # sandbox: FREE, no quota
+uv run arena play case:P01 --agent buyer-llm --data ../data -v      # practice: 1 session
+uv run arena run --set practice --agent buyer-llm --data ../data --parallel 8 -v   # 10 sessions
+uv run arena benchmark --data ../data --out /tmp/arena-benchmark.json              # offline
+```
+
+**Quota:** 200 practice sessions per rolling 24 h (~150 left). Sandbox (`case:D01`, `case:D02`)
+does not count - use it for plumbing tests. Don't brute-force practice.
+
+## Results so far
+
+- Practice leaderboard: we are **4th, mean 0.66** (top: 0.74, 0.72, 0.70). P08 went 0.13 -> 0.68.
+- Naive agent on P01: 0.583. `buyer-llm` on P01: 0.755.
+- Kit's `llm` agent on sandbox: D01 0.81, D02 (RFQ) 0.44. The D02 loss was the RFQ timeout bug: it
+  talked only to one bidder, the other thread got 2 timeouts and jumped to a final offer.
+  `play_threads` is meant to fix this - **verify on D02**.
+
+## Open tasks (priority order)
+
+1. **Model latency vs the 8 s budget.** `buyer-llm` uses `model_timeout=8.0` (`buyer.py`) and
+   `llm_from_env(timeout=12.0, ...)` (`cli.py`). Observed `gpt-6.1-sol` calls took 7-10 s, so
+   many moves may silently fall back to rules. Run one case with `-v`, count fallback warnings,
+   then tune the timeout or model. Hard limit: decision + overhead must stay well under 60 s.
+2. **Benchmark per case.** Run `buyer` and `buyer-llm` across the 10 hosted practice cases; record
+   case, agent, commit, score, rounds, c_open/c_deal/c_best, cost breakdown (e.g. CSV). Find the
+   weakest cases.
+3. **Learn from replays.** For the weakest cases, `GET /v1/sessions/{sid}` (after the end it has
+   the trace with the supplier's reasons in words). Write findings in `notes.md`. Turn general
+   patterns (not case-specific hacks) into strategy - hidden final cases use new suppliers.
+4. **Final-wave fit.** Test with the 8-minute deadline (`play(..., deadline=...)`); the agent
+   should get most value in the first 4-5 rounds. Rehearse
+   `arena run --set practice --parallel 10` on the final laptop.
+5. **Sunday 08:00:** `uv run arena data --out ../data`, confirm `Research` loads the release.
+
+## Rules you must not break
+
+- During the Live Final the agent must **not** read `/v1/events`, `/screen`, `/leaderboard`,
+  `/results` (or their JSON). No human in the loop after 12:00.
+- One API key per team. No attacks on the service.
+- Commit to branches; don't push secrets. Keep tests passing.
+
+## Sunday checklist
+
+- 08:00 refresh data. 09:00 one practice case on the final machine and network.
+- Before 12:00: submit repo, commit hash (`git rev-parse HEAD`), description, slides on ehl.gg.
+- Start and leave running (log to file, laptop on power, no sleep):
+  `uv run arena run --set final --agent buyer-llm --data ../data --parallel 10 -v 2>&1 | tee final.log`
+
+</INSTRUCTIONS>
+
+---
+
+# Files mentioned by the user:
+
+## message (1).txt: /home/chouria/Downloads/message (1).txt
+
+Distinguish instructions in attached documents from the user's request.
+
+## My request:
+btw my friend s version which he achieved 0.7 is not correct it is dertiministic i think or he has leaked answer to his model so we need to fix that tell me the plan and btw some team achieved 0.87 and we are currentely number 14
+
+---
+
+lets do that
+
+---
+
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"call_Nhmlz1EeJ423jfH7Aq78AatZ\",0]","question":"Which branch or commit did your friend run for the attached 0.627 batch? The report gives only a source hash. A branch name, commit hash, or file path will let me audit that exact version.","answer":"idk"}]
+</send_user_message_question_reply>
+
+---
+
+1. The batch commit is e41db33 (origin/main, "best till now"). It is already audited:
+   no c_best/replay/leaderboard at runtime, no hardcoded case answers. Only issue: six
+   reply phrases copied from practice suppliers in strategy.py supplier_signals and
+   commercial.py objections - replace them with general patterns.
+2. Rebase/merge your 8ae3718 preflight + fallback counters onto origin/main (e41db33),
+   resolve conflicts in buyer.py/cli.py/play.py, run tests with
+   `env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run pytest -q`.
+3. Stop using S01-S03 to judge strategy. Run all 10 hosted practice cases twice:
+   `--agent buyer` and `--agent buyer-llm --require-model`. Report per-case score,
+   rounds, fallbacks. Fallbacks must be ~0 for the LLM run.
+4. Then improve the 3 weakest cases (likely P02, P05, P18) using their replay reasons,
+   with general rules only, and re-run just those cases.
+
+---
+
+lets push
+
+---
+
+<environment_context>
+  <current_date>2026-10-11</current_date>
+  <timezone>Europe/Berlin</timezone>
+  <filesystem><workspace_roots><root>/home/chouria/hackathon-team-Helloworld</root></workspace_roots><permission_profile type="managed"><file_system type="restricted"><entry access="read"><special>:root</special></entry><entry access="write"><path>/home/chouria/hackathon-team-Helloworld</path></entry><entry access="write"><special>:slash_tmp</special></entry><entry access="write"><special>:tmpdir</special></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.git</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.agents</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.codex</path></entry><entry access="read"><path>/home/chouria/hackathon-team-Helloworld/.aws</path></entry></file_system></permission_profile></filesystem>
+</environment_context>
+
+---
+
+Goal is the hidden final, not practice scores. From now on:
+1. Treat sandbox D01 and D02 as a held-out test: run `buyer` on both before and after every
+   strategy change (free, no quota). Reject changes that help practice but hurt D01/D02.
+2. Smoke-test all 19 practice case files (incl. the 9 non-hosted ones) locally against
+   arena-sim with an 8-minute deadline: no crashes, no must-have breaks, no timeouts.
+3. Every rule must be justified by the cost formula or a general negotiation principle,
+   never by one supplier's wording. Flag any remaining rule that only exists for one case.
+4. After changes, run all 10 hosted cases once with --parallel 10 (final conditions).
+
+---
+
+Do these in order:
+
+**1. Push the safe version first**, so it's backed up before Codex changes anything. In your terminal:
+```bash
+cd ~/hackathon-team-Helloworld
+git push origin codex/main-preflight-eval-20261010
+
+```
+
+Also tag it so you can always get back to it:
+```bash
+git tag safe-final-a47ea0d a47ea0d && git push origin safe-final-a47ea0d
+
+```
+
+If Codex's next changes make things worse, the Sunday fallback is `git checkout safe-final-a47ea0d`.
+
+**2. Send Codex that prompt,** with one line added at the top:
+```sql
+Work on top of a47ea0d (already pushed and tagged safe-final-a47ea0d). Commit each change separately so we can revert one.
+
+```
+
+---
+
+Held-out D02 (RFQ) scored 0.428 and P05 (RFQ) ~0.51: RFQs are our weakest case type.
+1. Improve RFQ play generally: cite the cheaper bidder's current offer: ID to the other
+   bidder (allowed, counts once per supplier), keep all bidders engaged until the close,
+   accept the lowest total cost. Develop on P05's replay, validate on sandbox D02 (no
+   tuning on D02's replay). Keep D01 >= 0.80.
+2. Concession schedule (docs/replay-findings.md #1): fewer, larger steps; hold when the
+   supplier did not move. Validate on P02/P18 + D01.
+3. Then one full 10-case hosted batch, --parallel 10, 480 s deadline. Report mean vs 0.654.
+Keep a change only if the held-out D01/D02 don't get worse.
+
+---
+
+now what what is the plan we are still stuck at 72 %
+
+---
+
+Read docs/gap-analysis.md. Start from a6e1dcf, one commit per experiment.
+Experiment 1: lower the opening anchor for non-strategic goals (leverage, routine,
+quality_first: ~0.78 x quote instead of 0.86; secure_supply: ~0.82 instead of 0.90).
+Preferred: if a should_cost row exists for the part, anchor near should_cost x 1.03-1.05,
+clamped to [0.72, 0.90] x quote. Leave the stabilise logic unchanged.
+Gates: D01 >= 0.90, D02 >= 0.51 (held-out), then one 10-case batch, --parallel 10, 480 s.
+Keep it only if the 10-case mean beats 0.679 and no deal breaks a must-have.
+Then experiment 3 from the doc (P05: was sup:70240 cheaper or blocked by lead time?).
+
+---
+
+Don't drop the anchor idea on one D02 sample - D02 already ranged 0.43-0.51 on unchanged code.
+1. Noise check (sandbox is free): run D02 3x on a6e1dcf and 3x on the anchor candidate,
+   and D01 2x each. Compare means, not single runs.
+2. Variant B: apply the lower opening anchor ONLY to single-supplier cases; keep the RFQ
+   rival-cost anchor exactly as in a6e1dcf. D02 should then be unaffected by design.
+   Gates: D01 mean >= 0.90, D02 mean not below the a6e1dcf mean, then one 10-case batch
+   (--parallel 10, 480 s). Keep only if the mean beats 0.679 with no must-have breaks.
+One commit per variant; revert if gates fail.
+
+---
+
+now what ?? should we use astra ?
+
+The lower opening didn't work. Here's what it did to the cases it was meant to fix:
+
+| Case | `a6e1dcf` | Lower opening (variant B)                  |
+| ---- | --------- | ------------------------------------------ |
+| P18  | 0.532     | 0.532 (no change)                          |
+| P08  | 0.549     | 0.538                                      |
+| P10  | 0.663     | **0.555** (supplier closed after 2 rounds) |
+
+The suppliers end at about the same price no matter where we open, and starting lower can make them close sooner. So my hypothesis was wrong. These suppliers have a price floor plus their own concession logic, and a lower opening doesn't reach that floor. Codex was right to revert, and the code is back to exactly `a6e1dcf`.
+
+## What I'd do now
+
+Stop experimenting with strategy. Three experiments in a row came out neutral or negative, so you've hit the point where small tweaks are just noise. What still matters for the final is **robustness**. Hamza's P18 zero shows that a single failed case costs about 10 points of a wave, more than any tweak gains.
+
+**1. Last code change: robustness only.** Paste to Codex:
+```yaml
+Code stays at a6e1dcf strategy. Only two robustness items, one commit each:
+1. Port commit 5a12534 from origin/feat/tacto-hybrid-agent (RemoteTable.missed keeps
+   the current offer's real terms; never pair stale timeout terms with a newer offer_id)
+   + tests/test_offer_recovery.py.
+2. P05: Hamza reports sup:70250 had a compliant final offer at EUR 263,626 vs our accepted
+   sup:70210 at EUR 268,434. Check whether our RFQ close could skip a cheaper valid standing
+   offer (e.g. a reply still in flight). Fix only if it is a general bug, with a test.
+Gates: full tests, D01/D02, one 10-case batch: mean must not drop below ~0.67 and
+10/10 deals. Then push the branch.
+
+```
+
+---
+
+how can we improve the model 0.72 not enough
+
+---
+
+# AGENTS.md instructions for /home/chouria/hackathon-team-Helloworld
+
+<INSTRUCTIONS>
+These AGENTS.md instructions replace all previously provided AGENTS.md instructions.
+
+# AGENTS.md - handoff for coding agents (Team "Helllo World")
+
+Tacto Negotiation Arena hackathon. We build an AI **buyer agent** that negotiates by e-mail with
+the arena's supplier bots and closes the cheapest total deal (or walks away). Code freeze and
+Live Final: **Sun 2026-10-11 12:00**.
+
+## CURRENT STATE (Sun 2026-10-11, ~02:30) - read this first
+
+- **Final code: `bebb481`** on `codex/main-preflight-eval-20261010`. Fallback: tag `safe-final-a47ea0d`.
+- **Final agent: `--agent buyer`** (rules only, no LLM calls). Hosted 10-case mean 0.679,
+  10/10 compliant deals, 0 timeouts; held-out sandbox D01 0.905, D02 0.513.
+  `buyer-llm` scored lower (0.617 vs 0.654 on the same code) with 0 fallbacks.
+- **Strategy is frozen.** Rejected after testing: lower opening anchor (variants A/B,
+  `docs/anchor-repeat-check-20261011.md`), Hamza's combined agent (0.626, one zero).
+- Analysis docs: `docs/replay-findings.md`, `docs/gap-analysis.md`,
+  `docs/robustness-validation-20261011.md`.
+- Only allowed changes now: crash/robustness fixes with tests + D01/D02 + 10-case gate.
+  The sections below are the original Saturday handoff (partly outdated).
+
+## Read first (in this order)
+
+1. `brief/brief.md` - rules, scoring, timeline.
+2. `brief/api.md` - API, claim checking, the cost formula C, Live Final waves.
+3. `docs/solution.md` - **our** agent's design (written by a teammate). `docs/pitch.md` - slides draft.
+4. `starter-kit/README.md` - kit usage. Data docs: `data/README.md`, `data/company.md`,
+   `data/KNOWN_ISSUES.md`, `data/SCORECARD.md`.
+
+## How scoring works (the essentials)
+
+- Case score = `(C_open - C_deal) / (C_open - C_best)`, clipped 0..1. C = total cost over the
+  case's need and horizon: price, uncovered need, payment terms, freight, lead time, quality,
+  tooling, index clause, and (for `stabilise`/`secure_supply`) a supplier-margin penalty.
+  `starter-kit/arena_kit/cost.py` implements it exactly - **numbers come from code, never the LLM**.
+- A broken must-have scores 0. No deal scores the alternative (0 if none).
+- Only term sheets bind; omitted fields close on the supplier's standard terms (quote PDF).
+- Cited data is checked against `data/facts.json`: max 3 claims per message, each ID once per
+  case; a wrong figure / unknown ID (`contradicted`) costs trust.
+- **Timing:** 60 s per buyer message per thread (from the supplier's reply); 3 timeouts in a row
+  end a thread. Supplier replies take up to ~1 min. **Final waves have an 8-minute hard cap**,
+  so realistically only ~5-7 rounds per case in the final (practice has no cap).
+
+## Code map (what exists now)
+
+All code is in `starter-kit/arena_kit/`.
+
+| File | What |
+|---|---|
+| `agents/buyer.py` | **Our agent.** `BuyerAgent(research, complete=None, model_timeout=8.0)`. Package search over term options against C, tactic choice, closing guard. `decide`, `decide_ready` (RFQ), `close`. |
+| `research.py` | `Research`: per-supplier dossiers from CSVs/facts/documents (+ Sunday release), precomputed citable evidence. |
+| `play.py` | Kit runner + our `play_threads`: RFQ threads run concurrently (one request in flight per supplier) - fixes the RFQ timeout bug. |
+| `benchmark.py` | Offline benchmark vs naive on simulator cases S01-S03 (no network/keys). |
+| `cli.py` | `--agent naive | llm | buyer | buyer-llm` (default `buyer`), plus `benchmark` command. |
+| `agents/llm.py` | Kit's example LLM agent; `llm_from_env(timeout, max_tokens)`. |
+| `cost.py`, `docs.py`, `data.py`, `client.py`, `sim.py` | Kit: cost function, PDF/XLSX reading, data package, API client, local simulator. |
+| `tests/test_buyer.py` | Tests for our agent. |
+
+- `buyer`: rules only, no LLM calls.
+- `buyer-llm`: the model picks a tactic and up to 2 computed arguments; code writes the e-mail and
+  all numbers. Model failure or a slow model falls back to the rules.
+
+## Environment and gotchas
+
+- Python via `uv`. Run everything from `starter-kit/`.
+- `starter-kit/.env` holds `ARENA_URL`, `ARENA_API_KEY`, `ARENA_DATA`, `LLM_PROVIDER=openai`,
+  `LLM_BASE_URL=https://api.openai.com/v1`, `LLM_MODEL=gpt-6.1-sol`, `LLM_API_KEY`.
+  **Never print, log or commit keys.** `.env` is gitignored - keep it that way.
+- **pytest breaks on this machine** because of a system ROS install on `PYTHONPATH`. Use:
+  `env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run pytest -q`
+  (currently 57 passed, 1 skipped). Lint: `uv run ruff check .` (clean).
+- Data: committed base data is in `../data`; `uv run arena data` also downloaded
+  `starter-kit/data/package`. Sunday release becomes public **2026-10-11 08:00 local (06:00 UTC)**.
+
+## Commands
+
+```bash
+cd starter-kit
+uv run arena me                                                     # quota + our best scores
+uv run arena play case:D02 --agent buyer-llm --data ../data -v      # sandbox: FREE, no quota
+uv run arena play case:P01 --agent buyer-llm --data ../data -v      # practice: 1 session
+uv run arena run --set practice --agent buyer-llm --data ../data --parallel 8 -v   # 10 sessions
+uv run arena benchmark --data ../data --out /tmp/arena-benchmark.json              # offline
+```
+
+**Quota:** 200 practice sessions per rolling 24 h (~150 left). Sandbox (`case:D01`, `case:D02`)
+does not count - use it for plumbing tests. Don't brute-force practice.
+
+## Results so far
+
+- Practice leaderboard: we are **4th, mean 0.66** (top: 0.74, 0.72, 0.70). P08 went 0.13 -> 0.68.
+- Naive agent on P01: 0.583. `buyer-llm` on P01: 0.755.
+- Kit's `llm` agent on sandbox: D01 0.81, D02 (RFQ) 0.44. The D02 loss was the RFQ timeout bug: it
+  talked only to one bidder, the other thread got 2 timeouts and jumped to a final offer.
+  `play_threads` is meant to fix this - **verify on D02**.
+
+## Open tasks (priority order)
+
+1. **Model latency vs the 8 s budget.** `buyer-llm` uses `model_timeout=8.0` (`buyer.py`) and
+   `llm_from_env(timeout=12.0, ...)` (`cli.py`). Observed `gpt-6.1-sol` calls took 7-10 s, so
+   many moves may silently fall back to rules. Run one case with `-v`, count fallback warnings,
+   then tune the timeout or model. Hard limit: decision + overhead must stay well under 60 s.
+2. **Benchmark per case.** Run `buyer` and `buyer-llm` across the 10 hosted practice cases; record
+   case, agent, commit, score, rounds, c_open/c_deal/c_best, cost breakdown (e.g. CSV). Find the
+   weakest cases.
+3. **Learn from replays.** For the weakest cases, `GET /v1/sessions/{sid}` (after the end it has
+   the trace with the supplier's reasons in words). Write findings in `notes.md`. Turn general
+   patterns (not case-specific hacks) into strategy - hidden final cases use new suppliers.
+4. **Final-wave fit.** Test with the 8-minute deadline (`play(..., deadline=...)`); the agent
+   should get most value in the first 4-5 rounds. Rehearse
+   `arena run --set practice --parallel 10` on the final laptop.
+5. **Sunday 08:00:** `uv run arena data --out ../data`, confirm `Research` loads the release.
+
+## Rules you must not break
+
+- During the Live Final the agent must **not** read `/v1/events`, `/screen`, `/leaderboard`,
+  `/results` (or their JSON). No human in the loop after 12:00.
+- One API key per team. No attacks on the service.
+- Commit to branches; don't push secrets. Keep tests passing.
+
+## Sunday checklist
+
+- 08:00 refresh data. 09:00 one practice case on the final machine and network.
+- Before 12:00: submit repo, commit hash (`git rev-parse HEAD`), description, slides on ehl.gg.
+- Start and leave running (log to file, laptop on power, no sleep):
+  `uv run arena run --set final --agent buyer --data ../data --parallel 10 -v 2>&1 | tee final.log`
+
+</INSTRUCTIONS>
+
+---
+
+Pull first: our branch is now at 1281f1b (I added Sunday-release signal detection).
+No strategy changes. Four tasks, one commit each, then push:
+1. Merge the organisers' kit update (upstream/main 273a9bc: sim.py final-rehearsal mode,
+   play.py wave-closed log line, README, tests). Resolve conflicts keeping our play_threads.
+2. Rehearse the final locally with it, using OUR command:
+   terminal 1: uv run arena-sim serve --final-rehearsal --data ../data/package
+   terminal 2: register a sim key, then
+   ARENA_URL=http://127.0.0.1:8000 ARENA_API_KEY=<key> uv run arena run --set final --waves 2
+   --agent buyer --data ../data --parallel 10 -v
+   Check: waits through the 403, plays both waves, closes before each cap, stops cleanly.
+3. Write starter-kit/scripts/final_run.sh: checks `arena me` and ../data/release-sunday,
+   then runs `systemd-inhibit --what=sleep:idle uv run arena run --set final --agent buyer
+   --data ../data --parallel 10 -v 2>&1 | tee -a final-<time>.log`, restarting automatically
+   if it crashes (the runner resumes its sessions). Test it against the rehearsal simulator.
+4. Write docs/submission.md: 10-line approach description (prepare / data / offers /
+   close or walk) + exact run instructions with env var names (no values).
+Don't use the hosted practice arena: I'm running practice tests in parallel.
+
+---
+
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"REDACTED\",0]","question":"While I was rehearsing, `origin/codex/main-preflight-eval-20261010` advanced from `1281f1b` to `90f8d6e`, merging `adaptive-claims` strategy changes. Should the final branch keep those teammate changes? I’ll finish the local rehearsal and script test meanwhile.","answer":"Keep teammate changes and revalidate (Recommended)"}]
+</send_user_message_question_reply>
+
+---
+
+bro use the pactise sessions we have mor ethan enough lets fucking do this Finish task 3: commit, then `git pull --no-rebase` (origin is at 04d25f7), rerun tests, push.
+Then ONE improvement experiment, hard deadline 11:05:
+- Work ONLY in a worktree: git worktree add ../wt-codex origin/codex/main-preflight-eval-20261010
+  (don't touch the main folder; Claude is working in parallel).
+- Target: raw_material cases P18 (0.532) and P08 (~0.58). Read their latest replays
+  (GET /v1/sessions/{sid}, reasons + cost_breakdown) and find ONE general change
+  (index clause / hedged supplier / payment trade) that should hold for any raw-material
+  supplier. No case-specific rules.
+- Gate: P18 and P08 twice each (max 4 hosted sessions open at once), D01 once (free).
+  Keep only if both targets improve on average and D01 stays 0.905 and all deals are compliant.
+- Push to branch exp-raw-material and report scores. Do NOT push to the final branch.
+
+btw im using astra ultra which will eat a lot of money so i want you to do whatever it takes to improve the score (no cheating) i believe in you also claude is running smth in parallel one job i want to see that score improve come on
