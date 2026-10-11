@@ -406,6 +406,20 @@ class BuyerAgent:
                 trade = optimise(case, first["unit_price"], std, supplier, {"chargeback_eur_per_complaint": max(fair)})
         elif "index_clause" in case["negotiable"]:
             indexed = [v for v in case.get("term_options", {}).get("index_clause", []) if v]
+            supplier_indexed = any(
+                closing_terms(case, sheet["terms"], std).get("index_clause") for sheet in sheets
+            )
+            if case.get("type") == "raw_material" and first.get("index_clause") is None and not supplier_indexed:
+                # Preserve a fixed quote's risk allocation: do not volunteer a
+                # costly material escalator merely to offer another package.
+                # Keep the fixed cash trade. If the supplier asks for an index,
+                # subsequent packages can price that revealed preference; an
+                # index that already improves public full cost remains eligible.
+                fixed_cost = total_cost(case, first, std, supplier)
+                indexed = [
+                    clause for clause in indexed
+                    if total_cost(case, {**first, "index_clause": clause}, std, supplier) <= fixed_cost
+                ]
             if indexed:
                 clause = max(indexed, key=lambda v: v.get("deadband_pct", 0))
                 trade = optimise(case, first["unit_price"], std, supplier, {"index_clause": clause})
