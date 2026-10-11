@@ -13,10 +13,17 @@ def supplier_signals(dossier, events=()):
             r"\b(?:price|discount|reduction)s?\b.{0,40}\b(?:fixed|frozen|impossible|unavailable|no room)\b"
             r"|\b(?:cannot|can't|unable to)\b.{0,30}\b(?:discount|reduce|lower)\b",
             replies,
+        ) or re.search(
+            # A letter announcing a binding list price: centrally set or ruled out per customer.
+            r"\b(?:ruled out|no longer grant|cannot grant|not grant)\b.{0,30}\bprice reductions?\b"
+            r"|\bprice list\b.{0,60}\b(?:all customers|without exception)\b"
+            r"|\bprices (?:are|will be) set centrally\b",
+            context,
         )),
         "cash_sensitive": bool(re.search(
             r"\b(?:liquidity|cash[ -]?flow|working capital|early payment|payment delay|"
-            r"overdue invoice|cash discount)\b",
+            r"overdue invoice|cash discount|bank is watching|short-time work|prepayment)\b"
+            r"|\bpay (?:our|the) invoices within\b",
             text,
         )),
         "spare_capacity": bool(re.search(
@@ -31,7 +38,11 @@ def supplier_signals(dossier, events=()):
             text,
         )),
         "approval_needed": bool(re.search(r"\b(?:committee|management|head office|approval)\b", text)),
-        "hedged": bool(re.search(r"\b(?:hedged|fixed[ -]?price cover)\b", text)),
+        "hedged": bool(re.search(
+            r"\b(?:hedged|fixed[ -]?price cover)\b"
+            r"|\b(?:bought|purchased|covered|secured)\b.{0,60}\bat fixed prices\b",
+            text,
+        )),
         "relationship": bool(re.search(r"\b(?:partnership|reference customer|long[ -]?standing)\b", text)),
         "resistant": bool(re.search(
             r"\b(?:no movement|unchanged|same proposal|no improvement|insufficient step|"

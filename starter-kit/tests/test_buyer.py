@@ -894,3 +894,23 @@ def test_indexed_quote_keeps_a_longer_payment_option():
     packages = BuyerAgent().packages(case, sid, events)
 
     assert any(p["index_clause"] == clause and p["payment_days"] == 90 for p in packages)
+
+
+def test_supplier_signals_read_sunday_release_letter_wording():
+    from arena_kit.strategy import supplier_signals
+
+    def sig(text):
+        return supplier_signals({"documents": {"doc": text}})
+
+    locked = sig("our price list 2027 applies to all customers without exception; our board has "
+                 "ruled out individual price reductions for the coming year.")
+    assert locked["price_locked"]
+    assert sig("Our prices are set centrally from now on: we can no longer grant individual "
+               "price reductions.")["price_locked"]
+    assert sig("we bought our bright and cold-drawn bar requirement forward at fixed prices "
+               "until June 2027.")["hedged"]
+    cash = sig("Our bank is watching our figures every month: we kindly ask you to pay our "
+               "invoices within 10 days from November.")
+    assert cash["cash_sensitive"]
+    neutral = sig("Thank you for your enquiry. Please find our quotation for the 2027 volume attached.")
+    assert not any(neutral[k] for k in ("price_locked", "hedged", "cash_sensitive"))
