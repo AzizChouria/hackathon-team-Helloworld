@@ -1,0 +1,43 @@
+bro we still have attempts to improve our model and we still have time place 16 is bad broooo
+
+---
+
+i didnt want to accept this until you finish btw lets cordinate between you and codex he has astra i want to use it to improve our model the slides are getting ready from a teamate lets try one more time to improve orchestrate the work between you and codex so each run in parallel come on lets improve it i belive in you i want to be in top 10
+
+---
+
+codex astra ultra  is running right now this prompt :
+
+<pasted_content id="50ed">
+bro use the pactise sessions we have mor ethan enough lets fucking do this Finish task 3: commit, then git pull --no-rebase (origin is at 04d25f7), rerun tests, push.
+Then ONE improvement experiment, hard deadline 11:05:
+- Work ONLY in a worktree: git worktree add ../wt-codex origin/codex/main-preflight-eval-20261010
+  (don't touch the main folder; Claude is working in parallel).
+- Target: raw_material cases P18 (0.532) and P08 (~0.58). Read their latest replays
+  (GET /v1/sessions/{sid}, reasons + cost_breakdown) and find ONE general change
+  (index clause / hedged supplier / payment trade) that should hold for any raw-material
+  supplier. No case-specific rules.
+- Gate: P18 and P08 twice each (max 4 hosted sessions open at once), D01 once (free).
+  Keep only if both targets improve on average and D01 stays 0.905 and all deals are compliant.
+- Push to branch exp-raw-material and report scores. Do NOT push to the final branch.
+btw im using astra ultra which will eat a lot of money so i want you to do whatever it takes to improve the score (no cheating) i believe in you also claude is running smth in parallel one job i want to see that score improve come on
+</pasted_content id="50ed">
+
+---
+
+come on bro lets find a solution i want to improve the 0.75 
+codex astra ultra finished : 
+This experiment failed the gate, so I reverted it and pushed the results to exp-raw-material at 5ec1611, before 11:05.
+Case	Reference	Run 1	Run 2	Mean
+P18	0.532	0.453	0.453	0.453
+P08	0.581	0.549	0.582	0.565
+D01	0.905	0.905	—	0.905
+
+
+All five deals were compliant. Used four practice attempts and one free sandbox run. Candidate tests: 142 passed, 1 skipped.
+P18 replaced our omitted index clause with a more expensive clause at the same price—that explains the loss.
+Task 3’s pull, tests, and push are complete. No experiment changes went to the final branch. [Full report](/home/chouria/wt-codex/docs/raw-material-experiment-20261011.md).
+
+---
+
+bro we still have 30 min lets not give up
