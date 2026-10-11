@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4N1BAXH9KDFWCZMTEZ0101A",
+  "strategy": "manual-commit",
+  "branch": "codex/main-preflight-eval-20261010",
+  "checkpoints_count": 2,
+  "files_touched": [
+    ".gitignore",
+    "docs/final-launch-check-20261011.md",
+    "starter-kit/scripts/final_run.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1064,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 521177,
+    "output_tokens": 226,
+    "api_call_count": 3
+  }
+}
